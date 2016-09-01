@@ -14,4 +14,8 @@
     <color name="pb_co2">#ed3b27</color>
     <color name="pb_ec">#aa66cc</color>
     <color name="pb_ph">#99CC00</color>
+
+    <drawable name="colorSub">#F6EFD5</drawable>
+    <drawable name="colorPrimary">#5D4C46</drawable>
+    <drawable name="colorPrimaryDark">#454344</drawable>
 </resources>

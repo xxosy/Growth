@@ -15,6 +15,7 @@ import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.view.animation.TranslateAnimation;
 import android.widget.EditText;
@@ -163,11 +164,7 @@ public class SensorMapFragment extends Fragment implements OnMapReadyCallback,
     }
 
 
-    @Override
-    public void checkSerialSuccess() {
-        btnAddWindowSerialCheck.setBackgroundColor(Color.GREEN);
-        showToast("This serial is available");
-    }
+
 
     @Override
     public void clearMap() {
@@ -184,8 +181,15 @@ public class SensorMapFragment extends Fragment implements OnMapReadyCallback,
     }
 
     @Override
+    public void checkSerialSuccess() {
+        btnAddWindowSerialCheck.setBackgroundResource(R.color.colorPrimary);
+        btnAddWindowSerialCheck.setClickable(false);
+        showToast("This serial is available");
+    }
+
+    @Override
     public void checkSerialFail() {
-        btnAddWindowSerialCheck.setBackgroundColor(Color.RED);
+        btnAddWindowSerialCheck.setBackgroundResource(R.drawable.selector_reverse);
         showToast("This serial is NOT available");
     }
 
@@ -330,6 +334,7 @@ public class SensorMapFragment extends Fragment implements OnMapReadyCallback,
                     Animation.RELATIVE_TO_SELF, -1.0f,
                     Animation.RELATIVE_TO_SELF, 0f);
             animation.setDuration(300);
+
             txtInfoWindowTitle.setText(title);
             txtInfoWindowSerial.setText(serial);
             txtInfoWindowHumidity.setText(humidity);
@@ -390,6 +395,8 @@ public class SensorMapFragment extends Fragment implements OnMapReadyCallback,
     @Override
     public void clearAddWindow() {
         etAddWindowSerial.setFocusableInTouchMode(true);
+        btnAddWindowSerialCheck.setClickable(true);
+        btnAddWindowSerialCheck.setBackgroundResource(R.drawable.selector_reverse);
         etAddWindowLat.setText("");
         etAddWindowLng.setText("");
         etAddWindowSerial.setText("");
@@ -438,8 +445,8 @@ public class SensorMapFragment extends Fragment implements OnMapReadyCallback,
         }else if(index<19 && index>0){
             btnZoomIn.setClickable(true);
             btnZoomOut.setClickable(true);
-            btnZoomIn.setBackgroundResource(R.color.colorPrimary);
-            btnZoomOut.setBackgroundResource(R.color.colorPrimary);
+            btnZoomIn.setBackgroundResource(R.drawable.selector);
+            btnZoomOut.setBackgroundResource(R.drawable.selector);
         }
         if(index<1) {
             btnZoomOut.setClickable(false);

@@ -119,26 +119,30 @@ public class SensorMapPresenterImpl implements SensorMapPresenter{
     @Override
     public void addWindowOkClick(String serial, String title, String lat, String lng) {
         UpdateSensorData data = new UpdateSensorData(lat, lng, title);
-        if(isUpdate){
-            sensorDataAPI.updateMapSensor(serial, User.getInstance().getUserCode(), data)
-                    .subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(result -> {
-                        view.clearMap();
-                        constituteMap();
-                        view.hideAddSensorWindow();
-                        view.clearAddWindow();
-                    });
+        if(lat.equals("")||lng.equals("")){
+            view.showToast("Please, Touch 'Get Location'");
         }else {
-            sensorDataAPI.insertMapSensor(serial, User.getInstance().getUserCode(), data)
-                    .subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(result -> {
-                        view.clearMap();
-                        constituteMap();
-                        view.hideAddSensorWindow();
-                        view.clearAddWindow();
-                    });
+            if (isUpdate) {
+                sensorDataAPI.updateMapSensor(serial, User.getInstance().getUserCode(), data)
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(result -> {
+                            view.clearMap();
+                            constituteMap();
+                            view.hideAddSensorWindow();
+                            view.clearAddWindow();
+                        });
+            } else {
+                sensorDataAPI.insertMapSensor(serial, User.getInstance().getUserCode(), data)
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(result -> {
+                            view.clearMap();
+                            constituteMap();
+                            view.hideAddSensorWindow();
+                            view.clearAddWindow();
+                        });
+            }
         }
     }
 

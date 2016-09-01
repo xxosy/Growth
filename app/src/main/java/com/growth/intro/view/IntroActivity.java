@@ -51,6 +51,6 @@ public class IntroActivity extends AppCompatActivity implements IntroPresenter.V
             overridePendingTransition(android.R.anim.fade_in,
                     android.R.anim.fade_out);
             finish();
-        }, 2000);
+        }, 1000);
     }
 }

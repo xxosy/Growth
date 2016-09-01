@@ -85,7 +85,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:background="@color/colorAccent"
+                    android:background="@drawable/selector_reverse"
                     android:elevation="0dp"
                     android:layout_marginLeft="16dp"
                     android:layout_marginRight="16dp"
@@ -209,7 +209,7 @@
                     android:layout_marginTop="4dp"
                     android:layout_marginBottom="4dp"
                     android:layout_marginRight="16dp"
-                    android:background="@color/colorAccent"
+                    android:background="@drawable/selector_reverse"
                     android:id="@+id/btn_get_location"
                     android:clickable="true">
 
@@ -300,7 +300,8 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:id="@+id/btn_addwindow_ok"
-                android:clickable="true">
+                android:clickable="true"
+                android:background="@drawable/selector">
 
                 <TextView
                     android:text="OK"
@@ -316,7 +317,8 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:id="@+id/btn_addwindow_cancel"
-                android:clickable="true">
+                android:clickable="true"
+                android:background="@drawable/selector">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -568,13 +570,13 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:background="@color/colorBase"
-                android:padding="1dp"
-                android:id="@+id/btn_map_location">
+                android:padding="1dp">
 
                 <FrameLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:background="@color/colorPrimary">
+                    android:background="@drawable/selector"
+                    android:id="@+id/btn_map_location">
 
                     <ImageView
                         android:layout_width="wrap_content"
@@ -603,7 +605,7 @@
                 <FrameLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:background="@color/colorPrimary"
+                    android:background="@drawable/selector"
                     android:clickable="true"
                     android:id="@+id/btn_map_zoom_in">
 
@@ -627,7 +629,7 @@
                 <FrameLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:background="@color/colorPrimary"
+                    android:background="@drawable/selector"
                     android:id="@+id/btn_map_zoom_out"
                     android:clickable="true">
 

@@ -42,5 +42,6 @@ public interface SensorMapPresenter {
         void refreshMapZoom(int index);
         void refreshZoomButtom(int index);
         void refreshMapLocation(double lat,double lng);
+        void showToast(String msg);
     }
 }
