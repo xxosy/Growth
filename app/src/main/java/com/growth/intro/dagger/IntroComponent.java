@@ -1,6 +1,6 @@
 package com.growth.intro.dagger;
 
-import com.growth.intro.IntroActivity;
+import com.growth.intro.view.IntroActivity;
 
 import dagger.Component;
 

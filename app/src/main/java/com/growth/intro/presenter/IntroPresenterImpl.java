@@ -1,9 +1,6 @@
 package com.growth.intro.presenter;
 
-import android.util.Log;
-
 import com.growth.domain.database.DBManager;
-import com.growth.domain.sensor.SensorItem;
 import com.growth.domain.user.User;
 import com.growth.network.SensorDataAPI;
 

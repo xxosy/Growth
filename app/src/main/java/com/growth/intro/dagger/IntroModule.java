@@ -1,6 +1,5 @@
 package com.growth.intro.dagger;
 
-import com.growth.domain.database.DBManager;
 import com.growth.intro.presenter.IntroPresenter;
 import com.growth.intro.presenter.IntroPresenterImpl;
 import com.growth.network.dagger.NetworkModule;
