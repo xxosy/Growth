@@ -2,6 +2,7 @@ package com.growth.map.presenter;
 
 import android.util.Log;
 
+import com.growth.GpsInfo;
 import com.growth.SensorDataDisplay.view.SensorDataDisplayFragment;
 import com.growth.domain.UpdateSensorData;
 import com.growth.domain.sensor.SensorItem;
@@ -26,6 +27,7 @@ public class SensorMapPresenterImpl implements SensorMapPresenter{
     private SensorItem[] sensorItems;
     private SensorItem currentSsensorItem;
     private boolean isUpdate = false;
+    private int zoomIndex = 11;
     @Inject
     public SensorMapPresenterImpl(SensorMapPresenter.View view, SensorDataAPI sensorDataAPI){
         this.view = view;
@@ -166,4 +168,31 @@ public class SensorMapPresenterImpl implements SensorMapPresenter{
 
     }
 
+    @Override
+    public void btnZoomInClick() {
+        zoomIndex++;
+        view.refreshZoomButtom(zoomIndex);
+        view.refreshMapZoom(+1);
+    }
+
+    @Override
+    public void btnZoomOutClick() {
+        zoomIndex--;
+        view.refreshZoomButtom(zoomIndex);
+        view.refreshMapZoom(-1);
+    }
+
+    @Override
+    public void btnLocationClick(GpsInfo gps) {
+
+        // GPS 사용유무 가져오기
+        if (gps.isGetLocation()) {
+            double latitude = gps.getLatitude();
+            double longitude = gps.getLongitude();
+            view.refreshMapLocation(latitude,longitude);
+        } else {
+            // GPS 를 사용할수 없으므로
+            gps.showSettingsAlert();
+        }
+    }
 }

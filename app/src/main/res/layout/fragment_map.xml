@@ -549,4 +549,98 @@
         app:srcCompat="@drawable/ic_add"
         android:id="@+id/floatingActionButton"
         android:layout_gravity="bottom|right" />
+
+    <FrameLayout
+        android:layout_width="40dp"
+        android:layout_height="140dp"
+        android:layout_gravity="bottom"
+        android:layout_marginLeft="8dp"
+        android:layout_marginBottom="32dp">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="1dp">
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@color/colorBase"
+                android:padding="1dp"
+                android:id="@+id/btn_map_location">
+
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@color/colorPrimary">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:srcCompat="@drawable/ic_location"
+                        android:id="@+id/imageView15"
+                        android:padding="6dp" />
+                </FrameLayout>
+
+            </FrameLayout>
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1">
+
+            </FrameLayout>
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@color/colorBase"
+                android:padding="1dp">
+
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@color/colorPrimary"
+                    android:clickable="true"
+                    android:id="@+id/btn_map_zoom_in">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:srcCompat="@drawable/ic_add"
+                        android:id="@+id/imageView13"
+                        android:padding="12dp" />
+                </FrameLayout>
+
+            </FrameLayout>
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@color/colorBase"
+                android:padding="1dp">
+
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@color/colorPrimary"
+                    android:id="@+id/btn_map_zoom_out"
+                    android:clickable="true">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:srcCompat="@drawable/ic_minus"
+                        android:id="@+id/imageView14"
+                        android:layout_gravity="center"
+                        android:padding="12dp" />
+                </FrameLayout>
+
+            </FrameLayout>
+        </LinearLayout>
+    </FrameLayout>
 </FrameLayout>

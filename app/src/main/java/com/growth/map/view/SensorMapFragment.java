@@ -9,6 +9,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.InflateException;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -19,6 +20,7 @@ import android.view.animation.TranslateAnimation;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -27,10 +29,12 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.UiSettings;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.growth.GpsInfo;
 import com.growth.R;
 import com.growth.domain.sensor.SensorItem;
 import com.growth.home.OnKeyBackPressedListener;
@@ -107,6 +111,16 @@ public class SensorMapFragment extends Fragment implements OnMapReadyCallback,
     FrameLayout btnInfoWindowDelete;
     @BindView(R.id.btn_info_window_update)
     FrameLayout btnInfoWindowUpdate;
+    ////zoom
+    @BindView(R.id.btn_map_zoom_in)
+    FrameLayout btnZoomIn;
+    @BindView(R.id.btn_map_zoom_out)
+    FrameLayout btnZoomOut;
+    ////location
+    @BindView(R.id.btn_map_location)
+    FrameLayout btnLocation;
+
+    GpsInfo gps;
     private static View root;
     //presenter
     @Inject
@@ -193,6 +207,7 @@ public class SensorMapFragment extends Fragment implements OnMapReadyCallback,
         } catch (InflateException e){
 
         }
+        gps = new GpsInfo(getActivity());
         unbinder = ButterKnife.bind(this,root);
         btnAddWindowGetLocation.setOnClickListener(v -> presenter.addWindowGetLocationClick());
         floatingActionButton.setOnClickListener(v -> presenter.floatingActionButtonClick());
@@ -212,7 +227,6 @@ public class SensorMapFragment extends Fragment implements OnMapReadyCallback,
             presenter.addWindowOkClick(serial, title, lat, lng);
         });
         SupportMapFragment mapFragment = (SupportMapFragment)this.getChildFragmentManager().findFragmentById(R.id.map);
-
         mapFragment.getMapAsync(this);
         btnInfoWindowDetail.setOnClickListener(v -> {
             ((HomeActivity)getActivity()).setOnKeyBackPressedListener(null);
@@ -228,6 +242,9 @@ public class SensorMapFragment extends Fragment implements OnMapReadyCallback,
         btnInfoWindowUpdate.setOnClickListener(v -> {
             presenter.infoWindowUpdateSensorClick();
         });
+        btnZoomIn.setOnClickListener(v -> presenter.btnZoomInClick());
+        btnZoomOut.setOnClickListener(v -> presenter.btnZoomOutClick());
+        btnLocation.setOnClickListener(v -> presenter.btnLocationClick(gps));
         presenter.enterFragment();
         return root;
     }
@@ -266,12 +283,15 @@ public class SensorMapFragment extends Fragment implements OnMapReadyCallback,
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
+        UiSettings uiSettings = googleMap.getUiSettings();
         mMap.setOnMarkerClickListener(marker -> {
             mCurrentMaker = marker;
             String title = marker.getTitle();
             presenter.markerClick(title);
             return true;
         });
+        refreshMapZoom(11);
+        presenter.btnLocationClick(gps);
 //        presenter.enterFragment();
     }
 
@@ -386,7 +406,10 @@ public class SensorMapFragment extends Fragment implements OnMapReadyCallback,
         etAddWindowLat.setText(strLat);
         etAddWindowLng.setText(strLng);
     }
-
+    @Override
+    public void refreshMapZoom(int index) {
+        mMap.moveCamera(CameraUpdateFactory.zoomBy(index));
+    }
     @Override
     public void refreshInfoWindow() {
         mCurrentMaker.showInfoWindow();
@@ -406,6 +429,30 @@ public class SensorMapFragment extends Fragment implements OnMapReadyCallback,
             homeActivity.onBackPressed();
         }
     }
+
+    @Override
+    public void refreshZoomButtom(int index) {
+        if(index>18) {
+            btnZoomIn.setClickable(false);
+            btnZoomIn.setBackgroundResource(R.color.colorPrimaryDark);
+        }else if(index<19 && index>0){
+            btnZoomIn.setClickable(true);
+            btnZoomOut.setClickable(true);
+            btnZoomIn.setBackgroundResource(R.color.colorPrimary);
+            btnZoomOut.setBackgroundResource(R.color.colorPrimary);
+        }
+        if(index<1) {
+            btnZoomOut.setClickable(false);
+            btnZoomOut.setBackgroundResource(R.color.colorPrimaryDark);
+        }
+    }
+
+    @Override
+    public void refreshMapLocation(double lat, double lng) {
+        LatLng latLng = new LatLng(lat,lng);
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
+    }
+
     /**
      * This interface must be implemented by activities that contain this
      * fragment to allow an interaction in this fragment to be communicated

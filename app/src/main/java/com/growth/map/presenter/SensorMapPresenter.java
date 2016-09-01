@@ -1,5 +1,6 @@
 package com.growth.map.presenter;
 
+import com.growth.GpsInfo;
 import com.growth.domain.sensor.SensorItem;
 import com.growth.views.PageChange;
 
@@ -20,6 +21,9 @@ public interface SensorMapPresenter {
     void enterFragment();
     void markerClick(String title);
     void onInfoWindowDetailButtonClick(String serial);
+    void btnZoomInClick();
+    void btnZoomOutClick();
+    void btnLocationClick(GpsInfo gps);
 
     interface View{
         void clearAddWindow();
@@ -35,5 +39,8 @@ public interface SensorMapPresenter {
         void checkSerialSuccess();
         void clearMap();
         void refreshAddWindowUpdateSensor(String serial,String title, String lat, String lng);
+        void refreshMapZoom(int index);
+        void refreshZoomButtom(int index);
+        void refreshMapLocation(double lat,double lng);
     }
 }
