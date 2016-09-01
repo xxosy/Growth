@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#5D4C46</color>
+    <color name="colorPrimaryDark">#454344</color>
+    <color name="colorAccent">#E45641</color>
+    <color name="colorBase">#F6EFD5</color>
+    <color name="colorBaseGray">#7B8D8E</color>
+    <color name="colorAccentSoft">#F1A94E</color>
+    <color name="colorCalm">#44B3C2</color>
+
+    <color name="pb_temp">#15948d</color>
+    <color name="pb_humidity">#33B5E5</color>
+    <color name="pb_light">#ffbb33</color>
+    <color name="pb_co2">#ed3b27</color>
+    <color name="pb_ec">#aa66cc</color>
+    <color name="pb_ph">#99CC00</color>
+</resources>
