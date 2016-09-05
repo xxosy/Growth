@@ -4,6 +4,7 @@ import android.util.Log;
 
 import com.growth.SensorValueGuide;
 import com.growth.domain.Value;
+import com.growth.exception.MyNetworkExcetionHandling;
 import com.growth.network.SensorDataAPI;
 
 import java.util.HashMap;
@@ -42,7 +43,7 @@ public class SensorDataDisplayPresenterImpl implements SensorDataDisplayPresente
                     view.refreshData(result);
                     view.stopProgress();
                 },error->{
-                    Log.i("error",error.toString());
+                    MyNetworkExcetionHandling.excute(error,view,view);
                 });
     }
 

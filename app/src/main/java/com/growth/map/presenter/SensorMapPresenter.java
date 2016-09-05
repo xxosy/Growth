@@ -3,6 +3,7 @@ package com.growth.map.presenter;
 import com.growth.GpsInfo;
 import com.growth.domain.sensor.SensorItem;
 import com.growth.utils.ProgressControl;
+import com.growth.utils.ToastControl;
 import com.growth.views.PageChange;
 
 /**
@@ -26,7 +27,7 @@ public interface SensorMapPresenter {
     void btnZoomOutClick();
     void btnLocationClick(GpsInfo gps);
 
-    interface View extends ProgressControl {
+    interface View extends ProgressControl,ToastControl {
         void clearAddWindow();
         void refreshMarker();
         void refreshInfoWindow();

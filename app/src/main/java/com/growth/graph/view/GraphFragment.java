@@ -24,6 +24,8 @@ import com.growth.graph.dagger.GraphModule;
 import com.growth.graph.presenter.GraphPresenter;
 import com.growth.utils.ProgressControl;
 import com.growth.utils.ProgressControlImlp;
+import com.growth.utils.ToastControl;
+import com.growth.utils.ToastControlImlp;
 import com.handstudio.android.hzgrapherlib.animation.GraphAnimation;
 import com.handstudio.android.hzgrapherlib.graphview.CurveGraphView;
 import com.handstudio.android.hzgrapherlib.vo.GraphNameBox;
@@ -112,7 +114,7 @@ public class GraphFragment extends Fragment implements GraphPresenter.View,
     FrameLayout progressLayout;
 
     ProgressControl mProgressControl;
-
+    ToastControl mToastControl;
     //graph
     CurveGraphView cgv;
     CurveGraphView preCgv;
@@ -172,6 +174,7 @@ public class GraphFragment extends Fragment implements GraphPresenter.View,
         }
         unbinder = ButterKnife.bind(this,root);
         mProgressControl = new ProgressControlImlp(progressLayout, progressView);
+        mToastControl = new ToastControlImlp(getActivity());
         btnDatePre.setOnClickListener(this);
         btnDateNext.setOnClickListener(this);
 
@@ -468,6 +471,11 @@ public class GraphFragment extends Fragment implements GraphPresenter.View,
     @Override
     public void stopProgress() {
         mProgressControl.stopProgress();
+    }
+
+    @Override
+    public void showToast(String msg) {
+        mToastControl.showToast(msg);
     }
 
     /**

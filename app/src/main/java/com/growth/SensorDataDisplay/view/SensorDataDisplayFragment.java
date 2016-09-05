@@ -25,6 +25,8 @@ import com.growth.home.OnKeyBackPressedListener;
 import com.growth.home.view.HomeActivity;
 import com.growth.utils.ProgressControl;
 import com.growth.utils.ProgressControlImlp;
+import com.growth.utils.ToastControl;
+import com.growth.utils.ToastControlImlp;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -116,6 +118,7 @@ public class SensorDataDisplayFragment extends Fragment implements SensorDataDis
     private OnFragmentInteractionListener mListener;
 
     ProgressControl mProgressControl;
+    ToastControl mToastControl;
     public SensorDataDisplayFragment() {
         // Required empty public constructor
     }
@@ -167,6 +170,7 @@ public class SensorDataDisplayFragment extends Fragment implements SensorDataDis
         }
         unbinder = ButterKnife.bind(this,root);
         mProgressControl = new ProgressControlImlp(progressLayout, progressView);
+        mToastControl = new ToastControlImlp(getActivity());
         presenter.enterFragment(serial);
         btnChangeCameraView.setOnClickListener(v -> presenter.btnChangeCameraViewClick());
         return root;
@@ -274,6 +278,12 @@ public class SensorDataDisplayFragment extends Fragment implements SensorDataDis
     public void stopProgress(){
         mProgressControl.stopProgress();
     }
+
+    @Override
+    public void showToast(String msg) {
+        mToastControl.showToast(msg);
+    }
+
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);

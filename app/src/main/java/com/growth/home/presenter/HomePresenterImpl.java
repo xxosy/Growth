@@ -31,13 +31,13 @@ public class HomePresenterImpl implements HomePresenter {
 
     @Override
     public void initHome() {
-        sensorDataAPI.getSensorList()
-                .subscribeOn(Schedulers.io())
-                .flatMap(result-> Observable.from(result))
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(result -> {
-
-                });
+//        sensorDataAPI.getSensorList()
+//                .subscribeOn(Schedulers.io())
+//                .flatMap(result-> Observable.from(result))
+//                .observeOn(AndroidSchedulers.mainThread())
+//                .subscribe(result -> {
+//
+//                });
     }
 
 }

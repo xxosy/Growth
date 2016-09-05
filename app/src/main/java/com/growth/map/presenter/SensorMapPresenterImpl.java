@@ -7,10 +7,13 @@ import com.growth.SensorDataDisplay.view.SensorDataDisplayFragment;
 import com.growth.domain.UpdateSensorData;
 import com.growth.domain.sensor.SensorItem;
 import com.growth.domain.user.User;
+import com.growth.exception.MyNetworkExcetionHandling;
 import com.growth.graph.view.GraphFragment;
 import com.growth.home.PageChangeUtil;
 import com.growth.network.SensorDataAPI;
-import com.growth.views.PageChange;
+
+import java.net.ConnectException;
+import java.net.SocketTimeoutException;
 
 import javax.inject.Inject;
 
@@ -65,6 +68,8 @@ public class SensorMapPresenterImpl implements SensorMapPresenter{
                     constituteMap();
                     view.hideInfoWindow();
                     view.stopProgress();
+                },error->{
+                    MyNetworkExcetionHandling.excute(error,view,view);
                 });
     }
 
@@ -100,6 +105,8 @@ public class SensorMapPresenterImpl implements SensorMapPresenter{
                     }else
                         view.checkSerialSuccess();
                     view.stopProgress();
+                },error->{
+                    MyNetworkExcetionHandling.excute(error,view,view);
                 });
     }
 
@@ -119,6 +126,8 @@ public class SensorMapPresenterImpl implements SensorMapPresenter{
                         view.addMarker(sensorItem);
                     }
                     view.stopProgress();
+                },error->{
+                    MyNetworkExcetionHandling.excute(error,view,view);
                 });
     }
 
@@ -139,6 +148,8 @@ public class SensorMapPresenterImpl implements SensorMapPresenter{
                             view.hideAddSensorWindow();
                             view.clearAddWindow();
                             view.stopProgress();
+                        },error->{
+                            MyNetworkExcetionHandling.excute(error,view,view);
                         });
             } else {
                 sensorDataAPI.insertMapSensor(serial, User.getInstance().getUserCode(), data)
@@ -150,6 +161,8 @@ public class SensorMapPresenterImpl implements SensorMapPresenter{
                             view.hideAddSensorWindow();
                             view.clearAddWindow();
                             view.stopProgress();
+                        },error->{
+                            MyNetworkExcetionHandling.excute(error,view,view);
                         });
             }
         }

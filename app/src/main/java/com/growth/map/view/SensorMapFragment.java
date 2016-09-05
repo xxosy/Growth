@@ -39,6 +39,8 @@ import com.growth.map.dagger.SensorMapModule;
 import com.growth.map.presenter.SensorMapPresenter;
 import com.growth.utils.ProgressControl;
 import com.growth.utils.ProgressControlImlp;
+import com.growth.utils.ToastControl;
+import com.growth.utils.ToastControlImlp;
 
 import javax.inject.Inject;
 
@@ -126,6 +128,7 @@ public class SensorMapFragment extends Fragment implements OnMapReadyCallback,
     @Inject
     SensorMapPresenter presenter;
     ProgressControl mProgressControl;
+    ToastControl mToastControl;
 
     Marker mCurrentMaker;
 
@@ -214,6 +217,7 @@ public class SensorMapFragment extends Fragment implements OnMapReadyCallback,
         gps = new GpsInfo(getActivity());
         unbinder = ButterKnife.bind(this,root);
         mProgressControl = new ProgressControlImlp(progressLayout, progressView);
+        mToastControl = new ToastControlImlp(getActivity());
         btnAddWindowGetLocation.setOnClickListener(v -> presenter.addWindowGetLocationClick());
         floatingActionButton.setOnClickListener(v -> presenter.floatingActionButtonClick());
         btnAddWindowCancel.setOnClickListener(v -> presenter.addWindowCancelClick());
@@ -422,8 +426,9 @@ public class SensorMapFragment extends Fragment implements OnMapReadyCallback,
         mCurrentMaker.showInfoWindow();
     }
 
+    @Override
     public void showToast(String msg){
-        Toast.makeText(getActivity(),msg,Toast.LENGTH_SHORT).show();
+        mToastControl.showToast(msg);
     }
     @Override
     public void onBack() {
