@@ -2,6 +2,7 @@ package com.growth.map.presenter;
 
 import com.growth.GpsInfo;
 import com.growth.domain.sensor.SensorItem;
+import com.growth.utils.ProgressControl;
 import com.growth.views.PageChange;
 
 /**
@@ -25,7 +26,7 @@ public interface SensorMapPresenter {
     void btnZoomOutClick();
     void btnLocationClick(GpsInfo gps);
 
-    interface View{
+    interface View extends ProgressControl {
         void clearAddWindow();
         void refreshMarker();
         void refreshInfoWindow();
@@ -41,7 +42,7 @@ public interface SensorMapPresenter {
         void refreshAddWindowUpdateSensor(String serial,String title, String lat, String lng);
         void refreshMapZoom(int index);
         void refreshZoomButtom(int index);
-        void refreshMapLocation(double lat,double lng);
+        void refreshMapLocation(double lat,double lng,int index);
         void showToast(String msg);
     }
 }

@@ -1,5 +1,7 @@
 package com.growth.SensorDataDisplay.presenter;
 
+import android.util.Log;
+
 import com.growth.SensorValueGuide;
 import com.growth.domain.Value;
 import com.growth.network.SensorDataAPI;
@@ -30,6 +32,7 @@ public class SensorDataDisplayPresenterImpl implements SensorDataDisplayPresente
 
     @Override
     public void enterFragment(String serial) {
+        view.startProgress();
         sensorDataAPI.getValue(serial)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -37,6 +40,9 @@ public class SensorDataDisplayPresenterImpl implements SensorDataDisplayPresente
                     states = getStates(result);
                     view.refreshState(states);
                     view.refreshData(result);
+                    view.stopProgress();
+                },error->{
+                    Log.i("error",error.toString());
                 });
     }
 

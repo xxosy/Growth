@@ -13,6 +13,7 @@ import android.widget.FrameLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.github.rahatarmanahmed.cpv.CircularProgressView;
 import com.growth.R;
 import com.growth.SensorValueGuide;
 import com.growth.domain.Value;
@@ -21,6 +22,8 @@ import com.growth.domain.graph.GraphList;
 import com.growth.graph.dagger.DaggerGraphComponent;
 import com.growth.graph.dagger.GraphModule;
 import com.growth.graph.presenter.GraphPresenter;
+import com.growth.utils.ProgressControl;
+import com.growth.utils.ProgressControlImlp;
 import com.handstudio.android.hzgrapherlib.animation.GraphAnimation;
 import com.handstudio.android.hzgrapherlib.graphview.CurveGraphView;
 import com.handstudio.android.hzgrapherlib.vo.GraphNameBox;
@@ -102,6 +105,14 @@ public class GraphFragment extends Fragment implements GraphPresenter.View,
     View tabMarkerEc;
     @BindView(R.id.tab_marker_ph)
     View tabMarkerPh;
+    ////progressbar
+    @BindView(R.id.progress_view)
+    CircularProgressView progressView;
+    @BindView(R.id.progress_layout)
+    FrameLayout progressLayout;
+
+    ProgressControl mProgressControl;
+
     //graph
     CurveGraphView cgv;
     CurveGraphView preCgv;
@@ -160,6 +171,7 @@ public class GraphFragment extends Fragment implements GraphPresenter.View,
 
         }
         unbinder = ButterKnife.bind(this,root);
+        mProgressControl = new ProgressControlImlp(progressLayout, progressView);
         btnDatePre.setOnClickListener(this);
         btnDateNext.setOnClickListener(this);
 
@@ -446,6 +458,16 @@ public class GraphFragment extends Fragment implements GraphPresenter.View,
         }else if(v.getId()==R.id.btn_date_next){
             presenter.dateNextButtonClick(mainValueType);
         }
+    }
+
+    @Override
+    public void startProgress() {
+        mProgressControl.startProgress();
+    }
+
+    @Override
+    public void stopProgress() {
+        mProgressControl.stopProgress();
     }
 
     /**

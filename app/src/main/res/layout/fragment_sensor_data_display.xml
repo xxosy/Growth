@@ -575,4 +575,19 @@
         android:id="@+id/btn_change_camera_view"
         android:layout_gravity="right|center_vertical"
         android:layout_marginBottom="24dp" />
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/progress_layout"
+        android:visibility="gone">
+
+        <com.github.rahatarmanahmed.cpv.CircularProgressView
+            android:id="@+id/progress_view"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            app:cpv_animAutostart="true"
+            app:cpv_indeterminate="true"
+            android:layout_gravity="center_vertical|center_horizontal" />
+    </FrameLayout>
+
 </FrameLayout>

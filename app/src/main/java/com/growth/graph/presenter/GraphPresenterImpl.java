@@ -40,11 +40,13 @@ public class GraphPresenterImpl implements  GraphPresenter {
         sDate = sdf.format(d);
         requestPageData4Serial();
         view.refreshTab();
+        view.startProgress();
         sensorDataAPI.getTemperatureList(serial,sDate)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(list -> {
                     view.refreshChart(list);
+                    view.stopProgress();
                 });
     }
 
@@ -81,12 +83,14 @@ public class GraphPresenterImpl implements  GraphPresenter {
     }
 
     private void requestGraphData(int index){
+        view.startProgress();
         if(index== ValueTpye.TEMPERATURE){
             sensorDataAPI.getTemperatureList(serial,sDate)
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(list -> {
                         view.refreshChart(list);
+                        view.stopProgress();
                     });
         }else if(index==ValueTpye.HUMIDITY){
             sensorDataAPI.getHumidityList(serial,sDate)
@@ -94,6 +98,7 @@ public class GraphPresenterImpl implements  GraphPresenter {
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(list -> {
                         view.refreshChart(list);
+                        view.stopProgress();
                     });
         }else if(index==ValueTpye.CO2){
             sensorDataAPI.getCo2List(serial,sDate)
@@ -101,6 +106,7 @@ public class GraphPresenterImpl implements  GraphPresenter {
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(list -> {
                         view.refreshChart(list);
+                        view.stopProgress();
                     });
         }else if(index==ValueTpye.EC){
             sensorDataAPI.getEcList(serial,sDate)
@@ -108,6 +114,7 @@ public class GraphPresenterImpl implements  GraphPresenter {
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(list -> {
                         view.refreshChart(list);
+                        view.stopProgress();
                     });
         }else if(index==ValueTpye.PH){
             sensorDataAPI.getPhList(serial,sDate)
@@ -115,6 +122,7 @@ public class GraphPresenterImpl implements  GraphPresenter {
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(list -> {
                         view.refreshChart(list);
+                        view.stopProgress();
                     });
         }else if(index==ValueTpye.LIGHT){
             sensorDataAPI.getLightList(serial,sDate)
@@ -122,15 +130,18 @@ public class GraphPresenterImpl implements  GraphPresenter {
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(list -> {
                         view.refreshChart(list);
+                        view.stopProgress();
                     });
         }
     }
     private void requestPageData4Serial(){
+        view.startProgress();
         sensorDataAPI.getValue(serial)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(result -> {
                     view.refreshPage(result);
+                    view.stopProgress();
                 });
     }
 

@@ -56,6 +56,7 @@ public class SensorMapPresenterImpl implements SensorMapPresenter{
 
     @Override
     public void infoWindowDeleteSensorClick() {
+        view.startProgress();
         sensorDataAPI.deleteMapSensor(currentSsensorItem.getSerial(),User.getInstance().getUserCode())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -63,6 +64,7 @@ public class SensorMapPresenterImpl implements SensorMapPresenter{
                     view.clearMap();
                     constituteMap();
                     view.hideInfoWindow();
+                    view.stopProgress();
                 });
     }
 
@@ -88,6 +90,7 @@ public class SensorMapPresenterImpl implements SensorMapPresenter{
     /////////////////////////////////
     @Override
     public void addWindowCheckSerialClick(String serial) {
+        view.startProgress();
         sensorDataAPI.getSensor(serial)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -96,6 +99,7 @@ public class SensorMapPresenterImpl implements SensorMapPresenter{
                         view.checkSerialFail();
                     }else
                         view.checkSerialSuccess();
+                    view.stopProgress();
                 });
     }
 
@@ -105,6 +109,7 @@ public class SensorMapPresenterImpl implements SensorMapPresenter{
     }
 
     private void constituteMap(){
+        view.startProgress();
         sensorDataAPI.getMapSensors(User.getInstance().getUserCode())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -113,12 +118,14 @@ public class SensorMapPresenterImpl implements SensorMapPresenter{
                     for(SensorItem sensorItem:sensorItems){
                         view.addMarker(sensorItem);
                     }
+                    view.stopProgress();
                 });
     }
 
     @Override
     public void addWindowOkClick(String serial, String title, String lat, String lng) {
         UpdateSensorData data = new UpdateSensorData(lat, lng, title);
+        view.startProgress();
         if(lat.equals("")||lng.equals("")){
             view.showToast("Please, Touch 'Get Location'");
         }else {
@@ -131,6 +138,7 @@ public class SensorMapPresenterImpl implements SensorMapPresenter{
                             constituteMap();
                             view.hideAddSensorWindow();
                             view.clearAddWindow();
+                            view.stopProgress();
                         });
             } else {
                 sensorDataAPI.insertMapSensor(serial, User.getInstance().getUserCode(), data)
@@ -141,6 +149,7 @@ public class SensorMapPresenterImpl implements SensorMapPresenter{
                             constituteMap();
                             view.hideAddSensorWindow();
                             view.clearAddWindow();
+                            view.stopProgress();
                         });
             }
         }
@@ -193,7 +202,7 @@ public class SensorMapPresenterImpl implements SensorMapPresenter{
         if (gps.isGetLocation()) {
             double latitude = gps.getLatitude();
             double longitude = gps.getLongitude();
-            view.refreshMapLocation(latitude,longitude);
+            view.refreshMapLocation(latitude,longitude,zoomIndex);
         } else {
             // GPS 를 사용할수 없으므로
             gps.showSettingsAlert();

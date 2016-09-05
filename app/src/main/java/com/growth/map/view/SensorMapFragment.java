@@ -1,33 +1,27 @@
 package com.growth.map.view;
 
-import android.support.v4.app.Fragment;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.util.Log;
-import android.util.TypedValue;
+import android.support.v4.app.Fragment;
 import android.view.InflateException;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.view.animation.TranslateAnimation;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.github.rahatarmanahmed.cpv.CircularProgressView;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.UiSettings;
@@ -43,7 +37,8 @@ import com.growth.home.view.HomeActivity;
 import com.growth.map.dagger.DaggerSensorMapComponent;
 import com.growth.map.dagger.SensorMapModule;
 import com.growth.map.presenter.SensorMapPresenter;
-import com.growth.views.PageChange;
+import com.growth.utils.ProgressControl;
+import com.growth.utils.ProgressControlImlp;
 
 import javax.inject.Inject;
 
@@ -120,12 +115,17 @@ public class SensorMapFragment extends Fragment implements OnMapReadyCallback,
     ////location
     @BindView(R.id.btn_map_location)
     FrameLayout btnLocation;
-
+    ////progressbar
+    @BindView(R.id.progress_view)
+    CircularProgressView progressView;
+    @BindView(R.id.progress_layout)
+    FrameLayout progressLayout;
     GpsInfo gps;
     private static View root;
     //presenter
     @Inject
     SensorMapPresenter presenter;
+    ProgressControl mProgressControl;
 
     Marker mCurrentMaker;
 
@@ -213,6 +213,7 @@ public class SensorMapFragment extends Fragment implements OnMapReadyCallback,
         }
         gps = new GpsInfo(getActivity());
         unbinder = ButterKnife.bind(this,root);
+        mProgressControl = new ProgressControlImlp(progressLayout, progressView);
         btnAddWindowGetLocation.setOnClickListener(v -> presenter.addWindowGetLocationClick());
         floatingActionButton.setOnClickListener(v -> presenter.floatingActionButtonClick());
         btnAddWindowCancel.setOnClickListener(v -> presenter.addWindowCancelClick());
@@ -294,7 +295,6 @@ public class SensorMapFragment extends Fragment implements OnMapReadyCallback,
             presenter.markerClick(title);
             return true;
         });
-        refreshMapZoom(11);
         presenter.btnLocationClick(gps);
 //        presenter.enterFragment();
     }
@@ -445,8 +445,8 @@ public class SensorMapFragment extends Fragment implements OnMapReadyCallback,
         }else if(index<19 && index>0){
             btnZoomIn.setClickable(true);
             btnZoomOut.setClickable(true);
-            btnZoomIn.setBackgroundResource(R.drawable.selector);
-            btnZoomOut.setBackgroundResource(R.drawable.selector);
+            btnZoomIn.setBackgroundResource(R.drawable.selector_base);
+            btnZoomOut.setBackgroundResource(R.drawable.selector_base);
         }
         if(index<1) {
             btnZoomOut.setClickable(false);
@@ -455,9 +455,19 @@ public class SensorMapFragment extends Fragment implements OnMapReadyCallback,
     }
 
     @Override
-    public void refreshMapLocation(double lat, double lng) {
+    public void refreshMapLocation(double lat, double lng,int index) {
         LatLng latLng = new LatLng(lat,lng);
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng,index));
+    }
+
+    @Override
+    public void startProgress() {
+        mProgressControl.startProgress();
+    }
+
+    @Override
+    public void stopProgress() {
+        mProgressControl.stopProgress();
     }
 
     /**

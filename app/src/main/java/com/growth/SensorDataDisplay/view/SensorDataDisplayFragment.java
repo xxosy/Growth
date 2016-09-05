@@ -15,6 +15,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.akexorcist.roundcornerprogressbar.RoundCornerProgressBar;
+import com.github.rahatarmanahmed.cpv.CircularProgressView;
 import com.growth.R;
 import com.growth.SensorDataDisplay.dagger.DaggerSensorDataDisplayComponent;
 import com.growth.SensorDataDisplay.dagger.SensorDataDisplayModule;
@@ -22,6 +23,8 @@ import com.growth.SensorDataDisplay.presenter.SensorDataDisplayPresenter;
 import com.growth.domain.Value;
 import com.growth.home.OnKeyBackPressedListener;
 import com.growth.home.view.HomeActivity;
+import com.growth.utils.ProgressControl;
+import com.growth.utils.ProgressControlImlp;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -105,9 +108,14 @@ public class SensorDataDisplayFragment extends Fragment implements SensorDataDis
     FrameLayout imgStateView;
     @BindView(R.id.btn_change_camera_view)
     FloatingActionButton btnChangeCameraView;
-
+    ////progressbar
+    @BindView(R.id.progress_view)
+    CircularProgressView progressView;
+    @BindView(R.id.progress_layout)
+    FrameLayout progressLayout;
     private OnFragmentInteractionListener mListener;
 
+    ProgressControl mProgressControl;
     public SensorDataDisplayFragment() {
         // Required empty public constructor
     }
@@ -158,6 +166,7 @@ public class SensorDataDisplayFragment extends Fragment implements SensorDataDis
 
         }
         unbinder = ButterKnife.bind(this,root);
+        mProgressControl = new ProgressControlImlp(progressLayout, progressView);
         presenter.enterFragment(serial);
         btnChangeCameraView.setOnClickListener(v -> presenter.btnChangeCameraViewClick());
         return root;
@@ -259,6 +268,12 @@ public class SensorDataDisplayFragment extends Fragment implements SensorDataDis
      * "http://developer.android.com/training/basics/fragments/communicating.html"
      * >Communicating with Other Fragments</a> for more information.
      */
+    public void startProgress(){
+        mProgressControl.startProgress();
+    }
+    public void stopProgress(){
+        mProgressControl.stopProgress();
+    }
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);

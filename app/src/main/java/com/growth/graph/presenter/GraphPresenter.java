@@ -2,6 +2,7 @@ package com.growth.graph.presenter;
 
 import com.growth.domain.Value;
 import com.growth.domain.graph.GraphList;
+import com.growth.utils.ProgressControl;
 
 /**
  * Created by SSL-D on 2016-08-29.
@@ -12,7 +13,7 @@ public interface GraphPresenter {
     void datePreButtonClick(int index);
     void dateNextButtonClick(int index);
     void tabClick(int index);
-    interface View{
+    interface View extends ProgressControl{
         void refreshPage(Value value);
         void refreshUpdateTime(String time);
         void refreshToday(String today);

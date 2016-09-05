@@ -3,6 +3,8 @@ package com.growth.SensorDataDisplay.presenter;
 import android.graphics.Bitmap;
 
 import com.growth.domain.Value;
+import com.growth.map.presenter.SensorMapPresenter;
+import com.growth.utils.ProgressControl;
 
 import java.util.HashMap;
 
@@ -13,12 +15,14 @@ import java.util.HashMap;
 public interface SensorDataDisplayPresenter {
     void enterFragment(String serial);
     void btnChangeCameraViewClick();
-    interface View{
+    interface View extends ProgressControl {
         void refreshData(Value value);
         void refreshState(HashMap<String,Boolean> states);
         void refreshCameraImage(Bitmap image);
         void showCameraFrame();
         void hideCameraFrame();
         void changeBtnChageCameraView(boolean state);
+        void startProgress();
+        void stopProgress();
     }
 }
