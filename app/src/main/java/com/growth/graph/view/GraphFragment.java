@@ -5,6 +5,7 @@ import android.content.Context;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.InflateException;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,6 +17,7 @@ import android.widget.Toast;
 import com.github.rahatarmanahmed.cpv.CircularProgressView;
 import com.growth.R;
 import com.growth.SensorValueGuide;
+import com.growth.domain.StandardGrowthData;
 import com.growth.domain.Value;
 import com.growth.domain.graph.GraphItem;
 import com.growth.domain.graph.GraphList;
@@ -310,8 +312,8 @@ public class GraphFragment extends Fragment implements GraphPresenter.View,
     public void refreshGraphDate(String date) {
         tvGraphDate.setText(date);
     }
-    private void setCurveGraph(ViewGroup viewGroup, String[] legendArr, float[] graph, String Name, int Color, int maxValue, int increment) {
-        CurveGraphVO vo = makeCurveGraphAllSetting(legendArr, graph, Name, Color, maxValue, increment);
+    private void setCurveGraph(ViewGroup viewGroup, String[] legendArr, float[] graph, String Name, int Color, int maxValue, int increment,CurveGraph standard) {
+        CurveGraphVO vo = makeCurveGraphAllSetting(legendArr, graph, Name, Color, maxValue, increment,standard);
         cgv = new CurveGraphView(getActivity(), vo);
         int height = viewGroup.getHeight()-2;
         ViewGroup.LayoutParams prams = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,height);
@@ -320,7 +322,7 @@ public class GraphFragment extends Fragment implements GraphPresenter.View,
         preCgv = cgv;
     }
 
-    private CurveGraphVO makeCurveGraphAllSetting(String[] legendArr, float[] graph, String Name, int Color, int maxValue, int increment) {
+    private CurveGraphVO makeCurveGraphAllSetting(String[] legendArr, float[] graph, String Name, int Color, int maxValue, int increment,CurveGraph standard) {
         //padding
         int paddingBottom = CurveGraphVO.DEFAULT_PADDING;
         int paddingTop = CurveGraphVO.DEFAULT_PADDING;
@@ -336,9 +338,8 @@ public class GraphFragment extends Fragment implements GraphPresenter.View,
         //increment
 
         List<CurveGraph> arrGraph = new ArrayList<CurveGraph>();
-
         arrGraph.add(new CurveGraph(Name, Color, graph));
-
+        arrGraph.add(standard);
         CurveGraphVO vo = new CurveGraphVO(
                 paddingBottom, paddingTop, paddingLeft, paddingRight,
                 marginTop, marginRight, maxValue, increment, legendArr, arrGraph);
@@ -358,6 +359,7 @@ public class GraphFragment extends Fragment implements GraphPresenter.View,
         }else if(items.getGraphItems().length<=24) length = items.getGraphItems().length;
         String[] legend= new String[length];
         float[] data = new float[length];
+        float[] standard = new float[length];
         int i = 0;
         float fmax = 0;
         String tag = "Temperature";
@@ -367,41 +369,52 @@ public class GraphFragment extends Fragment implements GraphPresenter.View,
             if(i-k>=0) {
                 legend[i-k] = item.getUpdate_time().substring(0,2);
                 if (item.getTemperature() != null) {
+                    standard[i-k] = StandardGrowthData.temperature[i];
                     data[i-k] = Float.parseFloat(item.getTemperature());
                     tag = "Temperature";
                     color = new Color().rgb(0, 153, 255);
                 } else if (item.getHumidity() != null) {
+                    standard[i-k] = StandardGrowthData.humidity[i];
                     data[i-k] = Float.parseFloat(item.getHumidity());
                     tag = "Humidity";
                     color = new Color().rgb(0, 204, 255);
                 } else if (item.getCo2() != null) {
+                    standard[i-k] = StandardGrowthData.co2[i];
                     data[i-k] = Float.parseFloat(item.getCo2());
                     tag = "CO2";
                     color = new Color().rgb(0, 128, 128);
                 } else if (item.getLight() != null) {
+                    standard[i-k] = StandardGrowthData.light[i];
                     data[i-k] = Float.parseFloat(item.getLight());
                     tag = "Light";
                     color = new Color().rgb(255, 204, 0);
                 } else if (item.getPh() != null) {
+                    standard[i-k] = StandardGrowthData.ph[i];
                     data[i-k] = Float.parseFloat(item.getPh());
                     tag = "PH";
                     color = new Color().rgb(0, 255, 0);
                 } else if (item.getEc() != null) {
-                    data[i-k] = Float.parseFloat(item.getEc());
+                    standard[i-k] = StandardGrowthData.ec[i];
+                    data[i-k] = Float.parseFloat(item.getEc())/80;
                     tag = "EC";
                     color = new Color().rgb(255, 140, 20);
                 }
                 if(fmax<data[i-k])
                     fmax = data[i-k];
+                if(fmax<standard[i-k])
+                    fmax = standard[i-k];
             }
             i++;
+            Log.i("i",String.valueOf(i));
         }
         int max = (int)fmax;
         max +=10;
         max = max/10*10;
         term = max/4;
+        CurveGraph standardGraph = new CurveGraph("standard",new Color().rgb(128,128,128),standard);
+
         if(length>2)
-            setCurveGraph(mChart, legend,data,tag, color,max,term);
+            setCurveGraph(mChart, legend,data,tag, color,max,term,standardGraph);
         else
             displayToast("Data is not enough (The number MIN:2)");
     }

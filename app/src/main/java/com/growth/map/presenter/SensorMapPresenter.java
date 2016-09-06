@@ -1,10 +1,9 @@
 package com.growth.map.presenter;
 
-import com.growth.GpsInfo;
+import com.growth.utils.GpsInfo;
 import com.growth.domain.sensor.SensorItem;
 import com.growth.utils.ProgressControl;
 import com.growth.utils.ToastControl;
-import com.growth.views.PageChange;
 
 /**
  * Created by SSL-D on 2016-08-23.

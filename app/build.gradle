@@ -12,9 +12,12 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-//        multiDexEnabled true
+        multiDexEnabled true
     }
     buildTypes {
+        debug {
+            testCoverageEnabled false
+        }
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
@@ -82,7 +85,7 @@ dependencies {
     //progressbar
     compile 'com.akexorcist:RoundCornerProgressBar:2.0.3'
 
-//    compile 'com.android.support:multidex:1.0.1'
+    compile 'com.android.support:multidex:1.0.1'
     compile 'com.android.support.constraint:constraint-layout:1.0.0-alpha4'
     compile 'com.github.PhilJay:MPAndroidChart:v3.0.0-beta1'
     compile 'javax.inject:javax.inject:1'

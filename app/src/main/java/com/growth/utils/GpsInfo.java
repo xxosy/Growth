@@ -1,4 +1,4 @@
-package com.growth;
+package com.growth.utils;
 
 import android.app.AlertDialog;
 import android.app.Service;
@@ -13,7 +13,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.provider.Settings;
-import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 
 public class GpsInfo extends Service implements LocationListener {

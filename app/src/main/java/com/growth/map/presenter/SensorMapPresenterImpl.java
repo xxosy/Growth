@@ -1,8 +1,6 @@
 package com.growth.map.presenter;
 
-import android.util.Log;
-
-import com.growth.GpsInfo;
+import com.growth.utils.GpsInfo;
 import com.growth.SensorDataDisplay.view.SensorDataDisplayFragment;
 import com.growth.domain.UpdateSensorData;
 import com.growth.domain.sensor.SensorItem;
@@ -11,9 +9,6 @@ import com.growth.exception.MyNetworkExcetionHandling;
 import com.growth.graph.view.GraphFragment;
 import com.growth.home.PageChangeUtil;
 import com.growth.network.SensorDataAPI;
-
-import java.net.ConnectException;
-import java.net.SocketTimeoutException;
 
 import javax.inject.Inject;
 

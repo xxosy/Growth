@@ -17,7 +17,6 @@ import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.github.rahatarmanahmed.cpv.CircularProgressView;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -29,7 +28,7 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.growth.GpsInfo;
+import com.growth.utils.GpsInfo;
 import com.growth.R;
 import com.growth.domain.sensor.SensorItem;
 import com.growth.home.OnKeyBackPressedListener;
