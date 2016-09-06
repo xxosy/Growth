@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.akexorcist.roundcornerprogressbar.RoundCornerProgressBar;
@@ -115,6 +116,22 @@ public class SensorDataDisplayFragment extends Fragment implements SensorDataDis
     CircularProgressView progressView;
     @BindView(R.id.progress_layout)
     FrameLayout progressLayout;
+    ////go graph
+    @BindView(R.id.btn_graph_temp)
+    LinearLayout btnGraphTemp;
+    @BindView(R.id.btn_graph_humidity)
+    LinearLayout btnGraphHumiditty;
+    @BindView(R.id.btn_graph_light)
+    LinearLayout btnGraphLight;
+    @BindView(R.id.btn_graph_co2)
+    LinearLayout btnGraphCo2;
+    @BindView(R.id.btn_graph_ec)
+    LinearLayout btnGraphEc;
+    @BindView(R.id.btn_graph_ph)
+    LinearLayout btnGraphPh;
+
+
+
     private OnFragmentInteractionListener mListener;
 
     ProgressControl mProgressControl;
@@ -173,6 +190,12 @@ public class SensorDataDisplayFragment extends Fragment implements SensorDataDis
         mToastControl = new ToastControlImlp(getActivity());
         presenter.enterFragment(serial);
         btnChangeCameraView.setOnClickListener(v -> presenter.btnChangeCameraViewClick());
+        btnGraphTemp.setOnClickListener(v -> presenter.btnGraphTempClick());
+        btnGraphHumiditty.setOnClickListener(v -> presenter.btnGraphHumidityClick());
+        btnGraphCo2.setOnClickListener(v -> presenter.btnGraphCo2Click());
+        btnGraphLight.setOnClickListener(v -> presenter.btnGraphLightClick());
+        btnGraphEc.setOnClickListener(v -> presenter.btnGraphEcClick());
+        btnGraphPh.setOnClickListener(v -> presenter.btnGraphPhClick());
         return root;
     }
 

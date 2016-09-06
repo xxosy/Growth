@@ -16,6 +16,12 @@ import java.util.HashMap;
 public interface SensorDataDisplayPresenter {
     void enterFragment(String serial);
     void btnChangeCameraViewClick();
+    void btnGraphTempClick();
+    void btnGraphHumidityClick();
+    void btnGraphLightClick();
+    void btnGraphCo2Click();
+    void btnGraphEcClick();
+    void btnGraphPhClick();
     interface View extends ProgressControl,ToastControl {
         void refreshData(Value value);
         void refreshState(HashMap<String,Boolean> states);

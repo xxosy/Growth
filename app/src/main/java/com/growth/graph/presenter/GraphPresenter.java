@@ -10,7 +10,7 @@ import com.growth.utils.ToastControl;
  */
 
 public interface GraphPresenter {
-    void enterFragment(String serial);
+    void enterFragment(String serial,int index);
     void datePreButtonClick(int index);
     void dateNextButtonClick(int index);
     void tabClick(int index);

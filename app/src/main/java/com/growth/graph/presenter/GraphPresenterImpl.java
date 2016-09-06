@@ -34,23 +34,14 @@ public class GraphPresenterImpl implements  GraphPresenter {
     }
 
     @Override
-    public void enterFragment(String serial) {
+    public void enterFragment(String serial,int index) {
         this.serial = serial;
         Date d = new Date();
         lDate = d.getTime();
         sDate = sdf.format(d);
         requestPageData4Serial();
         view.refreshTab();
-        view.startProgress();
-        sensorDataAPI.getTemperatureList(serial,sDate)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(list -> {
-                    view.refreshChart(list);
-                    view.stopProgress();
-                },error->{
-                    MyNetworkExcetionHandling.excute(error,view,view);
-                });
+        requestGraphData(index);
     }
 
     @Override

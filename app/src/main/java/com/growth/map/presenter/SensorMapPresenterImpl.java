@@ -1,5 +1,6 @@
 package com.growth.map.presenter;
 
+import com.growth.graph.view.ValueTpye;
 import com.growth.utils.GpsInfo;
 import com.growth.SensorDataDisplay.view.SensorDataDisplayFragment;
 import com.growth.domain.UpdateSensorData;
@@ -82,7 +83,7 @@ public class SensorMapPresenterImpl implements SensorMapPresenter{
     @Override
     public void infoWindowGraphClick() {
         view.hideInfoWindow();
-        PageChangeUtil.newInstance().getPageChange().pageChange(new GraphFragment().newInstance(currentSsensorItem.getSerial(),""));
+        PageChangeUtil.newInstance().getPageChange().pageChange(new GraphFragment().newInstance(currentSsensorItem.getSerial(), ValueTpye.TEMPERATURE));
     }
 
     /////////////////////////////////

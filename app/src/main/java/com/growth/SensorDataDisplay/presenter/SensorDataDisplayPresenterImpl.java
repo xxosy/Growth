@@ -5,6 +5,9 @@ import android.util.Log;
 import com.growth.SensorValueGuide;
 import com.growth.domain.Value;
 import com.growth.exception.MyNetworkExcetionHandling;
+import com.growth.graph.view.GraphFragment;
+import com.growth.graph.view.ValueTpye;
+import com.growth.home.PageChangeUtil;
 import com.growth.network.SensorDataAPI;
 
 import java.util.HashMap;
@@ -23,6 +26,7 @@ public class SensorDataDisplayPresenterImpl implements SensorDataDisplayPresente
     SensorDataAPI sensorDataAPI;
 
     HashMap<String,Boolean> states;
+    String serial;
     boolean stateCamera = false;
     @Inject
     SensorDataDisplayPresenterImpl(SensorDataDisplayPresenter.View view, SensorDataAPI sensorDataAPI){
@@ -34,6 +38,7 @@ public class SensorDataDisplayPresenterImpl implements SensorDataDisplayPresente
     @Override
     public void enterFragment(String serial) {
         view.startProgress();
+        this.serial = serial;
         sensorDataAPI.getValue(serial)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -58,6 +63,39 @@ public class SensorDataDisplayPresenterImpl implements SensorDataDisplayPresente
             view.showCameraFrame();
         }
         view.changeBtnChageCameraView(stateCamera);
+    }
+
+    @Override
+    public void btnGraphTempClick() {
+        goGraph(ValueTpye.TEMPERATURE);
+    }
+
+    @Override
+    public void btnGraphHumidityClick() {
+        goGraph(ValueTpye.HUMIDITY);
+    }
+
+    @Override
+    public void btnGraphLightClick() {
+        goGraph(ValueTpye.LIGHT);
+    }
+
+    @Override
+    public void btnGraphCo2Click() {
+        goGraph(ValueTpye.CO2);
+    }
+
+    @Override
+    public void btnGraphEcClick() {
+        goGraph(ValueTpye.EC);
+    }
+
+    @Override
+    public void btnGraphPhClick() {
+        goGraph(ValueTpye.PH);
+    }
+    private void goGraph(int index){
+        PageChangeUtil.newInstance().getPageChange().pageChange(new GraphFragment().newInstance(serial,index));
     }
 
     private HashMap<String,Boolean> getStates(Value result){

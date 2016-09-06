@@ -62,7 +62,8 @@
                         android:orientation="horizontal"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_weight="1">
+                        android:layout_weight="1"
+                        android:id="@+id/btn_graph_temp">
 
                         <FrameLayout
                             android:layout_width="match_parent"
@@ -113,7 +114,8 @@
                         android:orientation="horizontal"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_weight="1">
+                        android:layout_weight="1"
+                        android:id="@+id/btn_graph_humidity">
 
                         <FrameLayout
                             android:layout_width="match_parent"
@@ -165,7 +167,8 @@
                         android:orientation="horizontal"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_weight="1">
+                        android:layout_weight="1"
+                        android:id="@+id/btn_graph_light">
 
                         <FrameLayout
                             android:layout_width="match_parent"
@@ -216,7 +219,8 @@
                         android:orientation="horizontal"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_weight="1">
+                        android:layout_weight="1"
+                        android:id="@+id/btn_graph_co2">
 
                         <FrameLayout
                             android:layout_width="match_parent"
@@ -267,7 +271,8 @@
                         android:orientation="horizontal"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_weight="1">
+                        android:layout_weight="1"
+                        android:id="@+id/btn_graph_ec">
 
                         <FrameLayout
                             android:layout_width="match_parent"
@@ -320,7 +325,8 @@
                         android:orientation="horizontal"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_weight="1">
+                        android:layout_weight="1"
+                        android:id="@+id/btn_graph_ph">
 
                         <FrameLayout
                             android:layout_width="match_parent"

@@ -60,7 +60,7 @@ public class GraphFragment extends Fragment implements GraphPresenter.View,
     private int mainValueType = ValueTpye.TEMPERATURE;
     // TODO: Rename and change types of parameters
     private String serial;
-    private String mParam2;
+    private int initValueType;
     //Bind
     View root;
     private Unbinder unbinder;
@@ -138,11 +138,11 @@ public class GraphFragment extends Fragment implements GraphPresenter.View,
      * @return A new instance of fragment GraphFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static GraphFragment newInstance(String param1, String param2) {
+    public static GraphFragment newInstance(String param1, int param2) {
         GraphFragment fragment = new GraphFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
+        args.putInt(ARG_PARAM2, param2);
         fragment.setArguments(args);
         return fragment;
     }
@@ -152,7 +152,7 @@ public class GraphFragment extends Fragment implements GraphPresenter.View,
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             serial = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+            initValueType = getArguments().getInt(ARG_PARAM2);
         }
     }
 
@@ -186,8 +186,8 @@ public class GraphFragment extends Fragment implements GraphPresenter.View,
         tabCo2.setOnClickListener(this);
         tabPh.setOnClickListener(this);
         tabEc.setOnClickListener(this);
-
-        presenter.enterFragment(serial);
+        mainValueType = initValueType;
+        presenter.enterFragment(serial,initValueType);
         return root;
     }
 
@@ -405,14 +405,12 @@ public class GraphFragment extends Fragment implements GraphPresenter.View,
                     fmax = standard[i-k];
             }
             i++;
-            Log.i("i",String.valueOf(i));
         }
         int max = (int)fmax;
         max +=10;
         max = max/10*10;
         term = max/4;
         CurveGraph standardGraph = new CurveGraph("standard",new Color().rgb(128,128,128),standard);
-
         if(length>2)
             setCurveGraph(mChart, legend,data,tag, color,max,term,standardGraph);
         else
