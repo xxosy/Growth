@@ -453,7 +453,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/progress_layout"
-        android:visibility="gone">
+        android:visibility="gone"
+        android:clickable="true">
 
         <com.github.rahatarmanahmed.cpv.CircularProgressView
             android:id="@+id/progress_view"

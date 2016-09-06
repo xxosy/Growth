@@ -7,6 +7,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.InflateException;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -40,6 +41,8 @@ import com.growth.utils.ProgressControl;
 import com.growth.utils.ProgressControlImlp;
 import com.growth.utils.ToastControl;
 import com.growth.utils.ToastControlImlp;
+
+import java.util.Date;
 
 import javax.inject.Inject;
 
@@ -303,13 +306,18 @@ public class SensorMapFragment extends Fragment implements OnMapReadyCallback,
     }
 
     @Override
-    public void addMarker(SensorItem sensorItem) {
+    public void addMarker(SensorItem sensorItem,boolean isUpdating) {
         double lat = Double.parseDouble(sensorItem.getLat());
         double lng = Double.parseDouble(sensorItem.getLng());
         LatLng latLng = new LatLng(lat, lng);
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng,12));
         //BitmapDescriptorFactory.fromResource(R.drawable.ic_sprout)
-        mMap.addMarker(new MarkerOptions().icon(BitmapDescriptorFactory.fromBitmap(resizeMapIcons("ic_sprout",110,80)))
+        Bitmap icon;
+        if(isUpdating)
+            icon = resizeMapIcons("ic_sprout",110,80);
+        else
+            icon = resizeMapIcons("ic_sprout_wilt",110,80);
+        mMap.addMarker(new MarkerOptions().icon(BitmapDescriptorFactory.fromBitmap(icon))
                 .position(latLng)
                 .title(sensorItem.getTitle()));
     }

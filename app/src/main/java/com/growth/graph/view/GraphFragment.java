@@ -450,23 +450,35 @@ public class GraphFragment extends Fragment implements GraphPresenter.View,
     @Override
     public void onClick(View v) {
         if(v.getId()==R.id.tab_temp) {
-            mainValueType = ValueTpye.TEMPERATURE;
-            presenter.tabClick(mainValueType);
+            if(mainValueType != ValueTpye.TEMPERATURE) {
+                mainValueType = ValueTpye.TEMPERATURE;
+                presenter.tabClick(mainValueType);
+            }
         }else if(v.getId()==R.id.tab_humidity) {
-            mainValueType = ValueTpye.HUMIDITY;
-            presenter.tabClick(mainValueType);
+            if(mainValueType != ValueTpye.HUMIDITY) {
+                mainValueType = ValueTpye.HUMIDITY;
+                presenter.tabClick(mainValueType);
+            }
         }else if(v.getId()==R.id.tab_light) {
-            mainValueType = ValueTpye.LIGHT;
-            presenter.tabClick(mainValueType);
+            if(mainValueType != ValueTpye.LIGHT) {
+                mainValueType = ValueTpye.LIGHT;
+                presenter.tabClick(mainValueType);
+            }
         }else if(v.getId()==R.id.tab_co2) {
-            mainValueType = ValueTpye.CO2;
-            presenter.tabClick(mainValueType);
+            if(mainValueType != ValueTpye.CO2) {
+                mainValueType = ValueTpye.CO2;
+                presenter.tabClick(mainValueType);
+            }
         }else if(v.getId()==R.id.tab_ec) {
-            mainValueType = ValueTpye.EC;
-            presenter.tabClick(mainValueType);
+            if(mainValueType != ValueTpye.EC) {
+                mainValueType = ValueTpye.EC;
+                presenter.tabClick(mainValueType);
+            }
         }else if(v.getId()==R.id.tab_ph) {
-            mainValueType = ValueTpye.PH;
-            presenter.tabClick(mainValueType);
+            if(mainValueType != ValueTpye.PH) {
+                mainValueType = ValueTpye.PH;
+                presenter.tabClick(mainValueType);
+            }
         }else if(v.getId()==R.id.btn_date_pre){
             presenter.datePreButtonClick(mainValueType);
         }else if(v.getId()==R.id.btn_date_next){

@@ -1,5 +1,7 @@
 package com.growth.map.presenter;
 
+import android.util.Log;
+
 import com.growth.graph.view.ValueTpye;
 import com.growth.utils.GpsInfo;
 import com.growth.SensorDataDisplay.view.SensorDataDisplayFragment;
@@ -10,6 +12,9 @@ import com.growth.exception.MyNetworkExcetionHandling;
 import com.growth.graph.view.GraphFragment;
 import com.growth.home.PageChangeUtil;
 import com.growth.network.SensorDataAPI;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import javax.inject.Inject;
 
@@ -27,6 +32,7 @@ public class SensorMapPresenterImpl implements SensorMapPresenter{
     private SensorItem currentSsensorItem;
     private boolean isUpdate = false;
     private int zoomIndex = 11;
+    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
     @Inject
     public SensorMapPresenterImpl(SensorMapPresenter.View view, SensorDataAPI sensorDataAPI){
         this.view = view;
@@ -119,7 +125,16 @@ public class SensorMapPresenterImpl implements SensorMapPresenter{
                 .subscribe(result ->{
                     sensorItems = result;
                     for(SensorItem sensorItem:sensorItems){
-                        view.addMarker(sensorItem);
+                        sensorDataAPI.getValue(sensorItem.getSerial())
+                                .subscribeOn(Schedulers.io())
+                                .observeOn(AndroidSchedulers.mainThread())
+                                .subscribe(result1 ->{
+                                    Date d = new Date();
+                                    if(result1.getUpdate_date().equals(sdf.format(d.getTime()))){
+                                        view.addMarker(sensorItem, true);
+                                    }else
+                                        view.addMarker(sensorItem, false);
+                                });
                     }
                     view.stopProgress();
                 },error->{

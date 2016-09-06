@@ -30,7 +30,7 @@ public interface SensorMapPresenter {
         void clearAddWindow();
         void refreshMarker();
         void refreshInfoWindow();
-        void addMarker(SensorItem sensorItem);
+        void addMarker(SensorItem sensorItem,boolean isUpdating);
         void showInfoWindow(String title, String serial, String humidity);
         void hideInfoWindow();
         void showAddSensorWindow();
