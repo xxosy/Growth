@@ -136,7 +136,8 @@ public class SensorDataDisplayFragment extends Fragment implements SensorDataDis
     TextView tvExternalTemp;
     @BindView(R.id.tv_external_humidity)
     TextView tvExternalHumidity;
-
+    @BindView(R.id.iv_whether)
+    ImageView ivWhether;
 
 
     private OnFragmentInteractionListener mListener;
@@ -310,10 +311,11 @@ public class SensorDataDisplayFragment extends Fragment implements SensorDataDis
     }
 
     @Override
-    public void refreshWhether(String whether, String externTemp, String externHumidity) {
+    public void refreshWhether(String whether, String externTemp, String externHumidity,Bitmap icon) {
         tvWhether.setText(whether);
         tvExternalTemp.setText(externTemp+"°C");
         tvExternalHumidity.setText(externHumidity+"%");
+        ivWhether.setImageBitmap(icon);
     }
 
     @Override

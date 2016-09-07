@@ -12,144 +12,162 @@
         android:layout_width="match_parent"
         android:layout_height="32dp">
 
-        <LinearLayout
-            android:orientation="horizontal"
+
+        <HorizontalScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/colorPrimaryDark">
+            android:scrollbars="none" >
 
-            <FrameLayout
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:id="@+id/tab_temp"
-                android:clickable="true">
+                android:background="@color/colorPrimaryDark">
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:id="@+id/tab_temp"
+                    android:clickable="true"
+                    android:layout_marginLeft="9dp"
+                    android:layout_marginRight="9dp">
+                        <TextView
+                            android:text="Temperature"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/textView15"
+                            android:layout_gravity="center"
+                            android:textColor="@color/colorBase" />
 
-                <TextView
-                    android:text="Temperature"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/textView15"
-                    android:layout_gravity="center"
-                    android:textColor="@color/colorBase" />
+                        <View
+                            android:layout_width="36dp"
+                            android:layout_height="3dp"
+                            android:layout_gravity="bottom|center_horizontal"
+                            android:id="@+id/tab_marker_temp" />
+                    </FrameLayout>
 
-                <View
-                    android:layout_width="36dp"
-                    android:layout_height="3dp"
-                    android:layout_gravity="bottom|center_horizontal"
-                    android:id="@+id/tab_marker_temp" />
-            </FrameLayout>
+                    <FrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:id="@+id/tab_humidity"
+                        android:clickable="true"
+                        android:layout_marginLeft="9dp"
+                        android:layout_marginRight="9dp">
 
-            <FrameLayout
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:id="@+id/tab_humidity"
-                android:clickable="true">
+                        <View
+                            android:layout_width="36dp"
+                            android:layout_height="3dp"
+                            android:layout_gravity="bottom|center_horizontal"
+                            android:id="@+id/tab_marker_humidity" />
 
-                <View
-                    android:layout_width="36dp"
-                    android:layout_height="3dp"
-                    android:layout_gravity="bottom|center_horizontal"
-                    android:id="@+id/tab_marker_humidity" />
+                        <TextView
+                            android:text="Humidity"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/textView17"
+                            android:layout_gravity="center"
+                            android:textColor="@color/colorBase" />
+                    </FrameLayout>
 
-                <TextView
-                    android:text="Humidity"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/textView17"
-                    android:layout_gravity="center"
-                    android:textColor="@color/colorBase" />
-            </FrameLayout>
+                    <FrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:id="@+id/tab_light"
+                        android:clickable="true"
+                        android:layout_marginLeft="9dp"
+                        android:layout_marginRight="9dp">
 
-            <FrameLayout
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:id="@+id/tab_light"
-                android:clickable="true">
+                        <View
+                            android:layout_width="36dp"
+                            android:layout_height="3dp"
+                            android:layout_gravity="bottom|center_horizontal"
+                            android:id="@+id/tab_marker_light" />
 
-                <View
-                    android:layout_width="36dp"
-                    android:layout_height="3dp"
-                    android:layout_gravity="bottom|center_horizontal"
-                    android:id="@+id/tab_marker_light" />
+                        <TextView
+                            android:text="Light"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/textView18"
+                            android:layout_gravity="center"
+                            android:textColor="@color/colorBase" />
+                    </FrameLayout>
 
-                <TextView
-                    android:text="Light"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/textView18"
-                    android:layout_gravity="center"
-                    android:textColor="@color/colorBase" />
-            </FrameLayout>
+                    <FrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:id="@+id/tab_co2"
+                        android:clickable="true"
+                        android:layout_marginLeft="9dp"
+                        android:layout_marginRight="9dp">
 
-            <FrameLayout
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:id="@+id/tab_co2"
-                android:clickable="true">
+                        <View
+                            android:layout_width="36dp"
+                            android:layout_height="3dp"
+                            android:layout_gravity="bottom|center_horizontal"
+                            android:id="@+id/tab_marker_co2" />
 
-                <View
-                    android:layout_width="36dp"
-                    android:layout_height="3dp"
-                    android:layout_gravity="bottom|center_horizontal"
-                    android:id="@+id/tab_marker_co2" />
+                        <TextView
+                            android:text="Co2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/textView19"
+                            android:layout_gravity="center"
+                            android:textColor="@color/colorBase" />
+                    </FrameLayout>
 
-                <TextView
-                    android:text="Co2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/textView19"
-                    android:layout_gravity="center"
-                    android:textColor="@color/colorBase" />
-            </FrameLayout>
+                    <FrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:id="@+id/tab_ec"
+                        android:clickable="true"
+                        android:layout_marginLeft="9dp"
+                        android:layout_marginRight="9dp">
 
-            <FrameLayout
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:id="@+id/tab_ec"
-                android:clickable="true">
+                        <View
+                            android:layout_width="36dp"
+                            android:layout_height="3dp"
+                            android:layout_gravity="bottom|center_horizontal"
+                            android:id="@+id/tab_marker_ec" />
 
-                <View
-                    android:layout_width="36dp"
-                    android:layout_height="3dp"
-                    android:layout_gravity="bottom|center_horizontal"
-                    android:id="@+id/tab_marker_ec" />
+                        <TextView
+                            android:text="EC"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/textView22"
+                            android:layout_gravity="center"
+                            android:textColor="@color/colorBase" />
+                    </FrameLayout>
 
-                <TextView
-                    android:text="EC"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/textView22"
-                    android:layout_gravity="center"
-                    android:textColor="@color/colorBase" />
-            </FrameLayout>
+                    <FrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:id="@+id/tab_ph"
+                        android:clickable="true"
+                        android:layout_marginLeft="9dp"
+                        android:layout_marginRight="9dp">
 
-            <FrameLayout
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:id="@+id/tab_ph"
-                android:clickable="true">
+                        <View
+                            android:layout_width="36dp"
+                            android:layout_height="3dp"
+                            android:layout_gravity="bottom|center_horizontal"
+                            android:id="@+id/tab_marker_ph" />
 
-                <View
-                    android:layout_width="36dp"
-                    android:layout_height="3dp"
-                    android:layout_gravity="bottom|center_horizontal"
-                    android:id="@+id/tab_marker_ph" />
+                        <TextView
+                            android:text="PH"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/textView23"
+                            android:layout_gravity="center"
+                            android:textColor="@color/colorBase" />
+                    </FrameLayout>
+            </LinearLayout>
+        </HorizontalScrollView>
 
-                <TextView
-                    android:text="PH"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/textView23"
-                    android:layout_gravity="center"
-                    android:textColor="@color/colorBase" />
-            </FrameLayout>
-        </LinearLayout>
     </FrameLayout>
 
     <LinearLayout

@@ -1,5 +1,7 @@
 package com.growth.SensorDataDisplay.presenter;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.util.Log;
 
@@ -152,6 +154,7 @@ public class SensorDataDisplayPresenterImpl implements SensorDataDisplayPresente
         String humid;
         double temp1;
         String weather;
+        Bitmap mIcon = null;
         @Override
         public Void doInBackground(String... params) {
             try {
@@ -183,7 +186,17 @@ public class SensorDataDisplayPresenterImpl implements SensorDataDisplayPresente
                 weather = wea.getJSONObject(0).getString("main");
                 temp1 = Double.valueOf(temp) - 272.15;
                 temp1 = Double.parseDouble(String.format("%.1f", temp1));
+                String icon = wea.getJSONObject(0).getString("icon");
+                String urldisplay = "http://openweathermap.org/img/w/"+icon+".png";
 
+                try {
+                    InputStream in = new java.net.URL(urldisplay).openStream();
+                    mIcon = BitmapFactory.decodeStream(in);
+                } catch (Exception e) {
+                    Log.e("Error", e.getMessage());
+                    e.printStackTrace();
+                }
+                mIcon = Bitmap.createScaledBitmap(mIcon,mIcon.getWidth()*80,mIcon.getHeight()*80,true);
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -194,7 +207,7 @@ public class SensorDataDisplayPresenterImpl implements SensorDataDisplayPresente
         @Override
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
-            view.refreshWhether(weather, String.valueOf(temp1), humid);
+            view.refreshWhether(weather, String.valueOf(temp1), humid,mIcon);
         }
     }
 }

@@ -46,7 +46,8 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:id="@+id/textView24"
-                                android:textColor="@color/colorBase" />
+                                android:textColor="@color/colorBase"
+                                android:textSize="12sp" />
                         </FrameLayout>
 
                         <FrameLayout
@@ -60,7 +61,8 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:id="@+id/textView28"
-                                android:textColor="@color/colorBase" />
+                                android:textColor="@color/colorBase"
+                                android:textSize="12sp" />
                         </FrameLayout>
 
                         <FrameLayout
@@ -74,7 +76,8 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:id="@+id/textView29"
-                                android:textColor="@color/colorBase" />
+                                android:textColor="@color/colorBase"
+                                android:textSize="12sp" />
                         </FrameLayout>
 
                     </LinearLayout>
@@ -89,13 +92,43 @@
                             android:layout_height="match_parent"
                             android:layout_weight="1">
 
-                            <TextView
-                                android:text="whether"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:id="@+id/tv_whether"
-                                android:layout_gravity="center"
-                                android:textColor="@color/colorBase" />
+                            <LinearLayout
+                                android:orientation="horizontal"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent">
+
+                                <FrameLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:layout_weight="2">
+
+                                    <ImageView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        app:srcCompat="@drawable/common_ic_googleplayservices"
+                                        android:id="@+id/iv_whether"
+                                        android:layout_weight="1"
+                                        android:layout_gravity="center" />
+                                </FrameLayout>
+
+                                <FrameLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:layout_weight="1">
+
+                                    <TextView
+                                        android:text="whether"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:id="@+id/tv_whether"
+                                        android:layout_gravity="center_vertical"
+                                        android:textColor="@color/colorBase"
+                                        android:textSize="16sp"
+                                        android:layout_weight="1" />
+                                </FrameLayout>
+
+                            </LinearLayout>
+
                         </FrameLayout>
 
                         <FrameLayout
@@ -110,7 +143,8 @@
                                 android:id="@+id/tv_external_temp"
                                 android:textColor="@color/colorBase"
                                 android:layout_gravity="center_vertical"
-                                android:layout_marginLeft="36dp" />
+                                android:layout_marginLeft="36dp"
+                                android:textSize="16sp" />
                         </FrameLayout>
 
                         <FrameLayout
@@ -125,7 +159,8 @@
                                 android:id="@+id/tv_external_humidity"
                                 android:textColor="@color/colorBase"
                                 android:layout_gravity="center_vertical"
-                                android:layout_marginLeft="36dp" />
+                                android:layout_marginLeft="36dp"
+                                android:textSize="16sp" />
                         </FrameLayout>
                     </LinearLayout>
 
