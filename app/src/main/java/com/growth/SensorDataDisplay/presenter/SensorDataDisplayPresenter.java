@@ -31,5 +31,6 @@ public interface SensorDataDisplayPresenter {
         void changeBtnChageCameraView(boolean state);
         void startProgress();
         void stopProgress();
+        void refreshWhether(String whether,String externTemp,String externHumidity);
     }
 }

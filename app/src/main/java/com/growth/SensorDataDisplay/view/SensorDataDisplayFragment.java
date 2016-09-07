@@ -129,6 +129,13 @@ public class SensorDataDisplayFragment extends Fragment implements SensorDataDis
     LinearLayout btnGraphEc;
     @BindView(R.id.btn_graph_ph)
     LinearLayout btnGraphPh;
+    ////external whether
+    @BindView(R.id.tv_whether)
+    TextView tvWhether;
+    @BindView(R.id.tv_external_temp)
+    TextView tvExternalTemp;
+    @BindView(R.id.tv_external_humidity)
+    TextView tvExternalHumidity;
 
 
 
@@ -300,6 +307,13 @@ public class SensorDataDisplayFragment extends Fragment implements SensorDataDis
     }
     public void stopProgress(){
         mProgressControl.stopProgress();
+    }
+
+    @Override
+    public void refreshWhether(String whether, String externTemp, String externHumidity) {
+        tvWhether.setText(whether);
+        tvExternalTemp.setText(externTemp+"°C");
+        tvExternalHumidity.setText(externHumidity+"%");
     }
 
     @Override

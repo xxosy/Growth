@@ -1,5 +1,6 @@
 package com.growth.SensorDataDisplay.presenter;
 
+import android.os.AsyncTask;
 import android.util.Log;
 
 import com.growth.SensorValueGuide;
@@ -10,6 +11,14 @@ import com.growth.graph.view.ValueTpye;
 import com.growth.home.PageChangeUtil;
 import com.growth.network.SensorDataAPI;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.HashMap;
 
 import javax.inject.Inject;
@@ -50,6 +59,7 @@ public class SensorDataDisplayPresenterImpl implements SensorDataDisplayPresente
                 },error->{
                     MyNetworkExcetionHandling.excute(error,view,view);
                 });
+        new HttpUtil().execute();
     }
 
     @Override
@@ -137,5 +147,54 @@ public class SensorDataDisplayPresenterImpl implements SensorDataDisplayPresente
             states.put("ec",true);
         }
         return states;
+    }
+    public class HttpUtil extends AsyncTask<String, Void, Void> {
+        String humid;
+        double temp1;
+        String weather;
+        @Override
+        public Void doInBackground(String... params) {
+            try {
+                String url = "http://api.openweathermap.org/data/2.5/weather?lat=35.82&lon=127.15&APPID=c3a6ae5ba98a12123a17b8f506e26fe6";
+                URL obj = new URL(url);
+                HttpURLConnection conn = (HttpURLConnection) obj.openConnection();
+
+                conn.setReadTimeout(10000);
+                conn.setConnectTimeout(15000);
+                conn.setRequestMethod("GET");
+                conn.setDoInput(true);
+                conn.setDoOutput(true);
+                conn.setRequestProperty("Content-Type", "application/json");
+                Log.i("result", "ddasda");
+                int retCode = conn.getResponseCode();
+
+                InputStream is = conn.getInputStream();
+                BufferedReader br = new BufferedReader(new InputStreamReader(is));
+                StringBuffer response = new StringBuffer();
+                response.append(br.readLine());
+
+                br.close();
+                String res = response.toString();
+                JSONObject json = new JSONObject(res);
+                JSONObject main = json.getJSONObject("main");
+                String temp = main.getString("temp");
+                humid = main.getString("humidity");
+                JSONArray wea = json.getJSONArray("weather");
+                weather = wea.getJSONObject(0).getString("main");
+                temp1 = Double.valueOf(temp) - 272.15;
+                temp1 = Double.parseDouble(String.format("%.1f", temp1));
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+            view.refreshWhether(weather, String.valueOf(temp1), humid);
+        }
     }
 }

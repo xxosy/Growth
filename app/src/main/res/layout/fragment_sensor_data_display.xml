@@ -12,33 +12,156 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <FrameLayout
+        <LinearLayout
+            android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="@color/colorPrimary">
+            android:layout_weight="1">
 
             <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:id="@+id/img_state_view">
+                android:layout_weight="4"
+                android:background="@drawable/colorPrimary">
+
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="8dp">
+
+                    <LinearLayout
+                        android:orientation="horizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <FrameLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="24dp"
+                            android:layout_weight="1">
+
+                            <TextView
+                                android:text="Whether"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:id="@+id/textView24"
+                                android:textColor="@color/colorBase" />
+                        </FrameLayout>
+
+                        <FrameLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:layout_marginLeft="24dp">
+
+                            <TextView
+                                android:text="Temperature"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:id="@+id/textView28"
+                                android:textColor="@color/colorBase" />
+                        </FrameLayout>
+
+                        <FrameLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:layout_marginLeft="24dp">
+
+                            <TextView
+                                android:text="Humidity"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:id="@+id/textView29"
+                                android:textColor="@color/colorBase" />
+                        </FrameLayout>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:orientation="horizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <FrameLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1">
+
+                            <TextView
+                                android:text="whether"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:id="@+id/tv_whether"
+                                android:layout_gravity="center"
+                                android:textColor="@color/colorBase" />
+                        </FrameLayout>
+
+                        <FrameLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1">
+
+                            <TextView
+                                android:text="00"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:id="@+id/tv_external_temp"
+                                android:textColor="@color/colorBase"
+                                android:layout_gravity="center_vertical"
+                                android:layout_marginLeft="36dp" />
+                        </FrameLayout>
+
+                        <FrameLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1">
+
+                            <TextView
+                                android:text="00"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:id="@+id/tv_external_humidity"
+                                android:textColor="@color/colorBase"
+                                android:layout_gravity="center_vertical"
+                                android:layout_marginLeft="36dp" />
+                        </FrameLayout>
+                    </LinearLayout>
+
+                </LinearLayout>
 
             </FrameLayout>
 
             <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:visibility="gone"
-                android:id="@+id/frame_camera">
+                android:layout_weight="1"
+                android:background="@color/colorPrimary">
 
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:srcCompat="@drawable/ic_drawable_menu"
-                    android:id="@+id/img_camera" />
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:id="@+id/img_state_view">
+
+                </FrameLayout>
+
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:visibility="visible"
+                    android:id="@+id/frame_camera">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:srcCompat="@drawable/ic_drawable_menu"
+                        android:id="@+id/img_camera" />
+                </FrameLayout>
+
             </FrameLayout>
 
-        </FrameLayout>
+        </LinearLayout>
 
         <FrameLayout
             android:layout_width="match_parent"
@@ -580,7 +703,7 @@
         app:srcCompat="@drawable/ic_camera_from_view"
         android:id="@+id/btn_change_camera_view"
         android:layout_gravity="right|center_vertical"
-        android:layout_marginBottom="24dp" />
+        android:layout_marginBottom="76dp" />
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
