@@ -56,14 +56,29 @@ public class SensorDataDisplayPresenterImpl implements SensorDataDisplayPresente
                 .subscribe(result -> {
                     states = getStates(result);
                     view.refreshState(states);
+                    view.refreshStateView(result);
                     view.refreshData(result);
-                    view.stopProgress();
                 },error->{
                     MyNetworkExcetionHandling.excute(error,view,view);
                 });
         new HttpUtil().execute();
     }
-
+    @Override
+    public void swipePage(String serial){
+        this.serial = serial;
+        sensorDataAPI.getValue(serial)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(result -> {
+                    states = getStates(result);
+                    view.refreshState(states);
+                    view.refreshStateView(result);
+                    view.refreshData(result);
+                },error->{
+                    MyNetworkExcetionHandling.excute(error,view,view);
+                });
+        new HttpUtil().execute();
+    }
     @Override
     public void btnChangeCameraViewClick() {
 //        view.refreshCameraImage();
@@ -196,7 +211,7 @@ public class SensorDataDisplayPresenterImpl implements SensorDataDisplayPresente
                     Log.e("Error", e.getMessage());
                     e.printStackTrace();
                 }
-                mIcon = Bitmap.createScaledBitmap(mIcon,mIcon.getWidth()*80,mIcon.getHeight()*80,true);
+                mIcon = Bitmap.createScaledBitmap(mIcon,mIcon.getWidth()*3,mIcon.getHeight()*3,true);
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -208,6 +223,8 @@ public class SensorDataDisplayPresenterImpl implements SensorDataDisplayPresente
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
             view.refreshWhether(weather, String.valueOf(temp1), humid,mIcon);
+            view.refreshSwipe();
+            view.stopProgress();
         }
     }
 }

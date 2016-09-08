@@ -26,6 +26,8 @@ public interface GraphDataAPI {
     Observable<GraphList> getLightList(@Path("serial") String serial,@Path("date")String date);
     @GET("/co2/list/{serial}/{date}")
     Observable<GraphList> getCo2List(@Path("serial") String serial,@Path("date")String date);
+    @GET("/soil_moisture/list/{serial}/{date}")
+    Observable<GraphList> getSoilMoistureList(@Path("serial") String serial,@Path("date")String date);
     interface Service{
         Observable<GraphList> getTemperatureList(String serial,@Path("date")String date);
         Observable<GraphList> getHumidityList(String serial,@Path("date")String date);
@@ -34,5 +36,6 @@ public interface GraphDataAPI {
         Observable<GraphList> getPhList(String serial,@Path("date")String date);
         Observable<GraphList> getLightList(String serial,@Path("date")String date);
         Observable<GraphList> getCo2List(String serial,@Path("date")String date);
+        Observable<GraphList> getSoilMoistureList(String serial,String date);
     }
 }

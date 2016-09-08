@@ -46,7 +46,14 @@
                             android:id="@+id/tab_marker_temp" />
                     </FrameLayout>
 
-                    <FrameLayout
+                <View
+                    android:layout_width="1dp"
+                    android:layout_height="16dp"
+                    android:background="@color/colorBase"
+                    android:layout_weight="1"
+                    android:layout_gravity="center_vertical"></View>
+
+                <FrameLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
@@ -70,7 +77,15 @@
                             android:textColor="@color/colorBase" />
                     </FrameLayout>
 
-                    <FrameLayout
+                <View
+                    android:layout_width="1dp"
+                    android:layout_height="16dp"
+                    android:background="@color/colorBase"
+                    android:layout_weight="1"
+                    android:layout_gravity="center_vertical"
+                    android:id="@+id/view3"></View>
+
+                <FrameLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
@@ -94,7 +109,15 @@
                             android:textColor="@color/colorBase" />
                     </FrameLayout>
 
-                    <FrameLayout
+                <View
+                    android:layout_width="1dp"
+                    android:layout_height="16dp"
+                    android:background="@color/colorBase"
+                    android:layout_weight="1"
+                    android:layout_gravity="center_vertical"
+                    android:id="@+id/view5"></View>
+
+                <FrameLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
@@ -118,7 +141,15 @@
                             android:textColor="@color/colorBase" />
                     </FrameLayout>
 
-                    <FrameLayout
+                <View
+                    android:layout_width="1dp"
+                    android:layout_height="16dp"
+                    android:background="@color/colorBase"
+                    android:layout_weight="1"
+                    android:layout_gravity="center_vertical"
+                    android:id="@+id/view6"></View>
+
+                <FrameLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
@@ -142,7 +173,15 @@
                             android:textColor="@color/colorBase" />
                     </FrameLayout>
 
-                    <FrameLayout
+                <View
+                    android:layout_width="1dp"
+                    android:layout_height="16dp"
+                    android:background="@color/colorBase"
+                    android:layout_weight="1"
+                    android:layout_gravity="center_vertical"
+                    android:id="@+id/view7"></View>
+
+                <FrameLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
@@ -165,6 +204,49 @@
                             android:layout_gravity="center"
                             android:textColor="@color/colorBase" />
                     </FrameLayout>
+
+                <View
+                    android:layout_width="1dp"
+                    android:layout_height="16dp"
+                    android:background="@color/colorBase"
+                    android:layout_weight="1"
+                    android:layout_gravity="center_vertical"
+                    android:id="@+id/view8"></View>
+
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:id="@+id/tab_soil_moisture"
+                    android:layout_marginLeft="9dp"
+                    android:layout_marginRight="9dp"
+                    android:clickable="true">
+
+                    <View
+                        android:layout_width="36dp"
+                        android:layout_height="3dp"
+                        android:layout_weight="1"
+                        android:id="@+id/tab_marker_soil_moisture"
+                        android:layout_gravity="bottom|center_horizontal"></View>
+
+                    <TextView
+                        android:text="Soil Moisture"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/textView25"
+                        android:textColor="@color/colorBase"
+                        android:layout_gravity="center" />
+
+                </FrameLayout>
+
+                <View
+                    android:layout_width="1dp"
+                    android:layout_height="16dp"
+                    android:background="@color/colorBase"
+                    android:layout_weight="1"
+                    android:layout_gravity="center_vertical"
+                    android:id="@+id/view10"></View>
+
             </LinearLayout>
         </HorizontalScrollView>
 
@@ -450,13 +532,6 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1">
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@color/colorPrimary"
-                android:layout_marginLeft="16dp"
-                android:layout_marginRight="16dp"></View>
 
             <RelativeLayout
                 android:layout_width="match_parent"

@@ -22,15 +22,18 @@ public interface SensorDataDisplayPresenter {
     void btnGraphCo2Click();
     void btnGraphEcClick();
     void btnGraphPhClick();
+    void swipePage(String serial);
     interface View extends ProgressControl,ToastControl {
         void refreshData(Value value);
         void refreshState(HashMap<String,Boolean> states);
         void refreshCameraImage(Bitmap image);
+        void refreshStateView(Value value);
         void showCameraFrame();
         void hideCameraFrame();
         void changeBtnChageCameraView(boolean state);
         void startProgress();
         void stopProgress();
         void refreshWhether(String whether,String externTemp,String externHumidity,Bitmap icon);
+        void refreshSwipe();
     }
 }

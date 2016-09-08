@@ -6,6 +6,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.InflateException;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,6 +22,8 @@ import com.growth.R;
 import com.growth.SensorDataDisplay.dagger.DaggerSensorDataDisplayComponent;
 import com.growth.SensorDataDisplay.dagger.SensorDataDisplayModule;
 import com.growth.SensorDataDisplay.presenter.SensorDataDisplayPresenter;
+import com.growth.SensorValueGuide;
+import com.growth.domain.StandardGrowthData;
 import com.growth.domain.Value;
 import com.growth.home.OnKeyBackPressedListener;
 import com.growth.home.view.HomeActivity;
@@ -107,8 +110,10 @@ public class SensorDataDisplayFragment extends Fragment implements SensorDataDis
     FrameLayout frameCamera;
     @BindView(R.id.img_camera)
     ImageView imgCamera;
+    @BindView(R.id.frame_state_view)
+    FrameLayout frameStateView;
     @BindView(R.id.img_state_view)
-    FrameLayout imgStateView;
+    ImageView imgStateView;
     @BindView(R.id.btn_change_camera_view)
     FloatingActionButton btnChangeCameraView;
     ////progressbar
@@ -138,7 +143,8 @@ public class SensorDataDisplayFragment extends Fragment implements SensorDataDis
     TextView tvExternalHumidity;
     @BindView(R.id.iv_whether)
     ImageView ivWhether;
-
+    @BindView(R.id.swiperefresh)
+    SwipeRefreshLayout mSwipeRefresh;
 
     private OnFragmentInteractionListener mListener;
 
@@ -204,6 +210,10 @@ public class SensorDataDisplayFragment extends Fragment implements SensorDataDis
         btnGraphLight.setOnClickListener(v -> presenter.btnGraphLightClick());
         btnGraphEc.setOnClickListener(v -> presenter.btnGraphEcClick());
         btnGraphPh.setOnClickListener(v -> presenter.btnGraphPhClick());
+
+        mSwipeRefresh.setColorSchemeResources(R.color.colorPrimary, R.color.colorAccent);
+
+        mSwipeRefresh.setOnRefreshListener(() -> presenter.swipePage(serial));
         return root;
     }
 
@@ -213,7 +223,10 @@ public class SensorDataDisplayFragment extends Fragment implements SensorDataDis
             mListener.onFragmentInteraction(uri);
         }
     }
-
+    @Override
+    public void refreshSwipe(){
+        mSwipeRefresh.setRefreshing(false);
+    }
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -275,6 +288,21 @@ public class SensorDataDisplayFragment extends Fragment implements SensorDataDis
     @Override
     public void refreshCameraImage(Bitmap image) {
         imgCamera.setImageBitmap(image);
+    }
+
+    @Override
+    public void refreshStateView(Value value) {
+        if(Float.valueOf(value.getLight()) < SensorValueGuide.GUIDE_LIGHT_MIN) {
+            if(Float.valueOf(value.getTemperature()) < SensorValueGuide.GUIDE_TEMP_MIN)
+                imgStateView.setImageResource(R.drawable.illust_night_cold);
+            else if(Float.valueOf(value.getTemperature()) > SensorValueGuide.GUIDE_TEMP_MIN)
+                imgStateView.setImageResource(R.drawable.illust_night_hot);
+        }
+        else if(Float.valueOf(value.getLight()) > SensorValueGuide.GUIDE_LIGHT_MIN)
+            if(Float.valueOf(value.getTemperature()) < SensorValueGuide.GUIDE_TEMP_MIN)
+                imgStateView.setImageResource(R.drawable.illust_day_cold);
+            else if(Float.valueOf(value.getTemperature()) > SensorValueGuide.GUIDE_TEMP_MIN)
+                imgStateView.setImageResource(R.drawable.illust_day_hot);
     }
 
     @Override

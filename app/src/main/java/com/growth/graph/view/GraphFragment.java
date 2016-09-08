@@ -97,6 +97,8 @@ public class GraphFragment extends Fragment implements GraphPresenter.View,
     FrameLayout tabEc;
     @BindView(R.id.tab_ph)
     FrameLayout tabPh;
+    @BindView(R.id.tab_soil_moisture)
+    FrameLayout tabSoil_Moisture;
     @BindView(R.id.tab_marker_temp)
     View tabMarkerTemp;
     @BindView(R.id.tab_marker_humidity)
@@ -109,6 +111,8 @@ public class GraphFragment extends Fragment implements GraphPresenter.View,
     View tabMarkerEc;
     @BindView(R.id.tab_marker_ph)
     View tabMarkerPh;
+    @BindView(R.id.tab_marker_soil_moisture)
+    View tabMarkerSoilMoisture;
     ////progressbar
     @BindView(R.id.progress_view)
     CircularProgressView progressView;
@@ -186,6 +190,7 @@ public class GraphFragment extends Fragment implements GraphPresenter.View,
         tabCo2.setOnClickListener(this);
         tabPh.setOnClickListener(this);
         tabEc.setOnClickListener(this);
+        tabSoil_Moisture.setOnClickListener(this);
         mainValueType = initValueType;
         presenter.enterFragment(serial,initValueType);
         return root;
@@ -264,8 +269,13 @@ public class GraphFragment extends Fragment implements GraphPresenter.View,
             if(main.length()>4)
                 main = main.substring(0,4);
         }else if(mainValueType==ValueTpye.EC){
-            main = value.getEc();
+            main = String.valueOf(Float.parseFloat(value.getEc())/15);
+            main = main.substring(0,4);
             main = main.concat("us/cm");
+        }else if(mainValueType==ValueTpye.SOIL_MOISTURE){
+            main = value.getSoil_moisture();
+            main = main.substring(0,4);
+            main = main.concat("mm");
         }
         tvSensorData.setText(main);
     }
@@ -395,9 +405,13 @@ public class GraphFragment extends Fragment implements GraphPresenter.View,
                     color = new Color().rgb(0, 255, 0);
                 } else if (item.getEc() != null) {
                     standard[i-k] = StandardGrowthData.ec[i];
-                    data[i-k] = Float.parseFloat(item.getEc())/80;
+                    data[i-k] = Float.parseFloat(item.getEc())/15;
                     tag = "EC";
                     color = new Color().rgb(255, 140, 20);
+                }else if (item.getSoil_moisture() != null) {
+                    data[i-k] = Float.parseFloat(item.getSoil_moisture());
+                    tag = "Soil Moisture";
+                    color = new Color().rgb(93, 76, 70);
                 }
                 if(fmax<data[i-k])
                     fmax = data[i-k];
@@ -435,6 +449,8 @@ public class GraphFragment extends Fragment implements GraphPresenter.View,
             refreshTabMarker(tabMarkerPh);
         }else if(mainValueType==ValueTpye.EC){
             refreshTabMarker(tabMarkerEc);
+        }else if(mainValueType==ValueTpye.SOIL_MOISTURE){
+            refreshTabMarker(tabMarkerSoilMoisture);
         }
     }
     private void refreshTabMarker(View view){
@@ -444,6 +460,7 @@ public class GraphFragment extends Fragment implements GraphPresenter.View,
         tabMarkerCo2.setBackgroundResource(R.color.colorPrimaryDark);
         tabMarkerPh.setBackgroundResource(R.color.colorPrimaryDark);
         tabMarkerEc.setBackgroundResource(R.color.colorPrimaryDark);
+        tabMarkerSoilMoisture.setBackgroundResource(R.color.colorPrimaryDark);
         view.setBackgroundResource(R.color.colorAccent);
     }
 
@@ -477,6 +494,11 @@ public class GraphFragment extends Fragment implements GraphPresenter.View,
         }else if(v.getId()==R.id.tab_ph) {
             if(mainValueType != ValueTpye.PH) {
                 mainValueType = ValueTpye.PH;
+                presenter.tabClick(mainValueType);
+            }
+        }else if(v.getId()==R.id.tab_soil_moisture) {
+            if(mainValueType != ValueTpye.SOIL_MOISTURE) {
+                mainValueType = ValueTpye.SOIL_MOISTURE;
                 presenter.tabClick(mainValueType);
             }
         }else if(v.getId()==R.id.btn_date_pre){

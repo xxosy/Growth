@@ -16,6 +16,7 @@ public class GraphItem {
     private String light;
     private String temperature2;
     private String value;
+    private String soil_moisture;
     private int sensor_id;
     private  String update_time;
 
@@ -108,6 +109,14 @@ public class GraphItem {
         Log.i("dasda","sadasd");
         this.value = temperature;
         Log.i("dasda",this.value);
+    }
+
+    public String getSoil_moisture() {
+        return soil_moisture;
+    }
+
+    public void setSoil_moisture(String soil_moisture) {
+        this.soil_moisture = soil_moisture;
     }
 
     public String getValue() {

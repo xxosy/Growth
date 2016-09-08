@@ -138,6 +138,16 @@ public class GraphPresenterImpl implements  GraphPresenter {
                     },error->{
                         MyNetworkExcetionHandling.excute(error,view,view);
                     });
+        }else if(index==ValueTpye.SOIL_MOISTURE){
+            sensorDataAPI.getSoilMoistureList(serial,sDate)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(list -> {
+                        view.refreshChart(list);
+                        view.stopProgress();
+                    },error->{
+                        MyNetworkExcetionHandling.excute(error,view,view);
+                    });
         }
     }
     private void requestPageData4Serial(){

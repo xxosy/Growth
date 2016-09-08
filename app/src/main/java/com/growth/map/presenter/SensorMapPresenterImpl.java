@@ -134,11 +134,15 @@ public class SensorMapPresenterImpl implements SensorMapPresenter{
                                         view.addMarker(sensorItem, true);
                                     }else
                                         view.addMarker(sensorItem, false);
+                                },error->{
+                                    MyNetworkExcetionHandling.excute(error,view,view);
+                                    Log.i("error",error.toString());
                                 });
                     }
                     view.stopProgress();
                 },error->{
                     MyNetworkExcetionHandling.excute(error,view,view);
+                    Log.i("error",error.toString());
                 });
     }
 

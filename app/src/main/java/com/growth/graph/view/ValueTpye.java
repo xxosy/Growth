@@ -12,4 +12,5 @@ public class ValueTpye {
     public static int PH = 4;
     public static int EC = 5;
     public static int TEMPERATURE2= 6;
+    public static int SOIL_MOISTURE= 7;
 }

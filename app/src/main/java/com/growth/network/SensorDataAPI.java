@@ -147,6 +147,12 @@ public class SensorDataAPI implements SensorAPI.Service
     }
 
     @Override
+    public Observable<GraphList> getSoilMoistureList(String serial, String date) {
+        return retrofit.create(GraphDataAPI.class)
+                .getSoilMoistureList(serial,date);
+    }
+
+    @Override
     public Observable<Value> getValue(String serial) {
         return retrofit.create(ValueAPI.class)
                 .getValue(serial);

@@ -14,6 +14,7 @@ public class Value {
     String ph;
     String update_time;
     String update_date;
+    String soil_moisture;
     int sensor_id;
 
     public int getId() {
@@ -96,4 +97,11 @@ public class Value {
         this.update_time = update_time;
     }
 
+    public String getSoil_moisture() {
+        return soil_moisture;
+    }
+
+    public void setSoil_moisture(String soil_moisture) {
+        this.soil_moisture = soil_moisture;
+    }
 }

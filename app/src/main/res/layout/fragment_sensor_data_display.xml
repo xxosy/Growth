@@ -6,6 +6,11 @@
     tools:context="com.growth.SensorDataDisplay.view.SensorDataDisplayFragment">
 
     <!-- TODO: Update blank fragment layout -->
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/swiperefresh"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
 
     <LinearLayout
         android:orientation="vertical"
@@ -177,14 +182,19 @@
                 <FrameLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:id="@+id/img_state_view">
+                    android:id="@+id/frame_state_view">
 
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:srcCompat="@drawable/illust_day"
+                        android:id="@+id/img_state_view" />
                 </FrameLayout>
 
                 <FrameLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:visibility="visible"
+                    android:visibility="gone"
                     android:id="@+id/frame_camera">
 
                     <ImageView
@@ -730,6 +740,8 @@
 
     </LinearLayout>
 
+    </android.support.v4.widget.SwipeRefreshLayout>
+
     <android.support.design.widget.FloatingActionButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -738,7 +750,9 @@
         app:srcCompat="@drawable/ic_camera_from_view"
         android:id="@+id/btn_change_camera_view"
         android:layout_gravity="right|center_vertical"
-        android:layout_marginBottom="76dp" />
+        android:layout_marginBottom="24dp"
+        android:layout_marginRight="8dp" />
+
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"

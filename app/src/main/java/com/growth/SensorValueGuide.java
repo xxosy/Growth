@@ -10,7 +10,7 @@ public class SensorValueGuide {
     public static float GUIDE_HUMIDITY_MAX = 50;
     public static float GUIDE_HUMIDITY_MIN = 30;
     public static float GUIDE_LIGHT_MAX = 700;
-    public static float GUIDE_LIGHT_MIN = 600;
+    public static float GUIDE_LIGHT_MIN = 200;
     public static float GUIDE_CO2_MAX = 600;
     public static float GUIDE_CO2_MIN = 400;
     public static float GUIDE_PH_MAX = 8;
