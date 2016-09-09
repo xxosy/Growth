@@ -3,6 +3,7 @@ package com.growth.SensorDataDisplay.presenter;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
+import android.util.Base64;
 import android.util.Log;
 
 import com.growth.SensorValueGuide;
@@ -17,10 +18,13 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
 import java.net.URL;
+import java.net.URLConnection;
 import java.util.HashMap;
 
 import javax.inject.Inject;
@@ -81,17 +85,55 @@ public class SensorDataDisplayPresenterImpl implements SensorDataDisplayPresente
     }
     @Override
     public void btnChangeCameraViewClick() {
-//        view.refreshCameraImage();
         if(stateCamera){
             stateCamera = false;
             view.hideCameraFrame();
         }else{
             stateCamera = true;
+            getCamgeraImage(serial);
             view.showCameraFrame();
         }
         view.changeBtnChageCameraView(stateCamera);
     }
+    private void getCamgeraImage(String serial){
+        sensorDataAPI.getSensor(serial)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(result -> {
+                    new AsyncTask<Void,Void,Void>(){
+                        Bitmap bmp = null;
+                        @Override
+                        protected Void doInBackground(Void... params) {
+                            try {
+                                Log.i("url",result.getUrl());
+                                URL url = new URL(result.getUrl()+"/tmpfs/auto.jpg");
+                                URLConnection uc = url.openConnection();
+                                String userpass = "admin" + ":" + "admin";
+                                String basicAuth = "Basic " + new String(Base64.encode(userpass.getBytes(),Base64.DEFAULT));
+                                uc.setRequestProperty ("Authorization", basicAuth);
+                                InputStream in = uc.getInputStream();
+                                bmp = BitmapFactory.decodeStream(in);
 
+                            } catch (MalformedURLException e) {
+                                e.printStackTrace();
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            } catch (Exception e){
+                                Log.i("error",e.toString());
+                            }
+                            return null;
+                        }
+
+                        @Override
+                        protected void onPostExecute(Void aVoid) {
+                            super.onPostExecute(aVoid);
+                            view.refreshCameraImage(bmp);
+                        }
+                    }.execute();
+                },error->{
+                    MyNetworkExcetionHandling.excute(error,view,view);
+                });
+    }
     @Override
     public void btnGraphTempClick() {
         goGraph(ValueTpye.TEMPERATURE);

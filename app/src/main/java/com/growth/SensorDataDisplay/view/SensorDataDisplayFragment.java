@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.util.Log;
 import android.view.InflateException;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -287,6 +288,7 @@ public class SensorDataDisplayFragment extends Fragment implements SensorDataDis
 
     @Override
     public void refreshCameraImage(Bitmap image) {
+        image = Bitmap.createScaledBitmap(image,frameCamera.getWidth(),frameCamera.getHeight(),true);
         imgCamera.setImageBitmap(image);
     }
 
