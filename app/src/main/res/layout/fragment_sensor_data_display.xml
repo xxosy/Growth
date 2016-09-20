@@ -689,8 +689,8 @@
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             app:rcProgress="20"
-                            app:rcSecondaryProgress="1000"
-                            app:rcMax="1000"
+                            app:rcSecondaryProgress="50"
+                            app:rcMax="50"
                             app:rcRadius="10dp"
                             app:rcBackgroundPadding="12dp"
                             app:rcReverse="false"
@@ -747,11 +747,47 @@
         android:layout_height="wrap_content"
         android:clickable="true"
         app:fabSize="mini"
-        app:srcCompat="@drawable/ic_camera_from_view"
-        android:id="@+id/btn_change_camera_view"
+        app:srcCompat="@drawable/ic_mosquito"
+        android:id="@+id/btn_mosquito"
+        android:layout_marginBottom="166dp"
+        android:layout_marginRight="8dp"
+        android:layout_gravity="right|center_vertical"
+        android:visibility="gone" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        app:fabSize="mini"
+        app:srcCompat="@drawable/ic_view"
+        android:id="@+id/btn_change"
         android:layout_gravity="right|center_vertical"
         android:layout_marginBottom="24dp"
         android:layout_marginRight="8dp" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        app:fabSize="mini"
+        app:srcCompat="@drawable/ic_view"
+        android:id="@+id/btn_state_view"
+        android:layout_marginBottom="118dp"
+        android:layout_marginRight="8dp"
+        android:layout_gravity="right|center_vertical"
+        android:visibility="gone" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        app:fabSize="mini"
+        app:srcCompat="@drawable/ic_camera"
+        android:id="@+id/btn_camera"
+        android:layout_gravity="right|center_vertical"
+        android:layout_marginRight="8dp"
+        android:layout_marginBottom="70dp"
+        android:visibility="gone" />
 
     <FrameLayout
         android:layout_width="match_parent"

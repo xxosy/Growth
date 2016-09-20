@@ -15,7 +15,10 @@ import java.util.HashMap;
 
 public interface SensorDataDisplayPresenter {
     void enterFragment(String serial);
-    void btnChangeCameraViewClick();
+    void btnChangeClick();
+    void btnMosquitoClick();
+    void btnViewClick();
+    void btnCameraClick();
     void btnGraphTempClick();
     void btnGraphHumidityClick();
     void btnGraphLightClick();
@@ -30,10 +33,12 @@ public interface SensorDataDisplayPresenter {
         void refreshStateView(Value value);
         void showCameraFrame();
         void hideCameraFrame();
-        void changeBtnChageCameraView(boolean state);
+        void changeBtn(int state);
         void startProgress();
         void stopProgress();
         void refreshWhether(String whether,String externTemp,String externHumidity,Bitmap icon);
         void refreshSwipe();
+        void showButton();
+        void hideButton();
     }
 }

@@ -115,8 +115,14 @@ public class SensorDataDisplayFragment extends Fragment implements SensorDataDis
     FrameLayout frameStateView;
     @BindView(R.id.img_state_view)
     ImageView imgStateView;
-    @BindView(R.id.btn_change_camera_view)
-    FloatingActionButton btnChangeCameraView;
+    @BindView(R.id.btn_change)
+    FloatingActionButton btnChange;
+    @BindView(R.id.btn_mosquito)
+    FloatingActionButton btnMosquito;
+    @BindView(R.id.btn_state_view)
+    FloatingActionButton btnView;
+    @BindView(R.id.btn_camera)
+    FloatingActionButton btnCamera;
     ////progressbar
     @BindView(R.id.progress_view)
     CircularProgressView progressView;
@@ -204,7 +210,10 @@ public class SensorDataDisplayFragment extends Fragment implements SensorDataDis
         mProgressControl = new ProgressControlImlp(progressLayout, progressView);
         mToastControl = new ToastControlImlp(getActivity());
         presenter.enterFragment(serial);
-        btnChangeCameraView.setOnClickListener(v -> presenter.btnChangeCameraViewClick());
+        btnChange.setOnClickListener(v -> presenter.btnChangeClick());
+        btnMosquito.setOnClickListener(v -> presenter.btnMosquitoClick());
+        btnView.setOnClickListener(v -> presenter.btnViewClick());
+        btnCamera.setOnClickListener(v -> presenter.btnCameraClick());
         btnGraphTemp.setOnClickListener(v -> presenter.btnGraphTempClick());
         btnGraphHumiditty.setOnClickListener(v -> presenter.btnGraphHumidityClick());
         btnGraphCo2.setOnClickListener(v -> presenter.btnGraphCo2Click());
@@ -257,8 +266,8 @@ public class SensorDataDisplayFragment extends Fragment implements SensorDataDis
         pbHumidity.setProgress(Float.parseFloat(value.getHumidity()));
         txtLight.setText(value.getLight());
         pbLight.setProgress(Float.parseFloat(value.getLight()));
-        txtEc.setText(value.getEc());
-        pbEc.setProgress(Float.parseFloat(value.getEc()));
+        txtEc.setText(String.valueOf(Float.parseFloat(value.getEc())/15).substring(0,4));
+        pbEc.setProgress(Float.parseFloat(value.getEc())/15);
         txtPh.setText(value.getPh());
         pbPh.setProgress(Float.parseFloat(value.getPh()));
         txtCo2.setText(value.getCo2());
@@ -318,11 +327,23 @@ public class SensorDataDisplayFragment extends Fragment implements SensorDataDis
     }
 
     @Override
-    public void changeBtnChageCameraView(boolean state) {
-        if(state) btnChangeCameraView.setImageResource(R.drawable.ic_camera_from_view);
-        else btnChangeCameraView.setImageResource(R.drawable.ic_view_from_camera);
+    public void changeBtn(int state) {
+        if(state == 0) btnChange.setImageResource(R.drawable.ic_view);
+        else if(state==1)btnChange.setImageResource(R.drawable.ic_camera);
+        else if(state==2)btnChange.setImageResource(R.drawable.ic_mosquito);
     }
-
+    @Override
+    public void showButton(){
+        btnCamera.setVisibility(View.VISIBLE);
+        btnView.setVisibility(View.VISIBLE);
+        btnMosquito.setVisibility(View.VISIBLE);
+    }
+    @Override
+    public void hideButton(){
+        btnCamera.setVisibility(View.GONE);
+        btnView.setVisibility(View.GONE);
+        btnMosquito.setVisibility(View.GONE);
+    }
     /**
      * This interface must be implemented by activities that contain this
      * fragment to allow an interaction in this fragment to be communicated

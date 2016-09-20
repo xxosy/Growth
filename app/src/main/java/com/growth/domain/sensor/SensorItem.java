@@ -15,6 +15,15 @@ public class SensorItem {
     private String lng;
     private String usercode;
     private String url;
+    private String mosquito_url;
+
+    public String getMosquito_url() {
+        return mosquito_url;
+    }
+
+    public void setMosquito_url(String mosquito_url) {
+        this.mosquito_url = mosquito_url;
+    }
 
     public String getUrl() {
         return url;

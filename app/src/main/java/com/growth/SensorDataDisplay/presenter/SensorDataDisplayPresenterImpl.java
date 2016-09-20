@@ -42,7 +42,7 @@ public class SensorDataDisplayPresenterImpl implements SensorDataDisplayPresente
 
     HashMap<String,Boolean> states;
     String serial;
-    boolean stateCamera = false;
+    int stateBtn = 0;
     @Inject
     SensorDataDisplayPresenterImpl(SensorDataDisplayPresenter.View view, SensorDataAPI sensorDataAPI){
         this.view = view;
@@ -84,16 +84,73 @@ public class SensorDataDisplayPresenterImpl implements SensorDataDisplayPresente
         new HttpUtil().execute();
     }
     @Override
-    public void btnChangeCameraViewClick() {
-        if(stateCamera){
-            stateCamera = false;
-            view.hideCameraFrame();
-        }else{
-            stateCamera = true;
-            getCamgeraImage(serial);
-            view.showCameraFrame();
-        }
-        view.changeBtnChageCameraView(stateCamera);
+    public void btnChangeClick() {
+        view.showButton();
+    }
+
+    @Override
+    public void btnMosquitoClick() {
+        getMosquitoImage(serial);
+        stateBtn = 2;
+        view.showCameraFrame();
+        view.changeBtn(stateBtn);
+        view.hideButton();
+    }
+
+    @Override
+    public void btnViewClick() {
+        stateBtn = 0;
+        view.hideCameraFrame();
+        view.changeBtn(stateBtn);
+        view.hideButton();
+    }
+
+    @Override
+    public void btnCameraClick() {
+        stateBtn = 1;
+        getCamgeraImage(serial);
+        view.showCameraFrame();
+        view.changeBtn(stateBtn);
+        view.hideButton();
+    }
+    private void getMosquitoImage(String serial){
+        sensorDataAPI.getSensor(serial)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(result -> {
+                    new AsyncTask<Void,Void,Void>(){
+                        Bitmap bmp = null;
+                        @Override
+                        protected Void doInBackground(Void... params) {
+                            try {
+                                Log.i("url",result.getMosquito_url());
+                                URL url = new URL(result.getMosquito_url()+"/tmpfs/auto.jpg");
+                                URLConnection uc = url.openConnection();
+                                String userpass = "admin" + ":" + "admin";
+                                String basicAuth = "Basic " + new String(Base64.encode(userpass.getBytes(),Base64.DEFAULT));
+                                uc.setRequestProperty ("Authorization", basicAuth);
+                                InputStream in = uc.getInputStream();
+                                bmp = BitmapFactory.decodeStream(in);
+
+                            } catch (MalformedURLException e) {
+                                e.printStackTrace();
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            } catch (Exception e){
+                                Log.i("error",e.toString());
+                            }
+                            return null;
+                        }
+
+                        @Override
+                        protected void onPostExecute(Void aVoid) {
+                            super.onPostExecute(aVoid);
+                            view.refreshCameraImage(bmp);
+                        }
+                    }.execute();
+                },error->{
+                    MyNetworkExcetionHandling.excute(error,view,view);
+                });
     }
     private void getCamgeraImage(String serial){
         sensorDataAPI.getSensor(serial)

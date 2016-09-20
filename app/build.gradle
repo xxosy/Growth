@@ -97,6 +97,7 @@ dependencies {
     androidTestCompile 'com.android.support:support-annotations:23.4.0'
     androidTestCompile 'com.android.support.test.espresso:espresso-core:2.2.2'
     provided 'javax.annotation:jsr250-api:1.0'
+    compile 'com.squareup.okio:okio:1.10.0'
 //    //GoogleMaps
 //    compile 'com.google.android.gms:play-services-maps:9.4.0'
 //
