@@ -31,6 +31,7 @@ public class GraphPresenterImpl implements  GraphPresenter {
     public GraphPresenterImpl(GraphPresenter.View view, SensorDataAPI sensorDataAPI){
         this.view = view;
         this.sensorDataAPI = sensorDataAPI;
+
     }
 
     @Override

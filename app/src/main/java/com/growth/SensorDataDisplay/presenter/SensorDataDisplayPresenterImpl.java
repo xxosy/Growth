@@ -43,6 +43,7 @@ public class SensorDataDisplayPresenterImpl implements SensorDataDisplayPresente
     HashMap<String,Boolean> states;
     String serial;
     int stateBtn = 0;
+    boolean isBtnsShow = false;
     @Inject
     SensorDataDisplayPresenterImpl(SensorDataDisplayPresenter.View view, SensorDataAPI sensorDataAPI){
         this.view = view;
@@ -85,7 +86,14 @@ public class SensorDataDisplayPresenterImpl implements SensorDataDisplayPresente
     }
     @Override
     public void btnChangeClick() {
-        view.showButton();
+        if(isBtnsShow) {
+            isBtnsShow = false;
+            view.hideButton();
+        }
+        else {
+            isBtnsShow = true;
+            view.showButton();
+        }
     }
 
     @Override
@@ -94,6 +102,7 @@ public class SensorDataDisplayPresenterImpl implements SensorDataDisplayPresente
         stateBtn = 2;
         view.showCameraFrame();
         view.changeBtn(stateBtn);
+        isBtnsShow = false;
         view.hideButton();
     }
 
@@ -102,6 +111,7 @@ public class SensorDataDisplayPresenterImpl implements SensorDataDisplayPresente
         stateBtn = 0;
         view.hideCameraFrame();
         view.changeBtn(stateBtn);
+        isBtnsShow = false;
         view.hideButton();
     }
 
@@ -111,6 +121,7 @@ public class SensorDataDisplayPresenterImpl implements SensorDataDisplayPresente
         getCamgeraImage(serial);
         view.showCameraFrame();
         view.changeBtn(stateBtn);
+        isBtnsShow = false;
         view.hideButton();
     }
     private void getMosquitoImage(String serial){

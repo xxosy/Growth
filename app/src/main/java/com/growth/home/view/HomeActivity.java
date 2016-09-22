@@ -20,6 +20,7 @@ import android.view.View;
 
 import com.growth.R;
 import com.growth.SensorDataDisplay.view.SensorDataDisplayFragment;
+import com.growth.actuator.view.ActuatorFragment;
 import com.growth.graph.view.GraphFragment;
 import com.growth.home.OnKeyBackPressedListener;
 import com.growth.home.PageChangeUtil;
@@ -38,7 +39,8 @@ public class HomeActivity extends AppCompatActivity
         PageChange,
         SensorMapFragment.OnFragmentInteractionListener,
         GraphFragment.OnFragmentInteractionListener,
-        SensorDataDisplayFragment.OnFragmentInteractionListener{
+        SensorDataDisplayFragment.OnFragmentInteractionListener,
+        ActuatorFragment.OnFragmentInteractionListener{
 
     @Inject
     HomePresenter homePresenter;
@@ -61,7 +63,8 @@ public class HomeActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
         PageChangeUtil.newInstance().setPageChange(this);
         mFragmentTransaction = getSupportFragmentManager().beginTransaction();
-        mFragmentTransaction.replace(container, SensorMapFragment.newInstance("", ""));
+        mFragmentTransaction.replace(container, ActuatorFragment.newInstance("", ""));
+//        mFragmentTransaction.replace(container, SensorMapFragment.newInstance("", ""));
         mFragmentTransaction.commit();
 
 //        pageChange(SensorDataDisplayFragment.newInstance("P5123", ""));

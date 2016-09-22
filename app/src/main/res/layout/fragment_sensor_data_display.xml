@@ -250,10 +250,10 @@
                         <FrameLayout
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:layout_weight="1">
+                            android:layout_weight="1.2">
 
                             <TextView
-                                android:text="Temperature"
+                                android:text="Temp"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:id="@+id/textView8"
@@ -265,7 +265,7 @@
                         <FrameLayout
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:layout_weight="1.5">
+                            android:layout_weight="1.2">
 
                             <TextView
                                 android:layout_width="wrap_content"
@@ -303,7 +303,7 @@
                         <FrameLayout
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:layout_weight="1">
+                            android:layout_weight="1.2">
 
                             <TextView
                                 android:text="Humidity"
@@ -318,7 +318,7 @@
                         <FrameLayout
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:layout_weight="1.5">
+                            android:layout_weight="1.2">
 
                             <TextView
                                 android:layout_width="wrap_content"
@@ -355,7 +355,7 @@
                         <FrameLayout
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:layout_weight="1">
+                            android:layout_weight="1.2">
 
                             <TextView
                                 android:text="Light"
@@ -370,7 +370,7 @@
                         <FrameLayout
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:layout_weight="1.5">
+                            android:layout_weight="1.2">
 
                             <TextView
                                 android:layout_width="wrap_content"
@@ -407,7 +407,7 @@
                         <FrameLayout
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:layout_weight="1">
+                            android:layout_weight="1.2">
 
                             <TextView
                                 android:text="CO2"
@@ -422,7 +422,7 @@
                         <FrameLayout
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:layout_weight="1.5">
+                            android:layout_weight="1.2">
 
                             <TextView
                                 android:layout_width="wrap_content"
@@ -460,7 +460,7 @@
                         <FrameLayout
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:layout_weight="1">
+                            android:layout_weight="1.2">
 
                             <TextView
                                 android:text="EC"
@@ -476,7 +476,7 @@
                         <FrameLayout
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:layout_weight="1.5">
+                            android:layout_weight="1.2">
 
                             <TextView
                                 android:layout_width="wrap_content"
@@ -513,7 +513,7 @@
                         <FrameLayout
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:layout_weight="1">
+                            android:layout_weight="1.2">
 
                             <TextView
                                 android:text="PH"
@@ -529,7 +529,7 @@
                         <FrameLayout
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:layout_weight="1.5">
+                            android:layout_weight="1.2">
 
                             <TextView
                                 android:layout_width="wrap_content"

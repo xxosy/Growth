@@ -4,6 +4,7 @@ package com.growth.network;
 
 import com.growth.domain.UpdateSensorData;
 import com.growth.domain.Value;
+import com.growth.domain.actuator.ActuatorState;
 import com.growth.domain.graph.GraphList;
 import com.growth.domain.humidity.HumidityItem;
 import com.growth.domain.humidity.HumidityList;
@@ -25,7 +26,8 @@ public class SensorDataAPI implements SensorAPI.Service
                         ,HumidityAPI.Service
                         ,ValueAPI.Service
                         ,GraphDataAPI.Service
-                        ,UserAPI.Service{
+                        ,UserAPI.Service
+                        ,ActuatorAPI.Service{
     private Retrofit retrofit;
 
     @Inject
@@ -180,5 +182,17 @@ public class SensorDataAPI implements SensorAPI.Service
     public Observable<Void> insertUserCode(String usercode) {
         return retrofit.create(UserAPI.class)
                 .insertUserCode(usercode);
+    }
+
+    @Override
+    public Observable<ActuatorState> getActuatorState() {
+        return retrofit.create(ActuatorAPI.class)
+                .getActuatorState();
+    }
+
+    @Override
+    public Observable<Void> putActuatorState(ActuatorState actuatorState) {
+        return retrofit.create(ActuatorAPI.class)
+                .putActuatorState(actuatorState);
     }
 }

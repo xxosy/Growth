@@ -12,6 +12,8 @@ import android.view.InflateException;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.TranslateAnimation;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -260,17 +262,17 @@ public class SensorDataDisplayFragment extends Fragment implements SensorDataDis
     }
     @Override
     public void refreshData(Value value) {
-        txtTemp.setText(value.getTemperature());
+        txtTemp.setText(value.getTemperature().substring(0,4)+"°C");
         pbTemp.setProgress(Float.parseFloat(value.getTemperature()));
-        txtHumidity.setText(value.getHumidity());
+        txtHumidity.setText(value.getHumidity().substring(0,4)+"%");
         pbHumidity.setProgress(Float.parseFloat(value.getHumidity()));
-        txtLight.setText(value.getLight());
+        txtLight.setText(value.getLight()+"lux");
         pbLight.setProgress(Float.parseFloat(value.getLight()));
-        txtEc.setText(String.valueOf(Float.parseFloat(value.getEc())/15).substring(0,4));
+        txtEc.setText(String.valueOf(Float.parseFloat(value.getEc())/15).substring(0,4)+"\nus/cm");
         pbEc.setProgress(Float.parseFloat(value.getEc())/15);
-        txtPh.setText(value.getPh());
+        txtPh.setText(String.valueOf(Float.parseFloat(value.getPh())).substring(0,4));
         pbPh.setProgress(Float.parseFloat(value.getPh()));
-        txtCo2.setText(value.getCo2());
+        txtCo2.setText(value.getCo2()+"ppm");
         pbCo2.setProgress(Float.parseFloat(value.getCo2()));
     }
     @Override
@@ -334,14 +336,57 @@ public class SensorDataDisplayFragment extends Fragment implements SensorDataDis
     }
     @Override
     public void showButton(){
+        Animation cameraAnimation = new TranslateAnimation(
+                Animation.RELATIVE_TO_SELF, 0f,
+                Animation.RELATIVE_TO_SELF, 0f,
+                Animation.RELATIVE_TO_SELF, 1.2f,
+                Animation.RELATIVE_TO_SELF, 0f);
+        Animation viewAnimation = new TranslateAnimation(
+                Animation.RELATIVE_TO_SELF, 0f,
+                Animation.RELATIVE_TO_SELF, 0f,
+                Animation.RELATIVE_TO_SELF, 2.4f,
+                Animation.RELATIVE_TO_SELF, 0f);
+        Animation mosquitoAnimation = new TranslateAnimation(
+                Animation.RELATIVE_TO_SELF, 0f,
+                Animation.RELATIVE_TO_SELF, 0f,
+                Animation.RELATIVE_TO_SELF, 3.6f,
+                Animation.RELATIVE_TO_SELF, 0f);
+        cameraAnimation.setDuration(300);
+        viewAnimation.setDuration(300);
+        mosquitoAnimation.setDuration(300);
+
+        btnCamera.setAnimation(cameraAnimation);
         btnCamera.setVisibility(View.VISIBLE);
+        btnView.setAnimation(viewAnimation);
         btnView.setVisibility(View.VISIBLE);
+        btnMosquito.setAnimation(mosquitoAnimation);
         btnMosquito.setVisibility(View.VISIBLE);
     }
     @Override
     public void hideButton(){
+        Animation cameraAnimation = new TranslateAnimation(
+                Animation.RELATIVE_TO_SELF, 0f,
+                Animation.RELATIVE_TO_SELF, 0f,
+                Animation.RELATIVE_TO_SELF, 0f,
+                Animation.RELATIVE_TO_SELF, 1.2f);
+        Animation viewAnimation = new TranslateAnimation(
+                Animation.RELATIVE_TO_SELF, 0f,
+                Animation.RELATIVE_TO_SELF, 0f,
+                Animation.RELATIVE_TO_SELF, 0f,
+                Animation.RELATIVE_TO_SELF, 2.4f);
+        Animation mosquitoAnimation = new TranslateAnimation(
+                Animation.RELATIVE_TO_SELF, 0f,
+                Animation.RELATIVE_TO_SELF, 0f,
+                Animation.RELATIVE_TO_SELF, 0f,
+                Animation.RELATIVE_TO_SELF, 3.6f);
+        cameraAnimation.setDuration(300);
+        viewAnimation.setDuration(300);
+        mosquitoAnimation.setDuration(300);
+        btnCamera.setAnimation(cameraAnimation);
         btnCamera.setVisibility(View.GONE);
+        btnView.setAnimation(viewAnimation);
         btnView.setVisibility(View.GONE);
+        btnMosquito.setAnimation(mosquitoAnimation);
         btnMosquito.setVisibility(View.GONE);
     }
     /**
