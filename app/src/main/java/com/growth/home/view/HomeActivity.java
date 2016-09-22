@@ -63,8 +63,8 @@ public class HomeActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
         PageChangeUtil.newInstance().setPageChange(this);
         mFragmentTransaction = getSupportFragmentManager().beginTransaction();
-        mFragmentTransaction.replace(container, ActuatorFragment.newInstance("", ""));
-//        mFragmentTransaction.replace(container, SensorMapFragment.newInstance("", ""));
+//        mFragmentTransaction.replace(container, ActuatorFragment.newInstance("", ""));
+        mFragmentTransaction.replace(container, SensorMapFragment.newInstance("", ""));
         mFragmentTransaction.commit();
 
 //        pageChange(SensorDataDisplayFragment.newInstance("P5123", ""));
@@ -136,14 +136,8 @@ public class HomeActivity extends AppCompatActivity
             pageChange4NotStack(new SensorMapFragment().newInstance("",""));
         } else if (id == R.id.nav_setting) {
 
-        } else if (id == R.id.nav_slideshow) {
-
-        } else if (id == R.id.nav_manage) {
-
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {
-
+        } else if (id == R.id.nav_actuator) {
+            pageChange4NotStack(new ActuatorFragment().newInstance("",""));
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
