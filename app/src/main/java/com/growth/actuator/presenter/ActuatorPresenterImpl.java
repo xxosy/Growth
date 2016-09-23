@@ -21,6 +21,7 @@ public class ActuatorPresenterImpl implements ActuatorPresenter {
     SensorDataAPI sensorDataAPI;
     ActuatorState mActuatorState;
     int[] iActuatorState;
+    int currentSwitch;
     @Inject
     ActuatorPresenterImpl(ActuatorPresenter.View view, SensorDataAPI sensorDataAPI){
         this.view = view;
@@ -57,6 +58,7 @@ public class ActuatorPresenterImpl implements ActuatorPresenter {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(result -> {
                     getActuatorState();
+
                 },error->{
                     MyNetworkExcetionHandling.excute(error,view,view);
                     Log.i("error",error.toString());
@@ -64,8 +66,30 @@ public class ActuatorPresenterImpl implements ActuatorPresenter {
     }
     @Override
     public void btnActuatorDetailClick(int index){
+        currentSwitch = index;
         view.showActuatorDetail(index, iActuatorState[index]);
     }
+
+    @Override
+    public void btnActuatorDetailSwitchClick() {
+        if (iActuatorState[currentSwitch]==0)
+            iActuatorState[currentSwitch] = 1;
+        else if(iActuatorState[currentSwitch]==1)
+            iActuatorState[currentSwitch] =0;
+        mActuatorState.setState(parseStringState());
+        Log.i("parseStringState()",parseStringState());
+        sensorDataAPI.putActuatorState(mActuatorState)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(result -> {
+                    getActuatorState();
+                    view.refreshActuatorDetailState(iActuatorState[currentSwitch]);
+                },error->{
+                    MyNetworkExcetionHandling.excute(error,view,view);
+                    Log.i("error",error.toString());
+                });
+    }
+
     private void parseState(String state){
         iActuatorState = new int[state.length()];
         for(int i = 0;i<state.length();i++){

@@ -31,6 +31,7 @@ import com.handstudio.android.hzgrapherlib.graphview.CurveGraphView;
 import com.handstudio.android.hzgrapherlib.vo.GraphNameBox;
 import com.handstudio.android.hzgrapherlib.vo.curvegraph.CurveGraph;
 import com.handstudio.android.hzgrapherlib.vo.curvegraph.CurveGraphVO;
+import com.jakewharton.rxbinding.view.RxView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,7 +44,7 @@ import butterknife.Unbinder;
 
 public class ActuatorFragment extends Fragment implements ActuatorPresenter.View,
         OnKeyBackPressedListener {
-    final private String TAG = "ActuatorFragment";
+    final private String TAG = ActuatorFragment.class.getName();
     private static final String ARG_PARAM1 = "serial";
     private static final String ARG_PARAM2 = "param2";
     View root;
@@ -58,6 +59,8 @@ public class ActuatorFragment extends Fragment implements ActuatorPresenter.View
     ImageView imgActuatorDetailOnOff;
     @BindView(R.id.tv_actuator_detail_port)
     TextView tvActuatorDetailPort;
+    @BindView(R.id.btn_actuator_detail_switch)
+    FrameLayout btnActuatorDetailSwitch;
 
     @Inject
     ActuatorPresenter presenter;
@@ -99,7 +102,16 @@ public class ActuatorFragment extends Fragment implements ActuatorPresenter.View
     private void addActuator(int i){
         View view = LayoutInflater.from(getActivity()).inflate(R.layout.item_actuator,containerActuator,false);
         TextView tvActuatorName = (TextView)view.findViewById(R.id.tv_actuator_name);
-        tvActuatorName.setText("Actuator_"+i);
+        String name;
+        if(i==0) name = "Side Window1";
+        else if(i==1) name = "Side Window2";
+        else if(i==2) name = "Top Window1";
+        else if(i==3) name = "Top Window2";
+        else if(i==4) name = "Sprinkler";
+        else if(i==5) name = "heater1";
+        else if(i==6) name = "heater2";
+        else name = "Actuator"+i;
+        tvActuatorName.setText(name);
         FrameLayout btnActuator = (FrameLayout)view.findViewById(R.id.btn_actuator);
         FrameLayout btnActuatorDetail = (FrameLayout)view.findViewById(R.id.btn_actuator_detail);
         btnActuatorDetail.setOnClickListener(v -> presenter.btnActuatorDetailClick(i));
@@ -148,6 +160,7 @@ public class ActuatorFragment extends Fragment implements ActuatorPresenter.View
         int max = 2;
         int term =1;
         setCurveGraph(actuatorGraph, legend,data,tag, color,max,term);
+        btnActuatorDetailSwitch.setOnClickListener(v -> presenter.btnActuatorDetailSwitchClick());
         return root;
     }
 
@@ -221,6 +234,14 @@ public class ActuatorFragment extends Fragment implements ActuatorPresenter.View
     public void hideActuatorDetail() {
         if(actuatorDetail.getVisibility() == View.VISIBLE)
             actuatorDetail.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void refreshActuatorDetailState(int state) {
+        if (state == 0)
+            imgActuatorDetailOnOff.setImageResource(R.drawable.ic_off);
+        else if (state == 1)
+            imgActuatorDetailOnOff.setImageResource(R.drawable.ic_on);
     }
 
     private void setCurveGraph(ViewGroup viewGroup, String[] legendArr, float[] graph, String Name, int Color, int maxValue, int increment) {

@@ -336,20 +336,24 @@ public class SensorDataDisplayFragment extends Fragment implements SensorDataDis
     }
     @Override
     public void showButton(){
+        ViewGroup.MarginLayoutParams lp = (ViewGroup.MarginLayoutParams)btnCamera.getLayoutParams();
+        ViewGroup.MarginLayoutParams btnChangeLp = (ViewGroup.MarginLayoutParams)btnChange.getLayoutParams();
         Animation cameraAnimation = new TranslateAnimation(
                 Animation.RELATIVE_TO_SELF, 0f,
                 Animation.RELATIVE_TO_SELF, 0f,
-                Animation.RELATIVE_TO_SELF, 1.2f,
+                Animation.ABSOLUTE, lp.bottomMargin-btnChangeLp.bottomMargin,
                 Animation.RELATIVE_TO_SELF, 0f);
+        lp = (ViewGroup.MarginLayoutParams)btnView.getLayoutParams();
         Animation viewAnimation = new TranslateAnimation(
                 Animation.RELATIVE_TO_SELF, 0f,
                 Animation.RELATIVE_TO_SELF, 0f,
-                Animation.RELATIVE_TO_SELF, 2.4f,
+                Animation.ABSOLUTE, lp.bottomMargin-btnChangeLp.bottomMargin,
                 Animation.RELATIVE_TO_SELF, 0f);
+        lp = (ViewGroup.MarginLayoutParams)btnMosquito.getLayoutParams();
         Animation mosquitoAnimation = new TranslateAnimation(
                 Animation.RELATIVE_TO_SELF, 0f,
                 Animation.RELATIVE_TO_SELF, 0f,
-                Animation.RELATIVE_TO_SELF, 3.6f,
+                Animation.ABSOLUTE, lp.bottomMargin-btnChangeLp.bottomMargin,
                 Animation.RELATIVE_TO_SELF, 0f);
         cameraAnimation.setDuration(300);
         viewAnimation.setDuration(300);
@@ -364,21 +368,25 @@ public class SensorDataDisplayFragment extends Fragment implements SensorDataDis
     }
     @Override
     public void hideButton(){
+        ViewGroup.MarginLayoutParams lp = (ViewGroup.MarginLayoutParams)btnCamera.getLayoutParams();
+        ViewGroup.MarginLayoutParams btnChangeLp = (ViewGroup.MarginLayoutParams)btnChange.getLayoutParams();
         Animation cameraAnimation = new TranslateAnimation(
                 Animation.RELATIVE_TO_SELF, 0f,
                 Animation.RELATIVE_TO_SELF, 0f,
                 Animation.RELATIVE_TO_SELF, 0f,
-                Animation.RELATIVE_TO_SELF, 1.2f);
+                Animation.ABSOLUTE, lp.bottomMargin-btnChangeLp.bottomMargin);
+        lp = (ViewGroup.MarginLayoutParams)btnView.getLayoutParams();
         Animation viewAnimation = new TranslateAnimation(
                 Animation.RELATIVE_TO_SELF, 0f,
                 Animation.RELATIVE_TO_SELF, 0f,
                 Animation.RELATIVE_TO_SELF, 0f,
-                Animation.RELATIVE_TO_SELF, 2.4f);
+                Animation.ABSOLUTE, lp.bottomMargin-btnChangeLp.bottomMargin);
+        lp = (ViewGroup.MarginLayoutParams)btnMosquito.getLayoutParams();
         Animation mosquitoAnimation = new TranslateAnimation(
                 Animation.RELATIVE_TO_SELF, 0f,
                 Animation.RELATIVE_TO_SELF, 0f,
                 Animation.RELATIVE_TO_SELF, 0f,
-                Animation.RELATIVE_TO_SELF, 3.6f);
+                Animation.ABSOLUTE,lp.bottomMargin-btnChangeLp.bottomMargin);
         cameraAnimation.setDuration(300);
         viewAnimation.setDuration(300);
         mosquitoAnimation.setDuration(300);

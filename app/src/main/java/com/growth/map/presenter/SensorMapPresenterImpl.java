@@ -2,6 +2,7 @@ package com.growth.map.presenter;
 
 import android.util.Log;
 
+import com.growth.actuator.view.ActuatorFragment;
 import com.growth.graph.view.ValueTpye;
 import com.growth.utils.GpsInfo;
 import com.growth.SensorDataDisplay.view.SensorDataDisplayFragment;
@@ -84,6 +85,12 @@ public class SensorMapPresenterImpl implements SensorMapPresenter{
                 currentSsensorItem.getLat(),
                 currentSsensorItem.getLng());
         view.showAddSensorWindow();
+    }
+
+    @Override
+    public void infoWindowActuatorClick() {
+        view.hideInfoWindow();
+        PageChangeUtil.newInstance().getPageChange().pageChange(new ActuatorFragment().newInstance("",""));
     }
 
     @Override

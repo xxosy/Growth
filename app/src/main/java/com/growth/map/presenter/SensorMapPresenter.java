@@ -14,6 +14,7 @@ public interface SensorMapPresenter {
     void infoWindowDetailClick();
     void infoWindowDeleteSensorClick();
     void infoWindowUpdateSensorClick();
+    void infoWindowActuatorClick();
     void infoWindowGraphClick();
     void addWindowCheckSerialClick(String serial);
     void addWindowGetLocationClick();

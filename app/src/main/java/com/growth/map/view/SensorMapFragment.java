@@ -111,6 +111,8 @@ public class SensorMapFragment extends Fragment implements OnMapReadyCallback,
     FrameLayout btnInfoWindowDelete;
     @BindView(R.id.btn_info_window_update)
     FrameLayout btnInfoWindowUpdate;
+    @BindView(R.id.btn_info_window_actuator)
+    FrameLayout btnInfoWindowActuator;
     ////zoom
     @BindView(R.id.btn_map_zoom_in)
     FrameLayout btnZoomIn;
@@ -253,6 +255,7 @@ public class SensorMapFragment extends Fragment implements OnMapReadyCallback,
         btnInfoWindowUpdate.setOnClickListener(v -> {
             presenter.infoWindowUpdateSensorClick();
         });
+        btnInfoWindowActuator.setOnClickListener(v -> presenter.infoWindowActuatorClick());
         btnZoomIn.setOnClickListener(v -> presenter.btnZoomInClick());
         btnZoomOut.setOnClickListener(v -> presenter.btnZoomOutClick());
         btnLocation.setOnClickListener(v -> presenter.btnLocationClick(gps));
