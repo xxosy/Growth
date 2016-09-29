@@ -6,6 +6,7 @@ import com.growth.domain.UpdateSensorData;
 import com.growth.domain.Value;
 import com.growth.domain.actuator.ActuatorState;
 import com.growth.domain.graph.GraphList;
+import com.growth.domain.harmful.HarmfulData;
 import com.growth.domain.humidity.HumidityItem;
 import com.growth.domain.humidity.HumidityList;
 import com.growth.domain.sensor.SensorItem;
@@ -27,7 +28,8 @@ public class SensorDataAPI implements SensorAPI.Service
                         ,ValueAPI.Service
                         ,GraphDataAPI.Service
                         ,UserAPI.Service
-                        ,ActuatorAPI.Service{
+                        ,ActuatorAPI.Service
+                        ,HarmfulAPI.Service{
     private Retrofit retrofit;
 
     @Inject
@@ -194,5 +196,11 @@ public class SensorDataAPI implements SensorAPI.Service
     public Observable<Void> putActuatorState(ActuatorState actuatorState) {
         return retrofit.create(ActuatorAPI.class)
                 .putActuatorState(actuatorState);
+    }
+
+    @Override
+    public Observable<HarmfulData[]> getHarmfulData(String division) {
+        return retrofit.create(HarmfulAPI.class)
+                .getHarmfulData(division);
     }
 }

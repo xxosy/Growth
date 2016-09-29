@@ -1,9 +1,10 @@
 package com.growth.SensorDataDisplay.dagger;
 
+import com.growth.SensorDataDisplay.adapter.HarmfulListAdapter;
+import com.growth.SensorDataDisplay.adapter.HarmfulListAdapterDataModel;
+import com.growth.SensorDataDisplay.adapter.HarmfulListAdapterDataView;
 import com.growth.SensorDataDisplay.presenter.SensorDataDisplayPresenter;
 import com.growth.SensorDataDisplay.presenter.SensorDataDisplayPresenterImpl;
-import com.growth.SensorDataDisplay.view.SensorDataDisplayFragment;
-import com.growth.map.presenter.SensorMapPresenterImpl;
 import com.growth.network.dagger.NetworkModule;
 
 import dagger.Module;
@@ -15,11 +16,20 @@ import dagger.Provides;
 @Module(includes = NetworkModule.class)
 public class SensorDataDisplayModule {
     SensorDataDisplayPresenter.View view;
-
-    public SensorDataDisplayModule(SensorDataDisplayPresenter.View view){
+    HarmfulListAdapter harmfulListAdapter;
+    public SensorDataDisplayModule(SensorDataDisplayPresenter.View view, HarmfulListAdapter harmfulListAdapter){
         this.view = view;
+        this.harmfulListAdapter = harmfulListAdapter;
     }
 
+    @Provides
+    public HarmfulListAdapterDataModel provideHarmfulListAdapterDataModel(){
+        return harmfulListAdapter;
+    }
+    @Provides
+    public HarmfulListAdapterDataView provideHarmfulListAdapterDataView(){
+        return harmfulListAdapter;
+    }
     @Provides
     public SensorDataDisplayPresenter provideSensorDataDisplayPresenter(SensorDataDisplayPresenterImpl sensorDataDisplayPresenter){
         return sensorDataDisplayPresenter;

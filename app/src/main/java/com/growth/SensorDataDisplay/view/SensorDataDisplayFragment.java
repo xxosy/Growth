@@ -4,14 +4,17 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.InflateException;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.view.animation.TranslateAnimation;
 import android.widget.FrameLayout;
@@ -22,11 +25,12 @@ import android.widget.TextView;
 import com.akexorcist.roundcornerprogressbar.RoundCornerProgressBar;
 import com.github.rahatarmanahmed.cpv.CircularProgressView;
 import com.growth.R;
+import com.growth.SensorDataDisplay.adapter.HarmfulListAdapter;
+import com.growth.SensorDataDisplay.adapter.HarmfulListAdapterDataView;
 import com.growth.SensorDataDisplay.dagger.DaggerSensorDataDisplayComponent;
 import com.growth.SensorDataDisplay.dagger.SensorDataDisplayModule;
 import com.growth.SensorDataDisplay.presenter.SensorDataDisplayPresenter;
 import com.growth.SensorValueGuide;
-import com.growth.domain.StandardGrowthData;
 import com.growth.domain.Value;
 import com.growth.home.OnKeyBackPressedListener;
 import com.growth.home.view.HomeActivity;
@@ -34,11 +38,9 @@ import com.growth.utils.ProgressControl;
 import com.growth.utils.ProgressControlImlp;
 import com.growth.utils.ToastControl;
 import com.growth.utils.ToastControlImlp;
+import com.squareup.picasso.Picasso;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
 import java.util.Set;
 
 import javax.inject.Inject;
@@ -55,7 +57,8 @@ import butterknife.Unbinder;
  * Use the {@link SensorDataDisplayFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class SensorDataDisplayFragment extends Fragment implements SensorDataDisplayPresenter.View {
+public class SensorDataDisplayFragment extends Fragment implements SensorDataDisplayPresenter.View,
+        OnKeyBackPressedListener {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -66,6 +69,7 @@ public class SensorDataDisplayFragment extends Fragment implements SensorDataDis
     private String serial;
     private String mParam2;
 
+    int harmfulImageSize;
     //Bind
     View root;
     private Unbinder unbinder;
@@ -154,11 +158,29 @@ public class SensorDataDisplayFragment extends Fragment implements SensorDataDis
     ImageView ivWhether;
     @BindView(R.id.swiperefresh)
     SwipeRefreshLayout mSwipeRefresh;
-
+    @BindView(R.id.recycler_harmful_list)
+    RecyclerView recyclerHarmfulList;
     private OnFragmentInteractionListener mListener;
+
+    @Inject
+    HarmfulListAdapterDataView mHarmfulListAdapterDataView;
+
+    @BindView(R.id.harmful_list)
+    FrameLayout harmfulList;
+    @BindView(R.id.harmful_detail)
+    FrameLayout harmfulDetail;
+    @BindView(R.id.tv_harmful_title_detail)
+    TextView tvHarmfulTitleDetail;
+    @BindView(R.id.tv_harmful_description_detail)
+    TextView tvHarmfulDescriptionDetail;
+    @BindView(R.id.frame_img_harmful_detail)
+    FrameLayout frameImagHarmfulDetail;
+    @BindView(R.id.img_harmful_detail)
+    ImageView imgHarmfulDetail;
 
     ProgressControl mProgressControl;
     ToastControl mToastControl;
+
     public SensorDataDisplayFragment() {
         // Required empty public constructor
     }
@@ -188,14 +210,16 @@ public class SensorDataDisplayFragment extends Fragment implements SensorDataDis
             serial = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+        ((HomeActivity)getActivity()).setOnKeyBackPressedListener(this);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+        HarmfulListAdapter adapter = new HarmfulListAdapter(getActivity());
         DaggerSensorDataDisplayComponent.builder()
-                .sensorDataDisplayModule(new SensorDataDisplayModule(this))
+                .sensorDataDisplayModule(new SensorDataDisplayModule(this,adapter))
                 .build()
                 .inject(this);
         if(root != null){
@@ -206,9 +230,20 @@ public class SensorDataDisplayFragment extends Fragment implements SensorDataDis
         try {
             root = inflater.inflate(R.layout.fragment_sensor_data_display, container, false);
         } catch (InflateException e){
-
+            Log.i("error",e.toString());
         }
         unbinder = ButterKnife.bind(this,root);
+        recyclerHarmfulList.setAdapter(adapter);
+        recyclerHarmfulList.setLayoutManager(new LinearLayoutManager(getActivity()));
+        mHarmfulListAdapterDataView.setOnRecyclerItemClickListener((adapter1,position)->presenter.OnRecyclerItemClick(position));
+        frameImagHarmfulDetail.setOnClickListener(v -> {
+            if(frameImagHarmfulDetail.getLayoutParams().height!= harmfulDetail.getHeight()){
+                harmfulImageSize=frameImagHarmfulDetail.getLayoutParams().height;
+                frameImagHarmfulDetail.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,harmfulDetail.getHeight()));
+            }else if(frameImagHarmfulDetail.getLayoutParams().height== harmfulDetail.getHeight()){
+                frameImagHarmfulDetail.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,harmfulImageSize));
+            }
+        });
         mProgressControl = new ProgressControlImlp(progressLayout, progressView);
         mToastControl = new ToastControlImlp(getActivity());
         presenter.enterFragment(serial);
@@ -397,6 +432,64 @@ public class SensorDataDisplayFragment extends Fragment implements SensorDataDis
         btnMosquito.setAnimation(mosquitoAnimation);
         btnMosquito.setVisibility(View.GONE);
     }
+
+    @Override
+    public void showHarmfulList() {
+        Animation animation = new TranslateAnimation(
+                Animation.RELATIVE_TO_SELF, 0f,
+                Animation.RELATIVE_TO_SELF, 0f,
+                Animation.RELATIVE_TO_SELF, 1f,
+                Animation.RELATIVE_TO_SELF, 0f);
+        animation.setDuration(300);
+        if(harmfulList.getVisibility()==View.GONE) {
+            harmfulList.setAnimation(animation);
+            harmfulList.setVisibility(View.VISIBLE);
+        }
+    }
+
+    @Override
+    public void hideHarmfulList() {
+        Animation animation = new TranslateAnimation(
+                Animation.RELATIVE_TO_SELF, 0f,
+                Animation.RELATIVE_TO_SELF, 0f,
+                Animation.RELATIVE_TO_SELF, 0f,
+                Animation.RELATIVE_TO_SELF, 1f);
+        animation.setDuration(300);
+        if(harmfulList.getVisibility()==View.VISIBLE) {
+            harmfulList.setAnimation(animation);
+            harmfulList.setVisibility(View.GONE);
+        }
+    }
+
+    @Override
+    public void showHarmfulDetail(String title, String description,String url) {
+        Animation animation = new AlphaAnimation(0f,1f);
+        animation.setDuration(300);
+        tvHarmfulTitleDetail.setText(title);
+        tvHarmfulDescriptionDetail.setText(description);
+        Picasso.with(getActivity()).load(url).into(imgHarmfulDetail);
+        if(harmfulDetail.getVisibility()==View.GONE) {
+            harmfulDetail.setAnimation(animation);
+            harmfulDetail.setVisibility(View.VISIBLE);
+        }
+    }
+
+    @Override
+    public void hideHarmfulDetail() {
+        Animation animation = new AlphaAnimation(1f,0f);
+        animation.setDuration(300);
+        if(harmfulDetail.getVisibility()==View.VISIBLE) {
+            harmfulDetail.setAnimation(animation);
+            harmfulDetail.setVisibility(View.GONE);
+        }
+    }
+
+    @Override
+    public void refreshHarmfulList() {
+        mHarmfulListAdapterDataView.refresh();
+        recyclerHarmfulList.scrollToPosition(0);
+    }
+
     /**
      * This interface must be implemented by activities that contain this
      * fragment to allow an interaction in this fragment to be communicated
@@ -425,6 +518,19 @@ public class SensorDataDisplayFragment extends Fragment implements SensorDataDis
     @Override
     public void showToast(String msg) {
         mToastControl.showToast(msg);
+    }
+
+    @Override
+    public void onBack() {
+        if(frameImagHarmfulDetail.getLayoutParams().height== harmfulDetail.getHeight()){
+            frameImagHarmfulDetail.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,harmfulImageSize));
+        }else if(harmfulDetail.getVisibility()==View.VISIBLE ) {
+            hideHarmfulDetail();
+        }else {
+            HomeActivity homeActivity = (HomeActivity) getActivity();
+            homeActivity.setOnKeyBackPressedListener(null);
+            homeActivity.onBackPressed();
+        }
     }
 
     public interface OnFragmentInteractionListener {

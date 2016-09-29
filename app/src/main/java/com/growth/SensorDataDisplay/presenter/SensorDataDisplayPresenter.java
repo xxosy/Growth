@@ -3,7 +3,6 @@ package com.growth.SensorDataDisplay.presenter;
 import android.graphics.Bitmap;
 
 import com.growth.domain.Value;
-import com.growth.map.presenter.SensorMapPresenter;
 import com.growth.utils.ProgressControl;
 import com.growth.utils.ToastControl;
 
@@ -26,6 +25,8 @@ public interface SensorDataDisplayPresenter {
     void btnGraphEcClick();
     void btnGraphPhClick();
     void swipePage(String serial);
+    void OnRecyclerItemClick(int position);
+
     interface View extends ProgressControl,ToastControl {
         void refreshData(Value value);
         void refreshState(HashMap<String,Boolean> states);
@@ -40,5 +41,12 @@ public interface SensorDataDisplayPresenter {
         void refreshSwipe();
         void showButton();
         void hideButton();
+
+        void showHarmfulList();
+        void hideHarmfulList();
+        void showHarmfulDetail(String title, String description,String url);
+        void hideHarmfulDetail();
+
+        void refreshHarmfulList();
     }
 }

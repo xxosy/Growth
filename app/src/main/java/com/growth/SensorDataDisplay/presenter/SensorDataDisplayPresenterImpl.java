@@ -6,8 +6,10 @@ import android.os.AsyncTask;
 import android.util.Base64;
 import android.util.Log;
 
+import com.growth.SensorDataDisplay.adapter.HarmfulListAdapterDataModel;
 import com.growth.SensorValueGuide;
 import com.growth.domain.Value;
+import com.growth.domain.harmful.HarmfulData;
 import com.growth.exception.MyNetworkExcetionHandling;
 import com.growth.graph.view.GraphFragment;
 import com.growth.graph.view.ValueTpye;
@@ -39,16 +41,17 @@ import rx.schedulers.Schedulers;
 public class SensorDataDisplayPresenterImpl implements SensorDataDisplayPresenter{
     SensorDataDisplayPresenter.View view;
     SensorDataAPI sensorDataAPI;
-
+    HarmfulListAdapterDataModel mHarmfulListAdapterDataModel;
     HashMap<String,Boolean> states;
     String serial;
     int stateBtn = 0;
     boolean isBtnsShow = false;
     @Inject
-    SensorDataDisplayPresenterImpl(SensorDataDisplayPresenter.View view, SensorDataAPI sensorDataAPI){
+    SensorDataDisplayPresenterImpl(SensorDataDisplayPresenter.View view, SensorDataAPI sensorDataAPI,HarmfulListAdapterDataModel harmfulListAdapterDataModel){
         this.view = view;
         this.sensorDataAPI = sensorDataAPI;
         states = new HashMap<>();
+        this.mHarmfulListAdapterDataModel = harmfulListAdapterDataModel;
     }
 
     @Override
@@ -84,6 +87,13 @@ public class SensorDataDisplayPresenterImpl implements SensorDataDisplayPresente
                 });
         new HttpUtil().execute();
     }
+
+    @Override
+    public void OnRecyclerItemClick(int position) {
+        HarmfulData item = mHarmfulListAdapterDataModel.getItem(position);
+        view.showHarmfulDetail(item.getTitle(),item.getDescription(),item.getImgurl());
+    }
+
     @Override
     public void btnChangeClick() {
         if(isBtnsShow) {
@@ -98,12 +108,26 @@ public class SensorDataDisplayPresenterImpl implements SensorDataDisplayPresente
 
     @Override
     public void btnMosquitoClick() {
+        sensorDataAPI.getHarmfulData("insect")
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(result -> {
+                    mHarmfulListAdapterDataModel.clear();
+                    for(HarmfulData item:result) {
+                        mHarmfulListAdapterDataModel.add(item);
+                    }
+                    view.refreshHarmfulList();
+                },error->{
+                    MyNetworkExcetionHandling.excute(error,view,view);
+                });
         getMosquitoImage(serial);
         stateBtn = 2;
         view.showCameraFrame();
         view.changeBtn(stateBtn);
         isBtnsShow = false;
         view.hideButton();
+        view.hideHarmfulDetail();
+        view.showHarmfulList();
     }
 
     @Override
@@ -113,16 +137,32 @@ public class SensorDataDisplayPresenterImpl implements SensorDataDisplayPresente
         view.changeBtn(stateBtn);
         isBtnsShow = false;
         view.hideButton();
+        view.hideHarmfulList();
+        view.hideHarmfulDetail();
     }
 
     @Override
     public void btnCameraClick() {
+        sensorDataAPI.getHarmfulData("none")
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(result -> {
+                    mHarmfulListAdapterDataModel.clear();
+                    for(HarmfulData item:result) {
+                        mHarmfulListAdapterDataModel.add(item);
+                    }
+                    view.refreshHarmfulList();
+                },error->{
+                    MyNetworkExcetionHandling.excute(error,view,view);
+                });
         stateBtn = 1;
         getCamgeraImage(serial);
         view.showCameraFrame();
         view.changeBtn(stateBtn);
         isBtnsShow = false;
+        view.hideHarmfulDetail();
         view.hideButton();
+        view.showHarmfulList();
     }
     private void getMosquitoImage(String serial){
         sensorDataAPI.getSensor(serial)
