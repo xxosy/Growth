@@ -29,7 +29,8 @@ public class SensorDataAPI implements SensorAPI.Service
                         ,GraphDataAPI.Service
                         ,UserAPI.Service
                         ,ActuatorAPI.Service
-                        ,HarmfulAPI.Service{
+                        ,HarmfulAPI.Service,
+                        PlantsGalleryAPI.Service{
     private Retrofit retrofit;
 
     @Inject
@@ -202,5 +203,11 @@ public class SensorDataAPI implements SensorAPI.Service
     public Observable<HarmfulData[]> getHarmfulData(String division) {
         return retrofit.create(HarmfulAPI.class)
                 .getHarmfulData(division);
+    }
+
+    @Override
+    public Observable<String[]> getPlantsPictureList(String serial) {
+        return retrofit.create(PlantsGalleryAPI.class)
+                .getPlantsPictureList(serial);
     }
 }

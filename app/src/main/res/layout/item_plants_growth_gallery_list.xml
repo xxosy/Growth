@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:id="@+id/btn_plants_growth_gallery"
+    android:clickable="true">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginRight="16dp"
+        android:layout_marginLeft="48dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp">
+
+        <TextView
+            android:text="Serial"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/textView35"
+            android:textSize="12sp"
+            android:textColor="@color/colorBase" />
+
+        <TextView
+            android:text="serial"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/tv_plants_gallery_serial"
+            android:layout_marginLeft="16dp"
+            android:textSize="16sp"
+            android:textColor="@color/colorBase" />
+
+        <TextView
+            android:text="Title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/textView33"
+            android:textSize="12sp"
+            android:textColor="@color/colorBase" />
+
+        <TextView
+            android:text="title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/tv_plants_gallery_title"
+            android:layout_marginLeft="16dp"
+            android:textSize="16sp"
+            android:textColor="@color/colorBase" />
+    </LinearLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/colorBase"
+        android:layout_gravity="bottom"
+        android:layout_marginLeft="48dp" />
+</FrameLayout>

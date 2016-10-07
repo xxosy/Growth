@@ -1,5 +1,7 @@
 package com.growth.exception;
 
+import android.util.Log;
+
 import com.growth.utils.ProgressControl;
 import com.growth.utils.ToastControl;
 
@@ -18,6 +20,8 @@ public class MyNetworkExcetionHandling {
         }else if(error instanceof SocketTimeoutException){
             toast.showToast("Timeout to connect, Please check your network");
             progress.stopProgress();
+        }else{
+            Log.i("error",error.toString());
         }
     }
 }

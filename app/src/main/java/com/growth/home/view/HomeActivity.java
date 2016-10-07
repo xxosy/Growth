@@ -21,6 +21,7 @@ import android.view.View;
 import com.growth.R;
 import com.growth.SensorDataDisplay.view.SensorDataDisplayFragment;
 import com.growth.actuator.view.ActuatorFragment;
+import com.growth.gallery.view.PlantsGrowthGalleryFragment;
 import com.growth.graph.view.GraphFragment;
 import com.growth.home.OnKeyBackPressedListener;
 import com.growth.home.PageChangeUtil;
@@ -40,7 +41,8 @@ public class HomeActivity extends AppCompatActivity
         SensorMapFragment.OnFragmentInteractionListener,
         GraphFragment.OnFragmentInteractionListener,
         SensorDataDisplayFragment.OnFragmentInteractionListener,
-        ActuatorFragment.OnFragmentInteractionListener{
+        ActuatorFragment.OnFragmentInteractionListener,
+        PlantsGrowthGalleryFragment.OnFragmentInteractionListener{
 
     @Inject
     HomePresenter homePresenter;
@@ -63,7 +65,7 @@ public class HomeActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
         PageChangeUtil.newInstance().setPageChange(this);
         mFragmentTransaction = getSupportFragmentManager().beginTransaction();
-//        mFragmentTransaction.replace(container, ActuatorFragment.newInstance("", ""));
+//        mFragmentTransaction.replace(container, PlantsGrowthGalleryFragment.newInstance("", ""));
         mFragmentTransaction.replace(container, SensorMapFragment.newInstance("", ""));
         mFragmentTransaction.commit();
 
@@ -138,6 +140,8 @@ public class HomeActivity extends AppCompatActivity
 
         } else if (id == R.id.nav_actuator) {
             pageChange4NotStack(new ActuatorFragment().newInstance("",""));
+        } else if (id == R.id.nav_plants_gallery){
+            pageChange4NotStack(new PlantsGrowthGalleryFragment().newInstance("",""));
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

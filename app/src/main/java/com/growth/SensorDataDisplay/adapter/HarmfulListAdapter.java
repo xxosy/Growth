@@ -9,10 +9,10 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.growth.R;
 import com.growth.domain.harmful.HarmfulData;
 import com.growth.views.OnRecyclerItemClickListener;
-import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -58,7 +58,7 @@ public class HarmfulListAdapter extends RecyclerView.Adapter<HarmfulListAdapter.
             description = description.substring(0,60)+" ···";
         holder.tvHarmfulDescription.setText(description);
         holder.btnHarmfulItem.setOnClickListener(v -> mOnRecyclerItemClickListener.onItemClick(this,position));
-        Picasso.with(context).load(item.getImgurl()).into(holder.imgHarmfulSmall);
+        Glide.with(context).load(item.getImgurl()).into(holder.imgHarmfulSmall);
     }
 
     @Override

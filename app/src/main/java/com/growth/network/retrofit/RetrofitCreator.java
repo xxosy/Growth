@@ -19,4 +19,7 @@ public class RetrofitCreator {
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                 .build();
     }
+    public static String getBaseUrl(){
+        return BASE_URL;
+    }
 }

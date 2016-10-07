@@ -2,10 +2,8 @@ package com.growth.graph.presenter;
 
 import android.util.Log;
 
-import com.growth.domain.sensor.SensorItem;
 import com.growth.exception.MyNetworkExcetionHandling;
 import com.growth.graph.view.ValueTpye;
-import com.growth.map.presenter.SensorMapPresenter;
 import com.growth.network.SensorDataAPI;
 
 import java.text.SimpleDateFormat;
@@ -86,8 +84,6 @@ public class GraphPresenterImpl implements  GraphPresenter {
                     .subscribe(list -> {
                         view.refreshChart(list);
                         view.stopProgress();
-                    },error->{
-                        MyNetworkExcetionHandling.excute(error,view,view);
                     });
         }else if(index==ValueTpye.HUMIDITY){
             sensorDataAPI.getHumidityList(serial,sDate)

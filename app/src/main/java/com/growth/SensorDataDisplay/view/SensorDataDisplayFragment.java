@@ -23,6 +23,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.akexorcist.roundcornerprogressbar.RoundCornerProgressBar;
+import com.bumptech.glide.Glide;
 import com.github.rahatarmanahmed.cpv.CircularProgressView;
 import com.growth.R;
 import com.growth.SensorDataDisplay.adapter.HarmfulListAdapter;
@@ -38,7 +39,6 @@ import com.growth.utils.ProgressControl;
 import com.growth.utils.ProgressControlImlp;
 import com.growth.utils.ToastControl;
 import com.growth.utils.ToastControlImlp;
-import com.squareup.picasso.Picasso;
 
 import java.util.HashMap;
 import java.util.Set;
@@ -467,7 +467,7 @@ public class SensorDataDisplayFragment extends Fragment implements SensorDataDis
         animation.setDuration(300);
         tvHarmfulTitleDetail.setText(title);
         tvHarmfulDescriptionDetail.setText(description);
-        Picasso.with(getActivity()).load(url).into(imgHarmfulDetail);
+        Glide.with(getActivity()).load(url).into(imgHarmfulDetail);
         if(harmfulDetail.getVisibility()==View.GONE) {
             harmfulDetail.setAnimation(animation);
             harmfulDetail.setVisibility(View.VISIBLE);

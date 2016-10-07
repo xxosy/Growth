@@ -1,11 +1,10 @@
 package com.growth.graph.view;
 
-import android.support.v4.app.Fragment;
 import android.content.Context;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
+import android.support.v4.app.Fragment;
 import android.view.InflateException;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -253,14 +252,16 @@ public class GraphFragment extends Fragment implements GraphPresenter.View,
             if(main.length()>4)
                 main = main.substring(0,4);
             main = main.concat("°C");
-        }else if(mainValueType==ValueTpye.HUMIDITY){
-            main = value.getHumidity();
-            if(main.length()>4)
-                main = main.substring(0,4);
-            main = main.concat("%");
         }else if(mainValueType==ValueTpye.CO2){
             main = value.getCo2();
             main = main.concat("ppm");
+        }else if(mainValueType==ValueTpye.HUMIDITY){
+            main = value.getHumidity();
+            if(main.length()>4) {
+                main = main.substring(0, 4);
+            }
+            main = String.valueOf(Float.valueOf(main)+30);
+            main = main.concat("%");
         }else if(mainValueType==ValueTpye.LIGHT){
             main = value.getLight();
             main = main.concat("lux");
@@ -385,7 +386,7 @@ public class GraphFragment extends Fragment implements GraphPresenter.View,
                     color = new Color().rgb(0, 153, 255);
                 } else if (item.getHumidity() != null) {
                     standard[i-k] = StandardGrowthData.humidity[i];
-                    data[i-k] = Float.parseFloat(item.getHumidity());
+                    data[i-k] = Float.parseFloat(item.getHumidity())+30;
                     tag = "Humidity";
                     color = new Color().rgb(0, 204, 255);
                 } else if (item.getCo2() != null) {
