@@ -7,7 +7,7 @@ import com.growth.views.OnRecyclerItemClickListener;
  */
 
 public interface PlantsGrowthGallerySensorListAdapterView {
-    void refresh();
+  void refresh();
 
-    void setOnRecyclerItemClickListener(OnRecyclerItemClickListener onRecyclerItemClickListener);
+  void setOnRecyclerItemClickListener(OnRecyclerItemClickListener onRecyclerItemClickListener);
 }

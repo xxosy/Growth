@@ -10,20 +10,33 @@ import com.growth.utils.ToastControl;
  */
 
 public interface GraphPresenter {
-    void enterFragment(String serial,int index);
-    void datePreButtonClick(int index);
-    void dateNextButtonClick(int index);
-    void tabClick(int index);
-    interface View extends ProgressControl,ToastControl {
-        void refreshPage(Value value);
-        void refreshUpdateTime(String time);
-        void refreshToday(String today);
-        void refreshSensorData(Value value);
-        void refreshMaxSensorData();
-        void refreshMinSensorData();
-        void refreshGraphDate(String date);
-        void refreshChart(GraphList items);
-        void displayToast(String msg);
-        void refreshTab();
-    }
+  void enterFragment(String serial, int index);
+
+  void datePreButtonClick(int index);
+
+  void dateNextButtonClick(int index);
+
+  void tabClick(int index);
+
+  interface View extends ProgressControl, ToastControl {
+    void refreshPage(Value value);
+
+    void refreshUpdateTime(String time);
+
+    void refreshToday(String today);
+
+    void refreshSensorData(Value value);
+
+    void refreshMaxSensorData();
+
+    void refreshMinSensorData();
+
+    void refreshGraphDate(String date);
+
+    void refreshChart(GraphList items);
+
+    void displayToast(String msg);
+
+    void refreshTab();
+  }
 }

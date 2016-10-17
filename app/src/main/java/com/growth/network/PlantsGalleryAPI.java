@@ -9,10 +9,10 @@ import rx.Observable;
  */
 
 public interface PlantsGalleryAPI {
-    @GET("/gallery/{serial}")
-    Observable<String[]> getPlantsPictureList(@Path("serial") String serial);
+  @GET("/gallery/{serial}")
+  Observable<String[]> getPlantsPictureList(@Path("serial") String serial);
 
-    interface Service{
-        Observable<String[]> getPlantsPictureList(String serial);
-    }
+  interface Service {
+    Observable<String[]> getPlantsPictureList(String serial);
+  }
 }

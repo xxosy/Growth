@@ -5,13 +5,13 @@ package com.growth.domain.ec;
  */
 
 public class EcList {
-    EcItem[] ecItems;
+  EcItem[] ecItems;
 
-    public EcItem[] getEcItems() {
-        return ecItems;
-    }
+  public EcItem[] getEcItems() {
+    return ecItems;
+  }
 
-    public void setEcItems(EcItem[] ecItems) {
-        this.ecItems = ecItems;
-    }
+  public void setEcItems(EcItem[] ecItems) {
+    this.ecItems = ecItems;
+  }
 }

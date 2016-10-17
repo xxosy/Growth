@@ -8,14 +8,21 @@ import com.growth.utils.ToastControl;
  */
 
 public interface ActuatorPresenter {
-    void enter();
-    void btnActuatorClick(int index);
-    void btnActuatorDetailClick(int index);
-    void btnActuatorDetailSwitchClick();
-    interface View extends ProgressControl,ToastControl {
-        void refreshActuatorState(int[] state);
-        void showActuatorDetail(int index, int state);
-        void hideActuatorDetail();
-        void refreshActuatorDetailState(int state);
-    }
+  void enter();
+
+  void btnActuatorClick(int index);
+
+  void btnActuatorDetailClick(int index);
+
+  void btnActuatorDetailSwitchClick();
+
+  interface View extends ProgressControl, ToastControl {
+    void refreshActuatorState(int[] state);
+
+    void showActuatorDetail(int index, int state);
+
+    void hideActuatorDetail();
+
+    void refreshActuatorDetailState(int state);
+  }
 }

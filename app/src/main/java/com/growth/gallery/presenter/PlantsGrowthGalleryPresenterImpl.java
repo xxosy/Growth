@@ -15,35 +15,35 @@ import rx.schedulers.Schedulers;
  */
 
 public class PlantsGrowthGalleryPresenterImpl implements PlantsGrowthGalleryPresenter {
-    PlantsGrowthGalleryPresenter.View view;
-    SensorDataAPI sensorDataAPI;
-    PlantsGrowthGallerySensorListAdapterModel mPlantsGrowthGallerySensorListAdapterModel;
+  PlantsGrowthGalleryPresenter.View view;
+  SensorDataAPI sensorDataAPI;
+  PlantsGrowthGallerySensorListAdapterModel mPlantsGrowthGallerySensorListAdapterModel;
 
-    @Inject
-    PlantsGrowthGalleryPresenterImpl(PlantsGrowthGalleryPresenter.View view,SensorDataAPI sensorDataAPI,PlantsGrowthGallerySensorListAdapterModel plantsGrowthGallerySensorListAdapterModel){
-        this.view = view;
-        this.sensorDataAPI = sensorDataAPI;
-        this.mPlantsGrowthGallerySensorListAdapterModel = plantsGrowthGallerySensorListAdapterModel;
-    }
+  @Inject
+  PlantsGrowthGalleryPresenterImpl(PlantsGrowthGalleryPresenter.View view, SensorDataAPI sensorDataAPI, PlantsGrowthGallerySensorListAdapterModel plantsGrowthGallerySensorListAdapterModel) {
+    this.view = view;
+    this.sensorDataAPI = sensorDataAPI;
+    this.mPlantsGrowthGallerySensorListAdapterModel = plantsGrowthGallerySensorListAdapterModel;
+  }
 
 
-    @Override
-    public void OnCreatedView() {
-        sensorDataAPI.getMapSensors(User.getInstance().getUserCode())
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(result -> {
-                    mPlantsGrowthGallerySensorListAdapterModel.clear();
-                    for(SensorItem sensorItem:result){
-                        mPlantsGrowthGallerySensorListAdapterModel.add(sensorItem);
-                    }
-                    view.refreshRecyclerPlantsGrowthGalleryList();
-                });
-    }
+  @Override
+  public void OnCreatedView() {
+    sensorDataAPI.getMapSensors(User.getInstance().getUserCode())
+        .subscribeOn(Schedulers.io())
+        .observeOn(AndroidSchedulers.mainThread())
+        .subscribe(result -> {
+          mPlantsGrowthGallerySensorListAdapterModel.clear();
+          for (SensorItem sensorItem : result) {
+            mPlantsGrowthGallerySensorListAdapterModel.add(sensorItem);
+          }
+          view.refreshRecyclerPlantsGrowthGalleryList();
+        });
+  }
 
-    @Override
-    public void OnRecyclerPlantsGrowthGalleryItemClick(int position) {
-        String serial = mPlantsGrowthGallerySensorListAdapterModel.getItem(position).getSerial();
-        view.startActivityPlantGallery(serial);
-    }
+  @Override
+  public void OnRecyclerPlantsGrowthGalleryItemClick(int position) {
+    String serial = mPlantsGrowthGallerySensorListAdapterModel.getItem(position).getSerial();
+    view.startActivityPlantGallery(serial);
+  }
 }

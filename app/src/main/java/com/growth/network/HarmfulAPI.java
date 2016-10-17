@@ -11,10 +11,10 @@ import rx.Observable;
  */
 
 public interface HarmfulAPI {
-    @GET("/harmful/list/{division}")
-    Observable<HarmfulData[]> getHarmfulData(@Path("division") String division);
+  @GET("/harmful/list/{division}")
+  Observable<HarmfulData[]> getHarmfulData(@Path("division") String division);
 
-    interface Service{
-        Observable<HarmfulData[]> getHarmfulData(String division);
-    }
+  interface Service {
+    Observable<HarmfulData[]> getHarmfulData(String division);
+  }
 }

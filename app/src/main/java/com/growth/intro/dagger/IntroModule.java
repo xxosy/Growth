@@ -12,18 +12,19 @@ import dagger.Provides;
  */
 @Module(includes = NetworkModule.class)
 public class IntroModule {
-    IntroPresenter.View view;
+  IntroPresenter.View view;
 
-    public IntroModule(IntroPresenter.View view){
-        this.view = view;
-    }
+  public IntroModule(IntroPresenter.View view) {
+    this.view = view;
+  }
 
-    @Provides
-    IntroPresenter providePresenter(IntroPresenterImpl introPresenter){
-        return introPresenter;
-    }
-    @Provides
-    IntroPresenter.View provideView(){
-        return view;
-    }
+  @Provides
+  IntroPresenter providePresenter(IntroPresenterImpl introPresenter) {
+    return introPresenter;
+  }
+
+  @Provides
+  IntroPresenter.View provideView() {
+    return view;
+  }
 }

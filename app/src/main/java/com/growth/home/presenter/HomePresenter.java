@@ -5,8 +5,9 @@ package com.growth.home.presenter;
  */
 
 public interface HomePresenter {
-    void initHome();
-    interface View{
+  void initHome();
 
-    }
+  interface View {
+
+  }
 }

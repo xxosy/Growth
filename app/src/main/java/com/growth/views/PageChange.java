@@ -7,5 +7,5 @@ import android.support.v4.app.Fragment;
  */
 
 public interface PageChange {
-    void pageChange(Fragment fragment);
+  void pageChange(Fragment fragment);
 }

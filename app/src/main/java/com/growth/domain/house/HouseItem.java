@@ -10,36 +10,39 @@ import java.util.ArrayList;
  */
 
 public class HouseItem {
-    String name;
-    int id;
-    ArrayList<SensorItem> sensorItems;
+  String name;
+  int id;
+  ArrayList<SensorItem> sensorItems;
 
-    public HouseItem(){
-        sensorItems = new ArrayList<>();
-    }
-    public int getId() {
-        return id;
-    }
+  public HouseItem() {
+    sensorItems = new ArrayList<>();
+  }
 
-    public void setId(int id) {
-        this.id = id;
-    }
+  public int getId() {
+    return id;
+  }
 
-    public String getName() {
-        return name;
-    }
+  public void setId(int id) {
+    this.id = id;
+  }
 
-    public void setName(String name) {
-        this.name = name;
-    }
+  public String getName() {
+    return name;
+  }
 
-    public ArrayList<SensorItem> getSensorItems() {
-        return sensorItems;
-    }
-    public void addSensorItem(SensorItem sensorItem) {
-        this.sensorItems.add(sensorItem);
-    }
-    public void setSensorItems(ArrayList<SensorItem> sensorItems) {
-        this.sensorItems = sensorItems;
-    }
+  public void setName(String name) {
+    this.name = name;
+  }
+
+  public ArrayList<SensorItem> getSensorItems() {
+    return sensorItems;
+  }
+
+  public void addSensorItem(SensorItem sensorItem) {
+    this.sensorItems.add(sensorItem);
+  }
+
+  public void setSensorItems(ArrayList<SensorItem> sensorItems) {
+    this.sensorItems = sensorItems;
+  }
 }

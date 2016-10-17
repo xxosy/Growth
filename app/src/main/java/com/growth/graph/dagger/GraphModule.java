@@ -12,17 +12,19 @@ import dagger.Provides;
  */
 @Module(includes = NetworkModule.class)
 public class GraphModule {
-    GraphPresenter.View view;
+  GraphPresenter.View view;
 
-    public GraphModule(GraphPresenter.View view){
-        this.view = view;
-    }
-    @Provides
-    GraphPresenter providePresenter(GraphPresenterImpl graphPresenter){
-        return graphPresenter;
-    }
-    @Provides
-    GraphPresenter.View provideView(){
-        return view;
-    }
+  public GraphModule(GraphPresenter.View view) {
+    this.view = view;
+  }
+
+  @Provides
+  GraphPresenter providePresenter(GraphPresenterImpl graphPresenter) {
+    return graphPresenter;
+  }
+
+  @Provides
+  GraphPresenter.View provideView() {
+    return view;
+  }
 }

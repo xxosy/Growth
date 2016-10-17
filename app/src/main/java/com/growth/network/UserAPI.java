@@ -14,14 +14,15 @@ import rx.Observable;
  */
 
 public interface UserAPI {
-    @GET("/user/{usercode}")
-    Observable<User> getUserCode(@Path("usercode")String usercode);
+  @GET("/user/{usercode}")
+  Observable<User> getUserCode(@Path("usercode") String usercode);
 
-    @POST("/user/{usercode}")
-    Observable<Void> insertUserCode(@Path("usercode")String usercode);
+  @POST("/user/{usercode}")
+  Observable<Void> insertUserCode(@Path("usercode") String usercode);
 
-    interface Service{
-        Observable<User> getUserCode(String usercode);
-        Observable<Void> insertUserCode(String usercode);
-    }
+  interface Service {
+    Observable<User> getUserCode(String usercode);
+
+    Observable<Void> insertUserCode(String usercode);
+  }
 }

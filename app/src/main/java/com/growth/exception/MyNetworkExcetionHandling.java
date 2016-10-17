@@ -13,15 +13,15 @@ import java.net.SocketTimeoutException;
  */
 
 public class MyNetworkExcetionHandling {
-    public static void excute(Throwable error, ProgressControl progress, ToastControl toast){
-        if(error instanceof ConnectException){
-            toast.showToast("Failed to connect, Please check your network");
-            progress.stopProgress();
-        }else if(error instanceof SocketTimeoutException){
-            toast.showToast("Timeout to connect, Please check your network");
-            progress.stopProgress();
-        }else{
-            Log.i("error",error.toString());
-        }
+  public static void excute(Throwable error, ProgressControl progress, ToastControl toast) {
+    if (error instanceof ConnectException) {
+      toast.showToast("Failed to connect, Please check your network");
+      progress.stopProgress();
+    } else if (error instanceof SocketTimeoutException) {
+      toast.showToast("Timeout to connect, Please check your network");
+      progress.stopProgress();
+    } else {
+      Log.i("error", error.toString());
     }
+  }
 }

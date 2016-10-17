@@ -5,5 +5,5 @@ package com.growth.utils;
  */
 
 public interface ToastControl {
-    void showToast(String msg);
+  void showToast(String msg);
 }

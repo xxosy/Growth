@@ -5,31 +5,31 @@ package com.growth.domain.house;
  */
 
 public class HouseSensor {
-    int id;
-    String serial;
-    int house_id;
+  int id;
+  String serial;
+  int house_id;
 
-    public String getSerial() {
-        return serial;
-    }
+  public String getSerial() {
+    return serial;
+  }
 
-    public void setSerial(String serial) {
-        this.serial = serial;
-    }
+  public void setSerial(String serial) {
+    this.serial = serial;
+  }
 
-    public int getId() {
-        return id;
-    }
+  public int getId() {
+    return id;
+  }
 
-    public int getHouse_id() {
-        return house_id;
-    }
+  public int getHouse_id() {
+    return house_id;
+  }
 
-    public void setId(int id) {
-        this.id = id;
-    }
+  public void setId(int id) {
+    this.id = id;
+  }
 
-    public void setHouse_id(int house_id) {
-        this.house_id = house_id;
-    }
+  public void setHouse_id(int house_id) {
+    this.house_id = house_id;
+  }
 }

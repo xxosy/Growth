@@ -5,9 +5,11 @@ package com.growth.gallerypictures.presenter;
  */
 
 public interface PlantsGrowthGalleryPicturesPresenter {
-    void onCreated(String serial);
-    void OnRecyclerPlantsGrowthGalleryItemClick(int position);
-    interface View{
-        void refreshRecycler();
-    }
+  void onCreated(String serial);
+
+  void OnRecyclerPlantsGrowthGalleryItemClick(int position);
+
+  interface View {
+    void refreshRecycler();
+  }
 }

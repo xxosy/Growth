@@ -5,10 +5,13 @@ package com.growth.gallery.presenter;
  */
 
 public interface PlantsGrowthGalleryPresenter {
-    void OnCreatedView();
-    void OnRecyclerPlantsGrowthGalleryItemClick(int position);
-    interface  View{
-        void refreshRecyclerPlantsGrowthGalleryList();
-        void startActivityPlantGallery(String serial);
-    }
+  void OnCreatedView();
+
+  void OnRecyclerPlantsGrowthGalleryItemClick(int position);
+
+  interface View {
+    void refreshRecyclerPlantsGrowthGalleryList();
+
+    void startActivityPlantGallery(String serial);
+  }
 }

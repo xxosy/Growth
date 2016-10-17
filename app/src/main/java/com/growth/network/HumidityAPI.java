@@ -12,16 +12,20 @@ import rx.Observable;
  */
 
 public interface HumidityAPI {
-    @GET("/humidity/list")
-    Observable<HumidityList> getHumidityList();
-    @GET("/humidity/recent")
-    Observable<HumidityItem> getHumidity();
-    @GET("/humidity/recent/{serial}")
-    Observable<HumidityItem> getHumidity(@Path("serial") String serial);
+  @GET("/humidity/list")
+  Observable<HumidityList> getHumidityList();
 
-    interface Service{
-        Observable<HumidityItem> getHumidity();
-        Observable<HumidityItem> getHumidity(String serial);
-        Observable<HumidityList> getHumidityList();
-    }
+  @GET("/humidity/recent")
+  Observable<HumidityItem> getHumidity();
+
+  @GET("/humidity/recent/{serial}")
+  Observable<HumidityItem> getHumidity(@Path("serial") String serial);
+
+  interface Service {
+    Observable<HumidityItem> getHumidity();
+
+    Observable<HumidityItem> getHumidity(String serial);
+
+    Observable<HumidityList> getHumidityList();
+  }
 }

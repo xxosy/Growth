@@ -5,13 +5,13 @@ package com.growth.domain.sensor;
  */
 
 public class SensorList {
-    private SensorItem[] sensorItems;
+  private SensorItem[] sensorItems;
 
-    public SensorItem[] getSensorItems() {
-        return sensorItems;
-    }
+  public SensorItem[] getSensorItems() {
+    return sensorItems;
+  }
 
-    public void setSensorItems(SensorItem[] sensorItems) {
-        this.sensorItems = sensorItems;
-    }
+  public void setSensorItems(SensorItem[] sensorItems) {
+    this.sensorItems = sensorItems;
+  }
 }

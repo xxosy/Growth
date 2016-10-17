@@ -7,8 +7,11 @@ import com.growth.domain.harmful.HarmfulData;
  */
 
 public interface HarmfulListAdapterDataModel {
-    void add(HarmfulData harmfulData);
-    int getSize();
-    HarmfulData getItem(int position);
-    void clear();
+  void add(HarmfulData harmfulData);
+
+  int getSize();
+
+  HarmfulData getItem(int position);
+
+  void clear();
 }

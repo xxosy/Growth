@@ -12,12 +12,13 @@ import retrofit2.Retrofit;
  */
 @Module
 public class NetworkModule {
-    @Provides
-    public Retrofit provideRetrofit(){
-        return RetrofitCreator.createRetrofit();
-    }
-    @Provides
-    public SensorDataAPI provideSensorDataAPI(Retrofit retrofit){
-        return new SensorDataAPI(retrofit);
-    }
+  @Provides
+  public Retrofit provideRetrofit() {
+    return RetrofitCreator.createRetrofit();
+  }
+
+  @Provides
+  public SensorDataAPI provideSensorDataAPI(Retrofit retrofit) {
+    return new SensorDataAPI(retrofit);
+  }
 }

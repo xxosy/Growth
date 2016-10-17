@@ -12,17 +12,19 @@ import dagger.Provides;
  */
 @Module(includes = NetworkModule.class)
 public class SensorMapModule {
-    SensorMapPresenter.View view;
+  SensorMapPresenter.View view;
 
-    public SensorMapModule(SensorMapPresenter.View view){this.view = view;}
+  public SensorMapModule(SensorMapPresenter.View view) {
+    this.view = view;
+  }
 
-    @Provides
-    public SensorMapPresenter provideSensorMapPresenter(SensorMapPresenterImpl sensorMapPresenter){
-        return sensorMapPresenter;
-    }
+  @Provides
+  public SensorMapPresenter provideSensorMapPresenter(SensorMapPresenterImpl sensorMapPresenter) {
+    return sensorMapPresenter;
+  }
 
-    @Provides
-    public SensorMapPresenter.View provideView(){
-        return view;
-    }
+  @Provides
+  public SensorMapPresenter.View provideView() {
+    return view;
+  }
 }

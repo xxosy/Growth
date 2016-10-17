@@ -9,5 +9,5 @@ import dagger.Component;
  */
 @Component(modules = ActuatorModule.class)
 public interface ActuatorComponent {
-    void inject(ActuatorFragment actuatorFragment);
+  void inject(ActuatorFragment actuatorFragment);
 }

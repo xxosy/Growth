@@ -10,5 +10,5 @@ import dagger.Module;
  */
 @Component(modules = GraphModule.class)
 public interface GraphComponent {
-    void inject(GraphFragment graphFragment);
+  void inject(GraphFragment graphFragment);
 }

@@ -12,12 +12,15 @@ import rx.Observable;
  */
 
 public interface ActuatorAPI {
-    @GET("/actuator/states")
+  @GET("/actuator/states")
+  Observable<ActuatorState> getActuatorState();
+
+  @PUT("/actuator/states")
+  Observable<Void> putActuatorState(@Body ActuatorState actuatorState);
+
+  interface Service {
     Observable<ActuatorState> getActuatorState();
-    @PUT("/actuator/states")
-    Observable<Void> putActuatorState(@Body ActuatorState actuatorState);
-    interface Service{
-        Observable<ActuatorState> getActuatorState();
-        Observable<Void> putActuatorState(ActuatorState actuatorState);
-    }
+
+    Observable<Void> putActuatorState(ActuatorState actuatorState);
+  }
 }

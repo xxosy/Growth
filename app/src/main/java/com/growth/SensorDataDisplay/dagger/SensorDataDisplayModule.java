@@ -15,27 +15,31 @@ import dagger.Provides;
  */
 @Module(includes = NetworkModule.class)
 public class SensorDataDisplayModule {
-    SensorDataDisplayPresenter.View view;
-    HarmfulListAdapter harmfulListAdapter;
-    public SensorDataDisplayModule(SensorDataDisplayPresenter.View view, HarmfulListAdapter harmfulListAdapter){
-        this.view = view;
-        this.harmfulListAdapter = harmfulListAdapter;
-    }
+  SensorDataDisplayPresenter.View view;
+  HarmfulListAdapter harmfulListAdapter;
 
-    @Provides
-    public HarmfulListAdapterDataModel provideHarmfulListAdapterDataModel(){
-        return harmfulListAdapter;
-    }
-    @Provides
-    public HarmfulListAdapterDataView provideHarmfulListAdapterDataView(){
-        return harmfulListAdapter;
-    }
-    @Provides
-    public SensorDataDisplayPresenter provideSensorDataDisplayPresenter(SensorDataDisplayPresenterImpl sensorDataDisplayPresenter){
-        return sensorDataDisplayPresenter;
-    }
-    @Provides
-    public SensorDataDisplayPresenter.View provideView(){
-        return view;
-    }
+  public SensorDataDisplayModule(SensorDataDisplayPresenter.View view, HarmfulListAdapter harmfulListAdapter) {
+    this.view = view;
+    this.harmfulListAdapter = harmfulListAdapter;
+  }
+
+  @Provides
+  public HarmfulListAdapterDataModel provideHarmfulListAdapterDataModel() {
+    return harmfulListAdapter;
+  }
+
+  @Provides
+  public HarmfulListAdapterDataView provideHarmfulListAdapterDataView() {
+    return harmfulListAdapter;
+  }
+
+  @Provides
+  public SensorDataDisplayPresenter provideSensorDataDisplayPresenter(SensorDataDisplayPresenterImpl sensorDataDisplayPresenter) {
+    return sensorDataDisplayPresenter;
+  }
+
+  @Provides
+  public SensorDataDisplayPresenter.View provideView() {
+    return view;
+  }
 }

@@ -5,6 +5,7 @@ package com.growth.utils;
  */
 
 public interface ProgressControl {
-    void startProgress();
-    void stopProgress();
+  void startProgress();
+
+  void stopProgress();
 }

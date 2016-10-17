@@ -5,13 +5,13 @@ package com.growth.domain.temperature;
  */
 
 public class TemperatureList {
-    TemperatureItem[] temperatureItems;
+  TemperatureItem[] temperatureItems;
 
-    public TemperatureItem[] getTemperatureItems() {
-        return temperatureItems;
-    }
+  public TemperatureItem[] getTemperatureItems() {
+    return temperatureItems;
+  }
 
-    public void setTemperatureItems(TemperatureItem[] temperatureItems) {
-        this.temperatureItems = temperatureItems;
-    }
+  public void setTemperatureItems(TemperatureItem[] temperatureItems) {
+    this.temperatureItems = temperatureItems;
+  }
 }

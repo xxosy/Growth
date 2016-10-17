@@ -5,13 +5,13 @@ package com.growth.domain.light;
  */
 
 public class LightList {
-    LightItem[] lightItems;
+  LightItem[] lightItems;
 
-    public LightItem[] getLightItems() {
-        return lightItems;
-    }
+  public LightItem[] getLightItems() {
+    return lightItems;
+  }
 
-    public void setLightItems(LightItem[] lightItems) {
-        this.lightItems = lightItems;
-    }
+  public void setLightItems(LightItem[] lightItems) {
+    this.lightItems = lightItems;
+  }
 }

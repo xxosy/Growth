@@ -23,73 +23,76 @@ import butterknife.ButterKnife;
  */
 
 public class PlantsGrowthGallerySensorListAdapter extends RecyclerView.Adapter<PlantsGrowthGallerySensorListAdapter.ViewHolder>
-                implements PlantsGrowthGallerySensorListAdapterView,
-                            PlantsGrowthGallerySensorListAdapterModel{
-    Context context;
-    List<SensorItem> items;
-    OnRecyclerItemClickListener mOnRecyclerItemClickListener;
-    public PlantsGrowthGallerySensorListAdapter(Context context) {
-        this.context = context;
-        items = new ArrayList<>();
-    }
+    implements PlantsGrowthGallerySensorListAdapterView,
+    PlantsGrowthGallerySensorListAdapterModel {
+  Context context;
+  List<SensorItem> items;
+  OnRecyclerItemClickListener mOnRecyclerItemClickListener;
 
-    @Override
-    public PlantsGrowthGallerySensorListAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.item_plants_growth_gallery_list, parent, false);
-        return new PlantsGrowthGallerySensorListAdapter.ViewHolder(view);
-    }
+  public PlantsGrowthGallerySensorListAdapter(Context context) {
+    this.context = context;
+    items = new ArrayList<>();
+  }
 
-    @Override
-    public void onBindViewHolder(PlantsGrowthGallerySensorListAdapter.ViewHolder holder, int position) {
-        holder.tvPlantsGallerySerial.setText(items.get(position).getSerial());
-        holder.tvPlantsGalleryTitle.setText(items.get(position).getTitle());
-        holder.btnPlantsGrowthGallery.setOnClickListener(v -> mOnRecyclerItemClickListener.onItemClick(this,position));
-    }
-    @Override
-    public int getItemCount() {
-        return getSize();
-    }
+  @Override
+  public PlantsGrowthGallerySensorListAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    View view = LayoutInflater.from(context).inflate(R.layout.item_plants_growth_gallery_list, parent, false);
+    return new PlantsGrowthGallerySensorListAdapter.ViewHolder(view);
+  }
 
-    @Override
-    public void refresh() {
-        notifyDataSetChanged();
-    }
+  @Override
+  public void onBindViewHolder(PlantsGrowthGallerySensorListAdapter.ViewHolder holder, int position) {
+    holder.tvPlantsGallerySerial.setText(items.get(position).getSerial());
+    holder.tvPlantsGalleryTitle.setText(items.get(position).getTitle());
+    holder.btnPlantsGrowthGallery.setOnClickListener(v -> mOnRecyclerItemClickListener.onItemClick(this, position));
+  }
 
-    @Override
-    public void setOnRecyclerItemClickListener(OnRecyclerItemClickListener onRecyclerItemClickListener) {
-        this.mOnRecyclerItemClickListener = onRecyclerItemClickListener;
-    }
+  @Override
+  public int getItemCount() {
+    return getSize();
+  }
 
-    @Override
-    public void add(SensorItem sensorItem) {
-        items.add(sensorItem);
-    }
+  @Override
+  public void refresh() {
+    notifyDataSetChanged();
+  }
 
-    @Override
-    public int getSize() {
-        return items.size();
-    }
+  @Override
+  public void setOnRecyclerItemClickListener(OnRecyclerItemClickListener onRecyclerItemClickListener) {
+    this.mOnRecyclerItemClickListener = onRecyclerItemClickListener;
+  }
 
-    @Override
-    public SensorItem getItem(int position) {
-        return items.get(position);
-    }
+  @Override
+  public void add(SensorItem sensorItem) {
+    items.add(sensorItem);
+  }
 
-    @Override
-    public void clear() {
-        items.clear();
-    }
+  @Override
+  public int getSize() {
+    return items.size();
+  }
 
-    static class ViewHolder extends RecyclerView.ViewHolder {
-        @BindView(R.id.tv_plants_gallery_serial)
-        TextView tvPlantsGallerySerial;
-        @BindView(R.id.tv_plants_gallery_title)
-        TextView tvPlantsGalleryTitle;
-        @BindView(R.id.btn_plants_growth_gallery)
-        FrameLayout btnPlantsGrowthGallery;
-        public ViewHolder(View itemView) {
-            super(itemView);
-            ButterKnife.bind(this, itemView);
-        }
+  @Override
+  public SensorItem getItem(int position) {
+    return items.get(position);
+  }
+
+  @Override
+  public void clear() {
+    items.clear();
+  }
+
+  static class ViewHolder extends RecyclerView.ViewHolder {
+    @BindView(R.id.tv_plants_gallery_serial)
+    TextView tvPlantsGallerySerial;
+    @BindView(R.id.tv_plants_gallery_title)
+    TextView tvPlantsGalleryTitle;
+    @BindView(R.id.btn_plants_growth_gallery)
+    FrameLayout btnPlantsGrowthGallery;
+
+    public ViewHolder(View itemView) {
+      super(itemView);
+      ButterKnife.bind(this, itemView);
     }
+  }
 }

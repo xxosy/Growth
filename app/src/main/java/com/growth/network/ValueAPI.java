@@ -12,16 +12,20 @@ import rx.Observable;
  */
 
 public interface ValueAPI {
-    @GET("/value/list")
-    Observable<TemperatureList> getValueList();
-    @GET("/value/recent/{serial}")
-    Observable<Value> getValue(@Path("serial") String serial);
-    @GET("/value/recent")
+  @GET("/value/list")
+  Observable<TemperatureList> getValueList();
+
+  @GET("/value/recent/{serial}")
+  Observable<Value> getValue(@Path("serial") String serial);
+
+  @GET("/value/recent")
+  Observable<Value> getValue();
+
+  interface Service {
+    Observable<Value> getValue(String serial);
+
     Observable<Value> getValue();
 
-    interface Service{
-        Observable<Value> getValue(String serial);
-        Observable<Value> getValue();
-        Observable<TemperatureList> getValueList();
-    }
+    Observable<TemperatureList> getValueList();
+  }
 }

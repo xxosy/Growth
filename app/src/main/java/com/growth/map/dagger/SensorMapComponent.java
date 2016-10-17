@@ -9,5 +9,5 @@ import dagger.Component;
  */
 @Component(modules = SensorMapModule.class)
 public interface SensorMapComponent {
-    void inject(SensorMapFragment sensorMapFragment);
+  void inject(SensorMapFragment sensorMapFragment);
 }

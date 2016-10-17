@@ -12,5 +12,5 @@ import dagger.Component;
  */
 @Component(modules = SensorDataDisplayModule.class)
 public interface SensorDataDisplayComponent {
-    void inject(SensorDataDisplayFragment sensorDataDisplayFragment);
+  void inject(SensorDataDisplayFragment sensorDataDisplayFragment);
 }

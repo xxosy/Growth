@@ -5,13 +5,13 @@ package com.growth.domain.ph;
  */
 
 public class PhList {
-    PhList[] phLists;
+  PhList[] phLists;
 
-    public PhList[] getPhLists() {
-        return phLists;
-    }
+  public PhList[] getPhLists() {
+    return phLists;
+  }
 
-    public void setPhLists(PhList[] phLists) {
-        this.phLists = phLists;
-    }
+  public void setPhLists(PhList[] phLists) {
+    this.phLists = phLists;
+  }
 }

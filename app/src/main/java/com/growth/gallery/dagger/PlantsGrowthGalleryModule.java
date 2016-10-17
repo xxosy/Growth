@@ -15,29 +15,31 @@ import dagger.Provides;
  */
 @Module(includes = NetworkModule.class)
 public class PlantsGrowthGalleryModule {
-    PlantsGrowthGalleryPresenter.View view;
-    PlantsGrowthGallerySensorListAdapter mPlantsGrowthGallerySensorListAdapter;
-    public PlantsGrowthGalleryModule(PlantsGrowthGalleryPresenter.View view, PlantsGrowthGallerySensorListAdapter plantsGrowthGallerySensorListAdapter){
-        this.view = view;
-        mPlantsGrowthGallerySensorListAdapter = plantsGrowthGallerySensorListAdapter;
-    }
+  PlantsGrowthGalleryPresenter.View view;
+  PlantsGrowthGallerySensorListAdapter mPlantsGrowthGallerySensorListAdapter;
 
-    @Provides
-    public PlantsGrowthGalleryPresenter providePresenter(PlantsGrowthGalleryPresenterImpl plantsGrowthGalleryPresenter){
-        return plantsGrowthGalleryPresenter;
-    }
+  public PlantsGrowthGalleryModule(PlantsGrowthGalleryPresenter.View view, PlantsGrowthGallerySensorListAdapter plantsGrowthGallerySensorListAdapter) {
+    this.view = view;
+    mPlantsGrowthGallerySensorListAdapter = plantsGrowthGallerySensorListAdapter;
+  }
 
-    @Provides
-    public PlantsGrowthGalleryPresenter.View provideView(){
-        return this.view;
-    }
+  @Provides
+  public PlantsGrowthGalleryPresenter providePresenter(PlantsGrowthGalleryPresenterImpl plantsGrowthGalleryPresenter) {
+    return plantsGrowthGalleryPresenter;
+  }
 
-    @Provides
-    public PlantsGrowthGallerySensorListAdapterModel providePlantsGrowthGallerySensorListAdapterModel(){
-        return mPlantsGrowthGallerySensorListAdapter;
-    }
-    @Provides
-    public PlantsGrowthGallerySensorListAdapterView providePlantsGrowthGallerySensorListAdapterView(){
-        return mPlantsGrowthGallerySensorListAdapter;
-    }
+  @Provides
+  public PlantsGrowthGalleryPresenter.View provideView() {
+    return this.view;
+  }
+
+  @Provides
+  public PlantsGrowthGallerySensorListAdapterModel providePlantsGrowthGallerySensorListAdapterModel() {
+    return mPlantsGrowthGallerySensorListAdapter;
+  }
+
+  @Provides
+  public PlantsGrowthGallerySensorListAdapterView providePlantsGrowthGallerySensorListAdapterView() {
+    return mPlantsGrowthGallerySensorListAdapter;
+  }
 }

@@ -5,31 +5,31 @@ package com.growth.domain.actuator;
  */
 
 public class ActuatorState {
-    int id;
-    String state;
-    String serial;
+  int id;
+  String state;
+  String serial;
 
-    public int getId() {
-        return id;
-    }
+  public int getId() {
+    return id;
+  }
 
-    public String getSerial() {
-        return serial;
-    }
+  public String getSerial() {
+    return serial;
+  }
 
-    public String getState() {
-        return state;
-    }
+  public String getState() {
+    return state;
+  }
 
-    public void setId(int id) {
-        this.id = id;
-    }
+  public void setId(int id) {
+    this.id = id;
+  }
 
-    public void setSerial(String serial) {
-        this.serial = serial;
-    }
+  public void setSerial(String serial) {
+    this.serial = serial;
+  }
 
-    public void setState(String state) {
-        this.state = state;
-    }
+  public void setState(String state) {
+    this.state = state;
+  }
 }

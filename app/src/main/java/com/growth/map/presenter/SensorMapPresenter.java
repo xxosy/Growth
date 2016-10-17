@@ -1,7 +1,7 @@
 package com.growth.map.presenter;
 
-import com.growth.utils.GpsInfo;
 import com.growth.domain.sensor.SensorItem;
+import com.growth.utils.GpsInfo;
 import com.growth.utils.ProgressControl;
 import com.growth.utils.ToastControl;
 
@@ -10,40 +10,66 @@ import com.growth.utils.ToastControl;
  */
 
 public interface SensorMapPresenter {
-    void floatingActionButtonClick();
-    void infoWindowDetailClick();
-    void infoWindowDeleteSensorClick();
-    void infoWindowUpdateSensorClick();
-    void infoWindowActuatorClick();
-    void infoWindowGraphClick();
-    void addWindowCheckSerialClick(String serial);
-    void addWindowGetLocationClick();
-    void addWindowOkClick(String serial, String title, String lat, String lng);
-    void addWindowCancelClick();
-    void enterFragment();
-    void markerClick(String title);
-    void onInfoWindowDetailButtonClick(String serial);
-    void btnZoomInClick();
-    void btnZoomOutClick();
-    void btnLocationClick(GpsInfo gps);
+  void onCreatedView();
 
-    interface View extends ProgressControl,ToastControl {
-        void clearAddWindow();
-        void refreshMarker();
-        void refreshInfoWindow();
-        void addMarker(SensorItem sensorItem,boolean isUpdating);
-        void showInfoWindow(String title, String serial, String humidity);
-        void hideInfoWindow();
-        void showAddSensorWindow();
-        void hideAddSensorWindow();
-        void fillEditLocation();
-        void checkSerialFail();
-        void checkSerialSuccess();
-        void clearMap();
-        void refreshAddWindowUpdateSensor(String serial,String title, String lat, String lng);
-        void refreshMapZoom(int index);
-        void refreshZoomButtom(int index);
-        void refreshMapLocation(double lat,double lng,int index);
-        void showToast(String msg);
-    }
+  void markerClick(String title);
+
+  void floatingActionButtonClick();
+
+  void infoWindowDetailClick();
+
+  void infoWindowDeleteSensorClick();
+
+  void infoWindowUpdateSensorClick();
+
+  void infoWindowActuatorClick();
+
+  void infoWindowGraphClick();
+
+  void addWindowCheckSerialClick(String serial);
+
+  void addWindowGetLocationClick();
+
+  void addWindowOkClick(String serial, String title, String lat, String lng);
+
+  void addWindowCancelClick();
+
+  void btnZoomInClick();
+
+  void btnZoomOutClick();
+
+  void btnLocationClick(GpsInfo gps);
+
+  interface View extends ProgressControl, ToastControl {
+
+    void showInfoWindow(String title, String serial, String humidity);
+
+    void hideInfoWindow();
+
+    void clearMap();
+
+    void showAddSensorWindow();
+
+    void hideAddSensorWindow();
+
+    void checkSerialFail();
+
+    void checkSerialSuccess();
+
+    void fillEditLocation();
+
+    void clearAddWindow();
+
+    void refreshAddWindowUpdateSensor(String serial, String title, String lat, String lng);
+
+    void addMarker(SensorItem sensorItem, boolean isUpdating);
+
+    void refreshMapZoom(int index);
+
+    void refreshZoomButton(int index);
+
+    void refreshMapLocation(double lat, double lng, int index);
+
+    void showToast(String msg);
+  }
 }

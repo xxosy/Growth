@@ -9,5 +9,5 @@ import dagger.Component;
  */
 @Component(modules = IntroModule.class)
 public interface IntroComponent {
-    void inject(IntroActivity introActivity);
+  void inject(IntroActivity introActivity);
 }

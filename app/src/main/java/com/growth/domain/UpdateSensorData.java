@@ -5,13 +5,13 @@ package com.growth.domain;
  */
 
 public class UpdateSensorData {
-    String lat;
-    String lng;
-    String title;
+  String lat;
+  String lng;
+  String title;
 
-    public UpdateSensorData(String lat, String lng, String title){
-        this.title = title;
-        this.lat =lat;
-        this.lng = lng;
-    }
+  public UpdateSensorData(String lat, String lng, String title) {
+    this.title = title;
+    this.lat = lat;
+    this.lng = lng;
+  }
 }

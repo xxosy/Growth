@@ -5,29 +5,29 @@ package com.growth.domain.user;
  */
 
 public class User {
-    int id;
-    String usercode;
-    public static User instance=null;
+  int id;
+  String usercode;
+  public static User instance = null;
 
-    public static User getInstance(){
-        if(instance == null)
-            instance = new User();
-        return instance;
-    }
+  public static User getInstance() {
+    if (instance == null)
+      instance = new User();
+    return instance;
+  }
 
-    public int getId() {
-        return id;
-    }
+  public int getId() {
+    return id;
+  }
 
-    public String getUserCode() {
-        return usercode;
-    }
+  public String getUserCode() {
+    return usercode;
+  }
 
-    public void setUserCode(String userCode) {
-        this.usercode = userCode;
-    }
+  public void setUserCode(String userCode) {
+    this.usercode = userCode;
+  }
 
-    public void setId(int id) {
-        this.id = id;
-    }
+  public void setId(int id) {
+    this.id = id;
+  }
 }

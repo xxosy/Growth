@@ -10,5 +10,5 @@ import dagger.Component;
 
 @Component(modules = PlantsGrowthGalleryModule.class)
 public interface PlantsGrowthGalleryComponent {
-    void inject(PlantsGrowthGalleryFragment plantsGrowthGalleryFragment);
+  void inject(PlantsGrowthGalleryFragment plantsGrowthGalleryFragment);
 }

@@ -14,7 +14,8 @@
             android:icon="@drawable/ic_setting"
             android:title="Setting"
             android:id="@+id/nav_setting" />
-        <item android:title="Plants Gallery"
+        <item
+            android:title="Plants Gallery"
 
             android:id="@+id/nav_plants_gallery" />
     </group>

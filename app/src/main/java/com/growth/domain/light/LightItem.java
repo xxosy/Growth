@@ -5,40 +5,40 @@ package com.growth.domain.light;
  */
 
 public class LightItem {
-    private int id;
-    private String light;
-    private int sensor_id;
-    private  String update_time;
+  private int id;
+  private String light;
+  private int sensor_id;
+  private String update_time;
 
-    public int getId() {
-        return id;
-    }
+  public int getId() {
+    return id;
+  }
 
-    public int getSensor_id() {
-        return sensor_id;
-    }
+  public int getSensor_id() {
+    return sensor_id;
+  }
 
-    public String getUpdate_time() {
-        return update_time;
-    }
+  public String getUpdate_time() {
+    return update_time;
+  }
 
-    public String getLight() {
-        return light;
-    }
+  public String getLight() {
+    return light;
+  }
 
-    public void setId(int id) {
-        this.id = id;
-    }
+  public void setId(int id) {
+    this.id = id;
+  }
 
-    public void setSensor_id(int sensor_id) {
-        this.sensor_id = sensor_id;
-    }
+  public void setSensor_id(int sensor_id) {
+    this.sensor_id = sensor_id;
+  }
 
-    public void setUpdate_time(String update_time) {
-        this.update_time = update_time;
-    }
+  public void setUpdate_time(String update_time) {
+    this.update_time = update_time;
+  }
 
-    public void setLight(String light) {
-        this.light = light;
-    }
+  public void setLight(String light) {
+    this.light = light;
+  }
 }

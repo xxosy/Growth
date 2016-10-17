@@ -43,256 +43,257 @@ import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
 public class ActuatorFragment extends Fragment implements ActuatorPresenter.View,
-        OnKeyBackPressedListener {
-    final private String TAG = ActuatorFragment.class.getName();
-    private static final String ARG_PARAM1 = "serial";
-    private static final String ARG_PARAM2 = "param2";
-    View root;
-    private Unbinder unbinder;
-    @BindView(R.id.container_actuator)
-    LinearLayout containerActuator;
-    @BindView(R.id.actuator_graph)
-    ViewGroup actuatorGraph;
-    @BindView(R.id.actuator_detail)
-    FrameLayout actuatorDetail;
-    @BindView(R.id.img_actuator_detail_on_off)
-    ImageView imgActuatorDetailOnOff;
-    @BindView(R.id.tv_actuator_detail_port)
-    TextView tvActuatorDetailPort;
-    @BindView(R.id.btn_actuator_detail_switch)
-    FrameLayout btnActuatorDetailSwitch;
+    OnKeyBackPressedListener {
+  final private String TAG = ActuatorFragment.class.getName();
+  private static final String ARG_PARAM1 = "serial";
+  private static final String ARG_PARAM2 = "param2";
+  View root;
+  private Unbinder unbinder;
+  @BindView(R.id.container_actuator)
+  LinearLayout containerActuator;
+  @BindView(R.id.actuator_graph)
+  ViewGroup actuatorGraph;
+  @BindView(R.id.actuator_detail)
+  FrameLayout actuatorDetail;
+  @BindView(R.id.img_actuator_detail_on_off)
+  ImageView imgActuatorDetailOnOff;
+  @BindView(R.id.tv_actuator_detail_port)
+  TextView tvActuatorDetailPort;
+  @BindView(R.id.btn_actuator_detail_switch)
+  FrameLayout btnActuatorDetailSwitch;
 
-    @Inject
-    ActuatorPresenter presenter;
+  @Inject
+  ActuatorPresenter presenter;
 
-    ArrayList<View> actuators;
-    private String serial;
-    private String mParam2;
-    ToastControl mToastControl;
+  ArrayList<View> actuators;
+  private String serial;
+  private String mParam2;
+  ToastControl mToastControl;
 
-    //graph
-    CurveGraphView cgv;
-    CurveGraphView preCgv;
+  //graph
+  CurveGraphView cgv;
+  CurveGraphView preCgv;
 
-    private OnFragmentInteractionListener mListener;
+  private OnFragmentInteractionListener mListener;
 
-    public ActuatorFragment() {
-        actuators = new ArrayList<>();
-        // Required empty public constructor
+  public ActuatorFragment() {
+    actuators = new ArrayList<>();
+    // Required empty public constructor
+  }
+
+  public static ActuatorFragment newInstance(String param1, String param2) {
+    ActuatorFragment fragment = new ActuatorFragment();
+    Bundle args = new Bundle();
+    args.putString(ARG_PARAM1, param1);
+    args.putString(ARG_PARAM2, param2);
+    fragment.setArguments(args);
+    return fragment;
+  }
+
+  @Override
+  public void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    if (getArguments() != null) {
+      serial = getArguments().getString(ARG_PARAM1);
+      mParam2 = getArguments().getString(ARG_PARAM2);
     }
+    ((HomeActivity) getActivity()).setOnKeyBackPressedListener(this);
+  }
 
-    public static ActuatorFragment newInstance(String param1, String param2) {
-        ActuatorFragment fragment = new ActuatorFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
+  private void addActuator(int i) {
+    View view = LayoutInflater.from(getActivity()).inflate(R.layout.item_actuator, containerActuator, false);
+    TextView tvActuatorName = (TextView) view.findViewById(R.id.tv_actuator_name);
+    String name;
+    if (i == 0) name = "Side Window1";
+    else if (i == 1) name = "Side Window2";
+    else if (i == 2) name = "Top Window1";
+    else if (i == 3) name = "Top Window2";
+    else if (i == 4) name = "Sprinkler";
+    else if (i == 5) name = "heater1";
+    else if (i == 6) name = "heater2";
+    else name = "Actuator" + i;
+    tvActuatorName.setText(name);
+    FrameLayout btnActuator = (FrameLayout) view.findViewById(R.id.btn_actuator);
+    FrameLayout btnActuatorDetail = (FrameLayout) view.findViewById(R.id.btn_actuator_detail);
+    btnActuatorDetail.setOnClickListener(v -> presenter.btnActuatorDetailClick(i));
+    btnActuator.setOnClickListener(v -> presenter.btnActuatorClick(i));
+    actuators.add(view);
+    ViewGroup.LayoutParams prams = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+    containerActuator.addView(view, 0, prams);
+  }
+
+  @Override
+  public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                           Bundle savedInstanceState) {
+    DaggerActuatorComponent.builder()
+        .actuatorModule(new ActuatorModule(this))
+        .build()
+        .inject(this);
+    if (root != null) {
+      ViewGroup parent = (ViewGroup) root.getParent();
+      if (parent != null)
+        parent.removeView(root);
     }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            serial = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
-        ((HomeActivity)getActivity()).setOnKeyBackPressedListener(this);
-    }
-    private void addActuator(int i){
-        View view = LayoutInflater.from(getActivity()).inflate(R.layout.item_actuator,containerActuator,false);
-        TextView tvActuatorName = (TextView)view.findViewById(R.id.tv_actuator_name);
-        String name;
-        if(i==0) name = "Side Window1";
-        else if(i==1) name = "Side Window2";
-        else if(i==2) name = "Top Window1";
-        else if(i==3) name = "Top Window2";
-        else if(i==4) name = "Sprinkler";
-        else if(i==5) name = "heater1";
-        else if(i==6) name = "heater2";
-        else name = "Actuator"+i;
-        tvActuatorName.setText(name);
-        FrameLayout btnActuator = (FrameLayout)view.findViewById(R.id.btn_actuator);
-        FrameLayout btnActuatorDetail = (FrameLayout)view.findViewById(R.id.btn_actuator_detail);
-        btnActuatorDetail.setOnClickListener(v -> presenter.btnActuatorDetailClick(i));
-        btnActuator.setOnClickListener(v -> presenter.btnActuatorClick(i));
-        actuators.add(view);
-        ViewGroup.LayoutParams prams = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,ViewGroup.LayoutParams.WRAP_CONTENT);
-        containerActuator.addView(view,0,prams);
-    }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        DaggerActuatorComponent.builder()
-                .actuatorModule(new ActuatorModule(this))
-                .build()
-                .inject(this);
-        if(root != null){
-            ViewGroup parent = (ViewGroup) root.getParent();
-            if(parent != null)
-                parent.removeView(root);
-        }
-        try {
-            root = inflater.inflate(R.layout.fragment_actuator, container, false);
-        } catch (InflateException e){
-
-        }
-        unbinder = ButterKnife.bind(this,root);
-        for(int i = 0;i<10;i++){
-            addActuator(i);
-        }
-        mToastControl = new ToastControlImlp(getActivity());
-        presenter.enter();
-        String[] legend = new String[24];
-        float[] data = new float[24];
-        for(int i = 0;i<24;i++){
-            legend[i] = String.valueOf(i);
-            if(i<10) {
-                data[i] = 0;
-            }else if(i>10 && i<20)
-                data[i] = 1;
-            else
-                data[i] = 0;
-        }
-        String tag = "Power";
-        int color = new Color().rgb(241, 169, 78);
-        int max = 2;
-        int term =1;
-        setCurveGraph(actuatorGraph, legend,data,tag, color,max,term);
-        btnActuatorDetailSwitch.setOnClickListener(v -> presenter.btnActuatorDetailSwitchClick());
-        return root;
-    }
-
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
-        }
-    }
-
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        if (context instanceof OnFragmentInteractionListener) {
-            mListener = (OnFragmentInteractionListener) context;
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
-        }
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        mListener = null;
-    }
-
-    @Override
-    public void showToast(String msg) {
-        mToastControl.showToast(msg);
-    }
-
-    @Override
-    public void stopProgress() {
+    try {
+      root = inflater.inflate(R.layout.fragment_actuator, container, false);
+    } catch (InflateException e) {
 
     }
-
-    @Override
-    public void startProgress() {
-
+    unbinder = ButterKnife.bind(this, root);
+    for (int i = 0; i < 10; i++) {
+      addActuator(i);
     }
-
-    @Override
-    public void refreshActuatorState(int[] state) {
-        int i=0;
-        for(View actuator:actuators){
-            if(state[i]==0) {
-                actuator.findViewById(R.id.img_actuator_off).setVisibility(View.VISIBLE);
-                actuator.findViewById(R.id.img_actuator_on).setVisibility(View.INVISIBLE);
-            }else if(state[i]==1) {
-                actuator.findViewById(R.id.img_actuator_on).setVisibility(View.VISIBLE);
-                actuator.findViewById(R.id.img_actuator_off).setVisibility(View.INVISIBLE);
-            }
-            i++;
-        }
+    mToastControl = new ToastControlImlp(getActivity());
+    presenter.enter();
+    String[] legend = new String[24];
+    float[] data = new float[24];
+    for (int i = 0; i < 24; i++) {
+      legend[i] = String.valueOf(i);
+      if (i < 10) {
+        data[i] = 0;
+      } else if (i > 10 && i < 20)
+        data[i] = 1;
+      else
+        data[i] = 0;
     }
+    String tag = "Power";
+    int color = new Color().rgb(241, 169, 78);
+    int max = 2;
+    int term = 1;
+    setCurveGraph(actuatorGraph, legend, data, tag, color, max, term);
+    btnActuatorDetailSwitch.setOnClickListener(v -> presenter.btnActuatorDetailSwitchClick());
+    return root;
+  }
 
-    @Override
-    public void showActuatorDetail(int index, int state) {
-        if(actuatorDetail.getVisibility() == View.GONE) {
-            actuatorDetail.setVisibility(View.VISIBLE);
-            if (state == 0)
-                imgActuatorDetailOnOff.setImageResource(R.drawable.ic_off);
-            else if (state == 1)
-                imgActuatorDetailOnOff.setImageResource(R.drawable.ic_on);
-            tvActuatorDetailPort.setText("Port : " + index);
-        }
+  // TODO: Rename method, update argument and hook method into UI event
+  public void onButtonPressed(Uri uri) {
+    if (mListener != null) {
+      mListener.onFragmentInteraction(uri);
     }
+  }
 
-    @Override
-    public void hideActuatorDetail() {
-        if(actuatorDetail.getVisibility() == View.VISIBLE)
-            actuatorDetail.setVisibility(View.GONE);
+  @Override
+  public void onAttach(Context context) {
+    super.onAttach(context);
+    if (context instanceof OnFragmentInteractionListener) {
+      mListener = (OnFragmentInteractionListener) context;
+    } else {
+      throw new RuntimeException(context.toString()
+          + " must implement OnFragmentInteractionListener");
     }
+  }
 
-    @Override
-    public void refreshActuatorDetailState(int state) {
-        if (state == 0)
-            imgActuatorDetailOnOff.setImageResource(R.drawable.ic_off);
-        else if (state == 1)
-            imgActuatorDetailOnOff.setImageResource(R.drawable.ic_on);
+  @Override
+  public void onDetach() {
+    super.onDetach();
+    mListener = null;
+  }
+
+  @Override
+  public void showToast(String msg) {
+    mToastControl.showToast(msg);
+  }
+
+  @Override
+  public void stopProgress() {
+
+  }
+
+  @Override
+  public void startProgress() {
+
+  }
+
+  @Override
+  public void refreshActuatorState(int[] state) {
+    int i = 0;
+    for (View actuator : actuators) {
+      if (state[i] == 0) {
+        actuator.findViewById(R.id.img_actuator_off).setVisibility(View.VISIBLE);
+        actuator.findViewById(R.id.img_actuator_on).setVisibility(View.INVISIBLE);
+      } else if (state[i] == 1) {
+        actuator.findViewById(R.id.img_actuator_on).setVisibility(View.VISIBLE);
+        actuator.findViewById(R.id.img_actuator_off).setVisibility(View.INVISIBLE);
+      }
+      i++;
     }
+  }
 
-    private void setCurveGraph(ViewGroup viewGroup, String[] legendArr, float[] graph, String Name, int Color, int maxValue, int increment) {
-        CurveGraphVO vo = makeCurveGraphAllSetting(legendArr, graph, Name, Color, maxValue, increment);
-        cgv = new CurveGraphView(getActivity(), vo);
-        int height = viewGroup.getHeight()-2;
-        ViewGroup.LayoutParams prams = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,height);
-        viewGroup.addView(cgv,prams);
-        viewGroup.removeView(preCgv);
-        preCgv = cgv;
+  @Override
+  public void showActuatorDetail(int index, int state) {
+    if (actuatorDetail.getVisibility() == View.GONE) {
+      actuatorDetail.setVisibility(View.VISIBLE);
+      if (state == 0)
+        imgActuatorDetailOnOff.setImageResource(R.drawable.ic_off);
+      else if (state == 1)
+        imgActuatorDetailOnOff.setImageResource(R.drawable.ic_on);
+      tvActuatorDetailPort.setText("Port : " + index);
     }
+  }
 
-    private CurveGraphVO makeCurveGraphAllSetting(String[] legendArr, float[] graph, String Name, int Color, int maxValue, int increment) {
-        //padding
-        int paddingBottom = CurveGraphVO.DEFAULT_PADDING;
-        int paddingTop = CurveGraphVO.DEFAULT_PADDING;
-        int paddingLeft = CurveGraphVO.DEFAULT_PADDING;
-        int paddingRight = CurveGraphVO.DEFAULT_PADDING;
+  @Override
+  public void hideActuatorDetail() {
+    if (actuatorDetail.getVisibility() == View.VISIBLE)
+      actuatorDetail.setVisibility(View.GONE);
+  }
 
-        //graph margin
-        int marginTop = CurveGraphVO.DEFAULT_MARGIN_TOP;
-        int marginRight = CurveGraphVO.DEFAULT_MARGIN_RIGHT;
+  @Override
+  public void refreshActuatorDetailState(int state) {
+    if (state == 0)
+      imgActuatorDetailOnOff.setImageResource(R.drawable.ic_off);
+    else if (state == 1)
+      imgActuatorDetailOnOff.setImageResource(R.drawable.ic_on);
+  }
 
-        //max value
+  private void setCurveGraph(ViewGroup viewGroup, String[] legendArr, float[] graph, String Name, int Color, int maxValue, int increment) {
+    CurveGraphVO vo = makeCurveGraphAllSetting(legendArr, graph, Name, Color, maxValue, increment);
+    cgv = new CurveGraphView(getActivity(), vo);
+    int height = viewGroup.getHeight() - 2;
+    ViewGroup.LayoutParams prams = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, height);
+    viewGroup.addView(cgv, prams);
+    viewGroup.removeView(preCgv);
+    preCgv = cgv;
+  }
 
-        //increment
+  private CurveGraphVO makeCurveGraphAllSetting(String[] legendArr, float[] graph, String Name, int Color, int maxValue, int increment) {
+    //padding
+    int paddingBottom = CurveGraphVO.DEFAULT_PADDING;
+    int paddingTop = CurveGraphVO.DEFAULT_PADDING;
+    int paddingLeft = CurveGraphVO.DEFAULT_PADDING;
+    int paddingRight = CurveGraphVO.DEFAULT_PADDING;
 
-        List<CurveGraph> arrGraph = new ArrayList<CurveGraph>();
-        arrGraph.add(new CurveGraph(Name, Color, graph));
-        CurveGraphVO vo = new CurveGraphVO(
-                paddingBottom, paddingTop, paddingLeft, paddingRight,
-                marginTop, marginRight, maxValue, increment, legendArr, arrGraph);
-        vo.setAnimation(new GraphAnimation(GraphAnimation.LINEAR_ANIMATION, 1000));
-        vo.setGraphBG(R.drawable.graph_background);
-        vo.setGraphNameBox(new GraphNameBox());
-        return vo;
+    //graph margin
+    int marginTop = CurveGraphVO.DEFAULT_MARGIN_TOP;
+    int marginRight = CurveGraphVO.DEFAULT_MARGIN_RIGHT;
+
+    //max value
+
+    //increment
+
+    List<CurveGraph> arrGraph = new ArrayList<CurveGraph>();
+    arrGraph.add(new CurveGraph(Name, Color, graph));
+    CurveGraphVO vo = new CurveGraphVO(
+        paddingBottom, paddingTop, paddingLeft, paddingRight,
+        marginTop, marginRight, maxValue, increment, legendArr, arrGraph);
+    vo.setAnimation(new GraphAnimation(GraphAnimation.LINEAR_ANIMATION, 1000));
+    vo.setGraphBG(R.drawable.graph_background);
+    vo.setGraphNameBox(new GraphNameBox());
+    return vo;
+  }
+
+  @Override
+  public void onBack() {
+    if (actuatorDetail.getVisibility() == View.VISIBLE) {
+      hideActuatorDetail();
+    } else {
+      HomeActivity homeActivity = (HomeActivity) getActivity();
+      homeActivity.setOnKeyBackPressedListener(null);
+      homeActivity.onBackPressed();
     }
+  }
 
-    @Override
-    public void onBack() {
-        if(actuatorDetail.getVisibility()==View.VISIBLE ) {
-            hideActuatorDetail();
-        }else {
-            HomeActivity homeActivity = (HomeActivity) getActivity();
-            homeActivity.setOnKeyBackPressedListener(null);
-            homeActivity.onBackPressed();
-        }
-    }
-
-    public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
-        void onFragmentInteraction(Uri uri);
-    }
+  public interface OnFragmentInteractionListener {
+    // TODO: Update argument type and name
+    void onFragmentInteraction(Uri uri);
+  }
 }

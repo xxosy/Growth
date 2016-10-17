@@ -7,9 +7,11 @@ import com.growth.domain.database.DBManager;
  */
 
 public interface IntroPresenter {
-    void setDBManager(DBManager mDBManager);
-    void setUserCode();
-    interface View{
+  void setDBManager(DBManager mDBManager);
 
-    }
+  void setUserCode();
+
+  interface View {
+
+  }
 }

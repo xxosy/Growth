@@ -9,5 +9,5 @@ import dagger.Component;
  */
 @Component(modules = PlantsGrowthGalleryPicturesModule.class)
 public interface PlantsGrowthGalleryPicturesComponent {
-    void inject(PlantsGrowthGalleryPicturesActivity plantsGrowthGalleryPicturesActivity);
+  void inject(PlantsGrowthGalleryPicturesActivity plantsGrowthGalleryPicturesActivity);
 }

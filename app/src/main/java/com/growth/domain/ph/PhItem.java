@@ -5,31 +5,31 @@ package com.growth.domain.ph;
  */
 
 public class PhItem {
-    private int id;
-    private String ph;
-    private int sensor_id;
+  private int id;
+  private String ph;
+  private int sensor_id;
 
-    public int getId() {
-        return id;
-    }
+  public int getId() {
+    return id;
+  }
 
-    public int getSensor_id() {
-        return sensor_id;
-    }
+  public int getSensor_id() {
+    return sensor_id;
+  }
 
-    public String getPh() {
-        return ph;
-    }
+  public String getPh() {
+    return ph;
+  }
 
-    public void setId(int id) {
-        this.id = id;
-    }
+  public void setId(int id) {
+    this.id = id;
+  }
 
-    public void setSensor_id(int sensor_id) {
-        this.sensor_id = sensor_id;
-    }
+  public void setSensor_id(int sensor_id) {
+    this.sensor_id = sensor_id;
+  }
 
-    public void setPh(String ph) {
-        this.ph = ph;
-    }
+  public void setPh(String ph) {
+    this.ph = ph;
+  }
 }

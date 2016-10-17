@@ -7,20 +7,20 @@ import com.growth.views.PageChange;
  */
 
 public class PageChangeUtil {
-    PageChange pageChange;
-    public static PageChangeUtil instance;
+  PageChange pageChange;
+  public static PageChangeUtil instance;
 
-    public static PageChangeUtil newInstance(){
-        if(instance == null)
-            instance = new PageChangeUtil();
-        return instance;
-    }
+  public static PageChangeUtil newInstance() {
+    if (instance == null)
+      instance = new PageChangeUtil();
+    return instance;
+  }
 
-    public PageChange getPageChange() {
-        return pageChange;
-    }
+  public PageChange getPageChange() {
+    return pageChange;
+  }
 
-    public void setPageChange(PageChange pageChange) {
-        this.pageChange = pageChange;
-    }
+  public void setPageChange(PageChange pageChange) {
+    this.pageChange = pageChange;
+  }
 }

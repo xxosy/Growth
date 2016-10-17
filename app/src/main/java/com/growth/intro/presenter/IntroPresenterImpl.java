@@ -14,52 +14,56 @@ import rx.schedulers.Schedulers;
  */
 
 public class IntroPresenterImpl implements IntroPresenter {
-    IntroPresenter.View view;
-    SensorDataAPI sensorDataAPI;
-    DBManager mDBManager;
-    String userCode;
-    boolean checkUserCode;
-    @Inject
-    public IntroPresenterImpl(IntroPresenter.View view, SensorDataAPI sensorDataAPI){
-        this.view = view;
-        this.sensorDataAPI = sensorDataAPI;
-        checkUserCode = false;
-    }
-    @Override
-    public void setDBManager(DBManager mDBManager) {
-        this.mDBManager = mDBManager;
-    }
+  IntroPresenter.View view;
+  SensorDataAPI sensorDataAPI;
+  DBManager mDBManager;
+  String userCode;
+  boolean checkUserCode;
 
-    @Override
-    public void setUserCode() {
-        if(mDBManager.getCount()>0){
-        }else{
-            checkUserCode();
+  @Inject
+  public IntroPresenterImpl(IntroPresenter.View view, SensorDataAPI sensorDataAPI) {
+    this.view = view;
+    this.sensorDataAPI = sensorDataAPI;
+    checkUserCode = false;
+  }
 
-            mDBManager.createUserCode(userCode);
-        }
-        User.getInstance().setUserCode(mDBManager.getUserCode());
+  @Override
+  public void setDBManager(DBManager mDBManager) {
+    this.mDBManager = mDBManager;
+  }
+
+  @Override
+  public void setUserCode() {
+    if (mDBManager.getCount() > 0) {
+    } else {
+      checkUserCode();
+
+      mDBManager.createUserCode(userCode);
     }
-    private String createUserCode(){
-        String tempUserCode = "";
-        for (int i = 0; i < 8; i++) {
-            int rndVal = (int) (Math.random() * 62);
-            if (rndVal < 10) {
-                tempUserCode += rndVal;
-            } else if (rndVal > 35) {
-                tempUserCode += (char) (rndVal + 61);
-            } else {
-                tempUserCode += (char) (rndVal + 55);
-            }
-        }
-        userCode = tempUserCode;
-        return tempUserCode;
+    User.getInstance().setUserCode(mDBManager.getUserCode());
+  }
+
+  private String createUserCode() {
+    String tempUserCode = "";
+    for (int i = 0; i < 8; i++) {
+      int rndVal = (int) (Math.random() * 62);
+      if (rndVal < 10) {
+        tempUserCode += rndVal;
+      } else if (rndVal > 35) {
+        tempUserCode += (char) (rndVal + 61);
+      } else {
+        tempUserCode += (char) (rndVal + 55);
+      }
     }
-    private void checkUserCode(){
-        sensorDataAPI.insertUserCode(createUserCode())
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(result1 -> {
-                });
-    }
+    userCode = tempUserCode;
+    return tempUserCode;
+  }
+
+  private void checkUserCode() {
+    sensorDataAPI.insertUserCode(createUserCode())
+        .subscribeOn(Schedulers.io())
+        .observeOn(AndroidSchedulers.mainThread())
+        .subscribe(result1 -> {
+        });
+  }
 }

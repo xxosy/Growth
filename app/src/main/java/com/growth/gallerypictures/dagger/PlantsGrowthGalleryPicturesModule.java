@@ -15,27 +15,31 @@ import dagger.Provides;
  */
 @Module(includes = NetworkModule.class)
 public class PlantsGrowthGalleryPicturesModule {
-    PlantsGrowthGalleryPicturesPresenter.View view;
-    PlantsGrowthGalleryPicturesAdapter adapter;
-    public PlantsGrowthGalleryPicturesModule(PlantsGrowthGalleryPicturesPresenter.View view, PlantsGrowthGalleryPicturesAdapter plantsGrowthGalleryPicturesAdapter){
-        this.view = view;
-        adapter = plantsGrowthGalleryPicturesAdapter;
-    }
+  PlantsGrowthGalleryPicturesPresenter.View view;
+  PlantsGrowthGalleryPicturesAdapter adapter;
 
-    @Provides
-    public PlantsGrowthGalleryPicturesPresenter.View provideView(){
-        return view;
-    }
-    @Provides
-    public PlantsGrowthGalleryPicturesPresenter providePresenter(PlantsGrowthGalleryPicturesPresenterImpl plantsGrowthGalleryPicturesPresenter){
-        return plantsGrowthGalleryPicturesPresenter;
-    }
-    @Provides
-    public PlantsGrowthGalleryPicturesAdapterModel providePlantsGrowthGalleryPicturesAdapterModel(){
-        return adapter;
-    }
-    @Provides
-    public PlantsGrowthGalleryPicturesAdapterView providePlantsGrowthGalleryPicturesAdapterView(){
-        return adapter;
-    }
+  public PlantsGrowthGalleryPicturesModule(PlantsGrowthGalleryPicturesPresenter.View view, PlantsGrowthGalleryPicturesAdapter plantsGrowthGalleryPicturesAdapter) {
+    this.view = view;
+    adapter = plantsGrowthGalleryPicturesAdapter;
+  }
+
+  @Provides
+  public PlantsGrowthGalleryPicturesPresenter.View provideView() {
+    return view;
+  }
+
+  @Provides
+  public PlantsGrowthGalleryPicturesPresenter providePresenter(PlantsGrowthGalleryPicturesPresenterImpl plantsGrowthGalleryPicturesPresenter) {
+    return plantsGrowthGalleryPicturesPresenter;
+  }
+
+  @Provides
+  public PlantsGrowthGalleryPicturesAdapterModel providePlantsGrowthGalleryPicturesAdapterModel() {
+    return adapter;
+  }
+
+  @Provides
+  public PlantsGrowthGalleryPicturesAdapterView providePlantsGrowthGalleryPicturesAdapterView() {
+    return adapter;
+  }
 }

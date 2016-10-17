@@ -7,8 +7,11 @@ import com.growth.domain.sensor.SensorItem;
  */
 
 public interface PlantsGrowthGallerySensorListAdapterModel {
-    void add(SensorItem sensorItem);
-    int getSize();
-    SensorItem getItem(int position);
-    void clear();
+  void add(SensorItem sensorItem);
+
+  int getSize();
+
+  SensorItem getItem(int position);
+
+  void clear();
 }

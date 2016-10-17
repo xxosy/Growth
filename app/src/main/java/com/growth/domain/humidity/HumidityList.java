@@ -5,13 +5,13 @@ package com.growth.domain.humidity;
  */
 
 public class HumidityList {
-    HumidityItem [] humidityItems;
+  HumidityItem[] humidityItems;
 
-    public HumidityItem[] getHumidityItems() {
-        return humidityItems;
-    }
+  public HumidityItem[] getHumidityItems() {
+    return humidityItems;
+  }
 
-    public void setHumidityItems(HumidityItem[] humidityItems) {
-        this.humidityItems = humidityItems;
-    }
+  public void setHumidityItems(HumidityItem[] humidityItems) {
+    this.humidityItems = humidityItems;
+  }
 }

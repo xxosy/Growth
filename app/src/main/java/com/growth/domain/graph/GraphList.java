@@ -5,13 +5,19 @@ package com.growth.domain.graph;
  */
 
 public class GraphList {
-    GraphItem[] graphItems;
+  GraphItem[] graphItems;
 
-    public GraphItem[] getGraphItems() {
-        return graphItems;
+  public void decrypt(){
+    for(GraphItem graphItem : graphItems){
+      graphItem.decrypt();
     }
+  }
 
-    public void setGraphItems(GraphItem[] graphItems) {
-        this.graphItems = graphItems;
-    }
+  public GraphItem[] getGraphItems() {
+    return graphItems;
+  }
+
+  public void setGraphItems(GraphItem[] graphItems) {
+    this.graphItems = graphItems;
+  }
 }

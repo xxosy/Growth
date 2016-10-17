@@ -5,8 +5,11 @@ package com.growth.gallerypictures.adapter;
  */
 
 public interface PlantsGrowthGalleryPicturesAdapterModel {
-    void add(String item);
-    int getSize();
-    String getItem(int position);
-    void clear();
+  void add(String item);
+
+  int getSize();
+
+  String getItem(int position);
+
+  void clear();
 }
