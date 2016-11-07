@@ -12,6 +12,7 @@ import com.growth.domain.sensor.SensorItem;
 import com.growth.domain.sensor.SensorList;
 import com.growth.domain.temperature.TemperatureList;
 import com.growth.domain.user.User;
+import com.growth.domain.weather.WeatherItem;
 
 import javax.inject.Inject;
 
@@ -29,7 +30,8 @@ public class SensorDataAPI implements SensorAPI.Service
     , UserAPI.Service
     , ActuatorAPI.Service
     , HarmfulAPI.Service,
-    PlantsGalleryAPI.Service {
+    PlantsGalleryAPI.Service,
+    WeatherAPI.Service{
   private Retrofit retrofit;
 
   @Inject
@@ -209,5 +211,11 @@ public class SensorDataAPI implements SensorAPI.Service
   public Observable<String[]> getPlantsPictureList(String serial) {
     return retrofit.create(PlantsGalleryAPI.class)
         .getPlantsPictureList(serial);
+  }
+
+  @Override
+  public Observable<WeatherItem> getWeather() {
+    return retrofit.create(WeatherAPI.class)
+        .getWeather();
   }
 }

@@ -5,12 +5,10 @@ import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.InflateException;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -20,8 +18,6 @@ import com.growth.R;
 import com.growth.actuator.dagger.ActuatorModule;
 import com.growth.actuator.dagger.DaggerActuatorComponent;
 import com.growth.actuator.presenter.ActuatorPresenter;
-import com.growth.graph.dagger.DaggerGraphComponent;
-import com.growth.graph.dagger.GraphModule;
 import com.growth.home.OnKeyBackPressedListener;
 import com.growth.home.view.HomeActivity;
 import com.growth.utils.ToastControl;
@@ -31,7 +27,6 @@ import com.handstudio.android.hzgrapherlib.graphview.CurveGraphView;
 import com.handstudio.android.hzgrapherlib.vo.GraphNameBox;
 import com.handstudio.android.hzgrapherlib.vo.curvegraph.CurveGraph;
 import com.handstudio.android.hzgrapherlib.vo.curvegraph.CurveGraphVO;
-import com.jakewharton.rxbinding.view.RxView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -82,7 +77,7 @@ public class ActuatorFragment extends Fragment implements ActuatorPresenter.View
   }
 
   public static ActuatorFragment newInstance(String param1, String param2) {
-    ActuatorFragment fragment = new ActuatorFragment();
+    ActuatorFragment fragment =  new ActuatorFragment();
     Bundle args = new Bundle();
     args.putString(ARG_PARAM1, param1);
     args.putString(ARG_PARAM2, param2);

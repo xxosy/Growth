@@ -58,7 +58,7 @@ public interface SensorDataDisplayPresenter {
 
     void stopProgress();
 
-    void refreshWhether(String whether, String externTemp, String externHumidity, Bitmap icon);
+    void refreshWhether(String whether, String externTemp, String externHumidity, String iconUrl);
 
     void refreshSwipe();
 

@@ -358,7 +358,11 @@ public class SensorDataDisplayFragment extends Fragment implements SensorDataDis
 
   @Override
   public void refreshCameraImage(Bitmap image) {
-    image = Bitmap.createScaledBitmap(image, frameCamera.getWidth(), frameCamera.getHeight(), true);
+    if(image == null){
+
+    }else{
+      image = Bitmap.createScaledBitmap(image, frameCamera.getWidth(), frameCamera.getHeight(), true);
+    }
     imgCamera.setImageBitmap(image);
   }
 
@@ -534,11 +538,11 @@ public class SensorDataDisplayFragment extends Fragment implements SensorDataDis
   }
 
   @Override
-  public void refreshWhether(String whether, String externTemp, String externHumidity, Bitmap icon) {
+  public void refreshWhether(String whether, String externTemp, String externHumidity, String iconUrl) {
     tvWhether.setText(whether);
     tvExternalTemp.setText(externTemp + "°C");
     tvExternalHumidity.setText(externHumidity + "%");
-    ivWhether.setImageBitmap(icon);
+    Glide.with(getActivity()).load(iconUrl).into(ivWhether);
   }
 
   @Override
@@ -548,9 +552,9 @@ public class SensorDataDisplayFragment extends Fragment implements SensorDataDis
 
   @Override
   public void onBack() {
-    if (frameImagHarmfulDetail.getLayoutParams().height == harmfulDetail.getHeight()) {
+    if (frameImagHarmfulDetail!=null && frameImagHarmfulDetail.getLayoutParams().height == harmfulDetail.getHeight()) {
       frameImagHarmfulDetail.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, harmfulImageSize));
-    } else if (harmfulDetail.getVisibility() == View.VISIBLE) {
+    } else if (harmfulDetail!=null && harmfulDetail.getVisibility() == View.VISIBLE) {
       hideHarmfulDetail();
     } else {
       HomeActivity homeActivity = (HomeActivity) getActivity();

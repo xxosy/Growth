@@ -29,6 +29,7 @@ import com.growth.home.dagger.DaggerHomeComponent;
 import com.growth.home.dagger.HomeModule;
 import com.growth.home.presenter.HomePresenter;
 import com.growth.map.view.SensorMapFragment;
+import com.growth.rule.view.RuleFragment;
 import com.growth.views.PageChange;
 
 import javax.inject.Inject;
@@ -42,7 +43,8 @@ public class HomeActivity extends AppCompatActivity
     GraphFragment.OnFragmentInteractionListener,
     SensorDataDisplayFragment.OnFragmentInteractionListener,
     ActuatorFragment.OnFragmentInteractionListener,
-    PlantsGrowthGalleryFragment.OnFragmentInteractionListener {
+    PlantsGrowthGalleryFragment.OnFragmentInteractionListener,
+    RuleFragment.OnFragmentInteractionListener{
 
   @Inject
   HomePresenter homePresenter;
@@ -66,8 +68,8 @@ public class HomeActivity extends AppCompatActivity
     navigationView.setNavigationItemSelectedListener(this);
     PageChangeUtil.newInstance().setPageChange(this);
     mFragmentTransaction = getSupportFragmentManager().beginTransaction();
-//        mFragmentTransaction.replace(container, PlantsGrowthGalleryFragment.newInstance("", ""));
-    mFragmentTransaction.replace(container, SensorMapFragment.newInstance("", ""));
+    mFragmentTransaction.replace(container, RuleFragment.newInstance("", ""));
+//    mFragmentTransaction.replace(container, SensorMapFragment.newInstance("", ""));
     mFragmentTransaction.commit();
 
 //        pageChange(SensorDataDisplayFragment.newInstance("P5123", ""));
