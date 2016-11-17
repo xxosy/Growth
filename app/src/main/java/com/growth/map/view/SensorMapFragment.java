@@ -23,7 +23,6 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.UiSettings;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
@@ -47,24 +46,10 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link SensorMapFragment.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link SensorMapFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class SensorMapFragment extends Fragment implements OnMapReadyCallback,
     SensorMapPresenter.View,
     OnKeyBackPressedListener {
-  // TODO: Rename parameter arguments, choose names that match
-  // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-  private static final String ARG_PARAM1 = "param1";
-  private static final String ARG_PARAM2 = "param2";
-  // TODO: Rename and change types of parameters
-  private String mParam1;
-  private String mParam2;
+  private final int ANIMATION_DURAITON = 300;
 
   //Google Map
   private GoogleMap mMap;
@@ -135,38 +120,16 @@ public class SensorMapFragment extends Fragment implements OnMapReadyCallback,
 
   private OnFragmentInteractionListener mListener;
 
-  public SensorMapFragment() {
-    // Required empty public constructor
-  }
-
-  /**
-   * Use this factory method to create a new instance of
-   * this fragment using the provided parameters.
-   *
-   * @param param1 Parameter 1.
-   * @param param2 Parameter 2.
-   * @return A new instance of fragment SensorMapFragment.
-   */
-  // TODO: Rename and change types and number of parameters
-  public static SensorMapFragment newInstance(String param1, String param2) {
+  public static SensorMapFragment newInstance() {
     SensorMapFragment fragment = new SensorMapFragment();
-    Bundle args = new Bundle();
-    args.putString(ARG_PARAM1, param1);
-    args.putString(ARG_PARAM2, param2);
-    fragment.setArguments(args);
     return fragment;
   }
 
   @Override
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    if (getArguments() != null) {
-      mParam1 = getArguments().getString(ARG_PARAM1);
-      mParam2 = getArguments().getString(ARG_PARAM2);
-    }
     ((HomeActivity) getActivity()).setOnKeyBackPressedListener(this);
   }
-
 
   @Override
   public void clearMap() {
@@ -186,23 +149,23 @@ public class SensorMapFragment extends Fragment implements OnMapReadyCallback,
   public void checkSerialSuccess() {
     btnAddWindowSerialCheck.setBackgroundResource(R.color.colorPrimary);
     btnAddWindowSerialCheck.setClickable(false);
-    showToast("This serial is available");
+    showToast(getString(R.string.toast_message_available_serial));
   }
 
   @Override
   public void checkSerialFail() {
     btnAddWindowSerialCheck.setBackgroundResource(R.drawable.selector_reverse);
-    showToast("This serial is NOT available");
+    showToast(getString(R.string.toast_message_disavailable_serial));
   }
 
   @Override
   public View onCreateView(LayoutInflater inflater, ViewGroup container,
                            Bundle savedInstanceState) {
-    // Inflate the layout for this fragment
     DaggerSensorMapComponent.builder()
         .sensorMapModule(new SensorMapModule(this))
         .build()
         .inject(this);
+
     if (root != null) {
       ViewGroup parent = (ViewGroup) root.getParent();
       if (parent != null)
@@ -217,15 +180,17 @@ public class SensorMapFragment extends Fragment implements OnMapReadyCallback,
     unbinder = ButterKnife.bind(this, root);
     mProgressControl = new ProgressControlImlp(progressLayout, progressView);
     mToastControl = new ToastControlImlp(getActivity());
-    btnAddWindowGetLocation.setOnClickListener(v -> presenter.addWindowGetLocationClick());
     floatingActionButton.setOnClickListener(v -> presenter.floatingActionButtonClick());
+
+    btnAddWindowGetLocation.setOnClickListener(v -> presenter.addWindowGetLocationClick());
     btnAddWindowCancel.setOnClickListener(v -> presenter.addWindowCancelClick());
     btnAddWindowSerialCheck.setOnClickListener(v -> {
-      if (etAddWindowSerial.getText().toString().equals(""))
-        showToast("Input your product serial.");
-      else
-        presenter.addWindowCheckSerialClick(etAddWindowSerial.getText().toString());
-
+      if (etAddWindowSerial.getText().toString().equals("")) {
+        showToast(getString(R.string.toast_message_empty_serial));
+      } else {
+        String serial = etAddWindowSerial.getText().toString();
+        presenter.addWindowCheckSerialClick(serial);
+      }
     });
     btnAddWindowOk.setOnClickListener(v -> {
       String lat = etAddWindowLat.getText().toString();
@@ -244,17 +209,17 @@ public class SensorMapFragment extends Fragment implements OnMapReadyCallback,
       ((HomeActivity) getActivity()).setOnKeyBackPressedListener(null);
       presenter.infoWindowGraphClick();
     });
-    btnInfoWindowDelete.setOnClickListener(v -> {
-      presenter.infoWindowDeleteSensorClick();
-    });
-    btnInfoWindowUpdate.setOnClickListener(v -> {
-      presenter.infoWindowUpdateSensorClick();
-    });
+
+    btnInfoWindowDelete.setOnClickListener(v -> presenter.infoWindowDeleteSensorClick());
+    btnInfoWindowUpdate.setOnClickListener(v -> presenter.infoWindowUpdateSensorClick());
     btnInfoWindowActuator.setOnClickListener(v -> presenter.infoWindowActuatorClick());
+
     btnZoomIn.setOnClickListener(v -> presenter.btnZoomInClick());
     btnZoomOut.setOnClickListener(v -> presenter.btnZoomOutClick());
     btnLocation.setOnClickListener(v -> presenter.btnLocationClick(gps));
+
     presenter.onCreatedView();
+
     return root;
   }
 
@@ -287,21 +252,18 @@ public class SensorMapFragment extends Fragment implements OnMapReadyCallback,
   public void onDestroyView() {
     super.onDestroyView();
     unbinder.unbind();
+    presenter.unSubscribe();
   }
-
 
   @Override
   public void onMapReady(GoogleMap googleMap) {
     mMap = googleMap;
-    UiSettings uiSettings = googleMap.getUiSettings();
     mMap.setOnMarkerClickListener(marker -> {
       mCurrentMaker = marker;
       String title = marker.getTitle();
       presenter.markerClick(title);
       return true;
     });
-    presenter.btnLocationClick(gps);
-//        presenter.enterFragment();
   }
 
   @Override
@@ -310,21 +272,19 @@ public class SensorMapFragment extends Fragment implements OnMapReadyCallback,
     double lng = Double.parseDouble(sensorItem.getLng());
     LatLng latLng = new LatLng(lat, lng);
     mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 12));
-    //BitmapDescriptorFactory.fromResource(R.drawable.ic_sprout)
     Bitmap icon;
     if (isUpdating)
       icon = resizeMapIcons("ic_sprout", 110, 80);
     else
       icon = resizeMapIcons("ic_sprout_wilt", 110, 80);
-    mMap.addMarker(new MarkerOptions().icon(BitmapDescriptorFactory.fromBitmap(icon))
+    MarkerOptions markerOptions = new MarkerOptions().icon(BitmapDescriptorFactory.fromBitmap(icon))
         .position(latLng)
-        .title(sensorItem.getTitle()));
+        .title(sensorItem.getTitle());
+    mMap.addMarker(markerOptions);
   }
 
   public Bitmap resizeMapIcons(String iconName, int width, int height) {
-    Bitmap imageBitmap = null;
-    imageBitmap = BitmapFactory.decodeResource(getResources(), getResources().getIdentifier(iconName, "drawable", getActivity().getPackageName()));
-
+    Bitmap imageBitmap = BitmapFactory.decodeResource(getResources(), getResources().getIdentifier(iconName, "drawable", getActivity().getPackageName()));
     Bitmap resizedBitmap = Bitmap.createScaledBitmap(imageBitmap, width, height, false);
     return resizedBitmap;
   }
@@ -335,12 +295,7 @@ public class SensorMapFragment extends Fragment implements OnMapReadyCallback,
       hideAddSensorWindow();
     }
     if (infoWindow.getVisibility() == View.GONE) {
-      Animation animation = new TranslateAnimation(
-          Animation.RELATIVE_TO_SELF, 0f,
-          Animation.RELATIVE_TO_SELF, 0f,
-          Animation.RELATIVE_TO_SELF, -1.0f,
-          Animation.RELATIVE_TO_SELF, 0f);
-      animation.setDuration(300);
+      Animation animation = getShowAnimation(ANIMATION_DURAITON);
 
       txtInfoWindowTitle.setText(title);
       txtInfoWindowSerial.setText(serial);
@@ -357,12 +312,7 @@ public class SensorMapFragment extends Fragment implements OnMapReadyCallback,
   @Override
   public void hideInfoWindow() {
     if (infoWindow.getVisibility() == View.VISIBLE) {
-      Animation animation = new TranslateAnimation(
-          Animation.RELATIVE_TO_SELF, 0f,
-          Animation.RELATIVE_TO_SELF, 0f,
-          Animation.RELATIVE_TO_SELF, 0f,
-          Animation.RELATIVE_TO_SELF, -1.0f);
-      animation.setDuration(300);
+      Animation animation = getHideAnimation(ANIMATION_DURAITON);
       infoWindow.setAnimation(animation);
       infoWindow.setVisibility(View.GONE);
     }
@@ -374,12 +324,7 @@ public class SensorMapFragment extends Fragment implements OnMapReadyCallback,
       hideInfoWindow();
     }
     if (addSensorWindow.getVisibility() == View.GONE) {
-      Animation animation = new TranslateAnimation(
-          Animation.RELATIVE_TO_SELF, 0f,
-          Animation.RELATIVE_TO_SELF, 0f,
-          Animation.RELATIVE_TO_SELF, -1.0f,
-          Animation.RELATIVE_TO_SELF, 0f);
-      animation.setDuration(300);
+      Animation animation = getShowAnimation(ANIMATION_DURAITON);
       addSensorWindow.setVisibility(View.VISIBLE);
       addSensorWindow.setAnimation(animation);
     }
@@ -388,12 +333,7 @@ public class SensorMapFragment extends Fragment implements OnMapReadyCallback,
   @Override
   public void hideAddSensorWindow() {
     if (addSensorWindow.getVisibility() == View.VISIBLE) {
-      Animation animation = new TranslateAnimation(
-          Animation.RELATIVE_TO_SELF, 0f,
-          Animation.RELATIVE_TO_SELF, 0f,
-          Animation.RELATIVE_TO_SELF, 0f,
-          Animation.RELATIVE_TO_SELF, -1.0f);
-      animation.setDuration(300);
+      Animation animation = getHideAnimation(ANIMATION_DURAITON);
       addSensorWindow.setAnimation(animation);
       addSensorWindow.setVisibility(View.GONE);
     }
@@ -404,10 +344,10 @@ public class SensorMapFragment extends Fragment implements OnMapReadyCallback,
     etAddWindowSerial.setFocusableInTouchMode(true);
     btnAddWindowSerialCheck.setClickable(true);
     btnAddWindowSerialCheck.setBackgroundResource(R.drawable.selector_reverse);
-    etAddWindowLat.setText("");
-    etAddWindowLng.setText("");
-    etAddWindowSerial.setText("");
-    etAddWindowTitle.setText("");
+    etAddWindowLat.getText().clear();
+    etAddWindowLng.getText().clear();
+    etAddWindowSerial.getText().clear();
+    etAddWindowTitle.getText().clear();
   }
 
   @Override
@@ -458,6 +398,28 @@ public class SensorMapFragment extends Fragment implements OnMapReadyCallback,
       btnZoomOut.setClickable(false);
       btnZoomOut.setBackgroundResource(R.color.colorPrimaryDark);
     }
+  }
+
+  private Animation getShowAnimation(int duration){
+    Animation animation = new TranslateAnimation(
+        Animation.RELATIVE_TO_SELF, 0f,
+        Animation.RELATIVE_TO_SELF, 0f,
+        Animation.RELATIVE_TO_SELF, -1.0f,
+        Animation.RELATIVE_TO_SELF, 0f);
+    animation.setDuration(duration);
+
+    return animation;
+  }
+
+  private Animation getHideAnimation(int duration){
+    Animation animation = new TranslateAnimation(
+        Animation.RELATIVE_TO_SELF, 0f,
+        Animation.RELATIVE_TO_SELF, 0f,
+        Animation.RELATIVE_TO_SELF, 0f,
+        Animation.RELATIVE_TO_SELF, 1.0f);
+    animation.setDuration(duration);
+
+    return animation;
   }
 
   @Override

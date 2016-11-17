@@ -20,21 +20,24 @@ import java.util.Locale;
 
 import javax.inject.Inject;
 
+import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
+import rx.subscriptions.CompositeSubscription;
 
 
 // Created by SSL-D on 2016-08-23.
 
 public class SensorMapPresenterImpl implements SensorMapPresenter {
-  private static String TAG = SensorMapPresenterImpl.class.getName();
+  private static final String TAG = SensorMapPresenterImpl.class.getName();
   private SensorMapPresenter.View view;
   private SensorDataAPI sensorDataAPI;
   private SensorItem[] sensorItems;
-  private SensorItem currentSsensorItem;
+  private SensorItem currentSensorItem;
   private boolean isUpdate = false;
   private boolean serial_validate = false;
   private int zoomIndex = 11;
+  private CompositeSubscription subscriptions = new CompositeSubscription();
 
   @Inject
   SensorMapPresenterImpl(SensorMapPresenter.View view, SensorDataAPI sensorDataAPI) {
@@ -61,13 +64,16 @@ public class SensorMapPresenterImpl implements SensorMapPresenter {
   @Override
   public void infoWindowDetailClick() {
     view.hideInfoWindow();
-    PageChangeUtil.newInstance().getPageChange().pageChange(SensorDataDisplayFragment.newInstance(currentSsensorItem.getSerial(), ""));
+    SensorDataDisplayFragment fragment = SensorDataDisplayFragment.newInstance(currentSensorItem.getSerial(), "");
+    PageChangeUtil.newInstance()
+        .getPageChange()
+        .pageChange(fragment);
   }
 
   @Override
   public void infoWindowDeleteSensorClick() {
     view.startProgress();
-    sensorDataAPI.deleteMapSensor(currentSsensorItem.getSerial(), User.getInstance().getUserCode())
+    Subscription subscription = sensorDataAPI.deleteMapSensor(currentSensorItem.getSerial(), User.getInstance().getUserCode())
         .subscribeOn(Schedulers.io())
         .observeOn(AndroidSchedulers.mainThread())
         .subscribe(result -> {
@@ -78,16 +84,17 @@ public class SensorMapPresenterImpl implements SensorMapPresenter {
         }, error -> {
           MyNetworkExcetionHandling.excute(error, view, view);
         });
+    subscriptions.add(subscription);
   }
 
   @Override
   public void infoWindowUpdateSensorClick() {
     view.hideInfoWindow();
     isUpdate = true;
-    view.refreshAddWindowUpdateSensor(currentSsensorItem.getSerial(),
-        currentSsensorItem.getTitle(),
-        currentSsensorItem.getLat(),
-        currentSsensorItem.getLng());
+    view.refreshAddWindowUpdateSensor(currentSensorItem.getSerial(),
+        currentSensorItem.getTitle(),
+        currentSensorItem.getLat(),
+        currentSensorItem.getLng());
     view.showAddSensorWindow();
   }
 
@@ -102,8 +109,10 @@ public class SensorMapPresenterImpl implements SensorMapPresenter {
   public void infoWindowGraphClick() {
     view.hideInfoWindow();
     int valueType = ValueTpye.TEMPERATURE;
-    GraphFragment fragment = GraphFragment.newInstance(currentSsensorItem.getSerial(), valueType);
-    PageChangeUtil.newInstance().getPageChange().pageChange(fragment);
+    GraphFragment fragment = GraphFragment.newInstance(currentSensorItem.getSerial(), valueType);
+    PageChangeUtil.newInstance()
+        .getPageChange()
+        .pageChange(fragment);
   }
 
   /////////////////////////////////
@@ -113,7 +122,7 @@ public class SensorMapPresenterImpl implements SensorMapPresenter {
   @Override
   public void addWindowCheckSerialClick(String serial) {
     view.startProgress();
-    sensorDataAPI.getSensor(serial)
+    Subscription subscription = sensorDataAPI.getSensor(serial)
         .subscribeOn(Schedulers.io())
         .observeOn(AndroidSchedulers.mainThread())
         .subscribe(result -> {
@@ -128,6 +137,7 @@ public class SensorMapPresenterImpl implements SensorMapPresenter {
         }, error -> {
           MyNetworkExcetionHandling.excute(error, view, view);
         });
+    subscriptions.add(subscription);
   }
 
   @Override
@@ -149,25 +159,35 @@ public class SensorMapPresenterImpl implements SensorMapPresenter {
     } else {
       view.startProgress();
       if (isUpdate) {
-        sensorDataAPI.updateMapSensor(serial, User.getInstance().getUserCode(), data)
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe(result -> {
-              reconstituteMap();
-            }, error -> {
-              MyNetworkExcetionHandling.excute(error, view, view);
-            });
+        updateMapSensor(serial, data);
       } else {
-        sensorDataAPI.insertMapSensor(serial, User.getInstance().getUserCode(), data)
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe(result -> {
-              reconstituteMap();
-            }, error -> {
-              MyNetworkExcetionHandling.excute(error, view, view);
-            });
+        insertMapSensor(serial, data);
       }
     }
+  }
+
+  private void updateMapSensor(String serial, UpdateSensorData data){
+    Subscription subscription = sensorDataAPI.updateMapSensor(serial, User.getInstance().getUserCode(), data)
+        .subscribeOn(Schedulers.io())
+        .observeOn(AndroidSchedulers.mainThread())
+        .subscribe(result -> {
+          reconstituteMap();
+        }, error -> {
+          MyNetworkExcetionHandling.excute(error, view, view);
+        });
+    subscriptions.add(subscription);
+  }
+
+  private void insertMapSensor(String serial, UpdateSensorData data){
+    Subscription subscription = sensorDataAPI.insertMapSensor(serial, User.getInstance().getUserCode(), data)
+        .subscribeOn(Schedulers.io())
+        .observeOn(AndroidSchedulers.mainThread())
+        .subscribe(result -> {
+          reconstituteMap();
+        }, error -> {
+          MyNetworkExcetionHandling.excute(error, view, view);
+        });
+    subscriptions.add(subscription);
   }
 
   @Override
@@ -182,10 +202,11 @@ public class SensorMapPresenterImpl implements SensorMapPresenter {
 
   private void constituteMap() {
     view.startProgress();
-    String template = "yyyy-MM-dd";
+    String template = new StringBuilder("yyyy-MM-dd").toString();
     Locale locale = java.util.Locale.getDefault();
     SimpleDateFormat sdf = new SimpleDateFormat(template, locale);
-    sensorDataAPI.getMapSensors(User.getInstance().getUserCode())
+
+    Subscription subscription = sensorDataAPI.getMapSensors(User.getInstance().getUserCode())
         .subscribeOn(Schedulers.io())
         .observeOn(AndroidSchedulers.mainThread())
         .subscribe(result -> {
@@ -211,6 +232,7 @@ public class SensorMapPresenterImpl implements SensorMapPresenter {
           MyNetworkExcetionHandling.excute(error, view, view);
           Log.i("error", error.toString());
         });
+    subscriptions.add(subscription);
   }
 
   private void reconstituteMap() {
@@ -225,14 +247,15 @@ public class SensorMapPresenterImpl implements SensorMapPresenter {
   public void markerClick(String title) {
     for (SensorItem sensorItem : sensorItems) {
       if (sensorItem.getTitle().equals(title)) {
-        currentSsensorItem = sensorItem;
-        sensorDataAPI.getHumidity(sensorItem.getSerial())
+        currentSensorItem = sensorItem;
+        Subscription subscription = sensorDataAPI.getHumidity(sensorItem.getSerial())
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(result -> {
               result.decrypt();
               view.showInfoWindow(sensorItem.getTitle(), sensorItem.getSerial(), result.getHumidity());
             });
+        subscriptions.add(subscription);
       }
     }
   }
@@ -256,7 +279,6 @@ public class SensorMapPresenterImpl implements SensorMapPresenter {
 
   @Override
   public void btnLocationClick(GpsInfo gps) {
-
     if (gps.isGetLocation()) {
       double latitude = gps.getLatitude();
       double longitude = gps.getLongitude();
@@ -264,5 +286,10 @@ public class SensorMapPresenterImpl implements SensorMapPresenter {
     } else {
       gps.showSettingsAlert();
     }
+  }
+
+  @Override
+  public void unSubscribe() {
+    subscriptions.unsubscribe();
   }
 }

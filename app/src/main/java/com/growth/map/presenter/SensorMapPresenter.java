@@ -40,6 +40,7 @@ public interface SensorMapPresenter {
 
   void btnLocationClick(GpsInfo gps);
 
+  void unSubscribe();
   interface View extends ProgressControl, ToastControl {
 
     void showInfoWindow(String title, String serial, String humidity);

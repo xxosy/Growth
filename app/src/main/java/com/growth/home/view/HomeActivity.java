@@ -72,7 +72,7 @@ public class HomeActivity extends AppCompatActivity
     mFragmentTransaction = getSupportFragmentManager().beginTransaction();
     //TODO: Use this for Test
     //mFragmentTransaction.replace(container, RuleFragment.newInstance("", ""));
-    mFragmentTransaction.replace(container, SensorMapFragment.newInstance("", ""));
+    mFragmentTransaction.replace(container, SensorMapFragment.newInstance());
     mFragmentTransaction.commit();
   }
 
@@ -132,7 +132,7 @@ public class HomeActivity extends AppCompatActivity
     int id = item.getItemId();
 
     if (id == R.id.nav_map) {
-      pageChange4NotStack(new SensorMapFragment().newInstance("", ""));
+      pageChange4NotStack(new SensorMapFragment().newInstance());
     } else if (id == R.id.nav_setting) {
 
     } else if (id == R.id.nav_actuator) {

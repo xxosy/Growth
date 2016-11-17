@@ -9,5 +9,7 @@
     <string name="action_settings">Settings</string>
 
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string><string name="toast_message_empty_serial">Input your product serial.</string>
+    <string name="toast_message_available_serial">This serial is available</string>
+    <string name="toast_message_disavailable_serial">This serial is NOT available</string>
 </resources>
