@@ -12,12 +12,16 @@ public interface RulePresenter {
   void portClick(String port);
   void conditionClick(String condition);
   void sensorSerialClick(String serial);
-  void actuatorSerialClick(String serial);
+  void actuatorSerialInputted(String serial);
   void activationSwitch(String activation);
   void valueInputted(String value);
+  void actionOnClick();
+  void actionOffClick();
   void onOKButtonClick();
   void onAddRuleButtonClick();
   void onCancelClick();
+  void onRecyclerSwitchChanged(boolean state, int id);
+  void onRecyclerDeleteClicked(int id);
   interface View{
     void refreshSpinner(final ArrayList<String> spinnerDatas);
     void refreshRecycler();

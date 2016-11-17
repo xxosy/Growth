@@ -2,15 +2,17 @@ package com.growth.rule.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.Switch;
 import android.widget.TextView;
 
 import com.growth.R;
 import com.growth.domain.rule.Rule;
+import com.growth.rule.OnRecyclerDeleteClick;
+import com.growth.rule.OnRecyclerSwitchChangeListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,6 +29,8 @@ public class RuleListAdapter extends RecyclerView.Adapter<RuleListAdapter.ViewHo
                                           RuleListAdapterView{
   Context context;
   List<Rule> items;
+  OnRecyclerSwitchChangeListener mOnRecyclerSwitchChangeListener;
+  OnRecyclerDeleteClick mOnRecyclerDeleteClick;
   public RuleListAdapter(Context context){
     this.context = context;
     items = new ArrayList<>();
@@ -40,6 +44,7 @@ public class RuleListAdapter extends RecyclerView.Adapter<RuleListAdapter.ViewHo
 
   @Override
   public void onBindViewHolder(ViewHolder holder, int position) {
+
     Rule rule = items.get(position);
     String condition = rule.getFactor();
     if(rule.getCondition().equals("up")) condition+=">";
@@ -49,9 +54,32 @@ public class RuleListAdapter extends RecyclerView.Adapter<RuleListAdapter.ViewHo
     holder.tvActuator.setText(rule.getActuator_serial()+" : "+rule.getPort());
     holder.tvSensor.setText(rule.getSensor_serial());
     holder.tvCondition.setText(condition);
+
     if(rule.getActivation().equals("true")) holder.switchActivation.setChecked(true);
     else if(rule.getActivation().equals("false")) holder.switchActivation.setChecked(false);
-    Log.i("temp",rule.getCondition());
+    if(rule.getAction().equals("on")) holder.tvAction.setText("Turn on");
+    else if(rule.getAction().equals("off")) holder.tvAction.setText("Turn off");
+    holder.switchActivation.setOnCheckedChangeListener((buttonView, isChecked) -> {
+      mOnRecyclerSwitchChangeListener.onCheckedChanged(buttonView,isChecked,rule.getId());
+    });
+    holder.btnDelete.setOnClickListener(v -> mOnRecyclerDeleteClick.onClick(rule.getId()));
+    holder.btnDetail.setOnClickListener(v -> {
+      if(holder.frameDetail.getVisibility()==View.VISIBLE){
+        holder.frameDetail.setVisibility(View.GONE);
+        holder.btnDelete.setVisibility(View.GONE);
+      }else if(holder.frameDetail.getVisibility()==View.GONE){
+        holder.frameDetail.setVisibility(View.VISIBLE);
+        holder.btnDelete.setVisibility(View.VISIBLE);
+      }
+    });
+  }
+
+  public void setOnRecyclerSwitchChangeListener(OnRecyclerSwitchChangeListener mOnRecyclerSwitchChangeListener) {
+    this.mOnRecyclerSwitchChangeListener = mOnRecyclerSwitchChangeListener;
+  }
+
+  public void setOnRecyclerDeleteClick(OnRecyclerDeleteClick mOnRecyclerDeleteClick) {
+    this.mOnRecyclerDeleteClick = mOnRecyclerDeleteClick;
   }
 
   @Override
@@ -96,6 +124,12 @@ public class RuleListAdapter extends RecyclerView.Adapter<RuleListAdapter.ViewHo
     TextView tvSensor;
     @BindView(R.id.item_rule_activation)
     Switch switchActivation;
+    @BindView(R.id.rule_item_delete)
+    FrameLayout btnDelete;
+    @BindView(R.id.rule_item_detail)
+    FrameLayout frameDetail;
+    @BindView(R.id.rule_item_btn_detail)
+    FrameLayout btnDetail;
 
     public ViewHolder(View itemView) {
       super(itemView);

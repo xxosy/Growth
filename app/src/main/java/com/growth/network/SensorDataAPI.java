@@ -196,9 +196,9 @@ public class SensorDataAPI implements SensorAPI.Service
   }
 
   @Override
-  public Observable<Void> putActuatorState(ActuatorState actuatorState) {
+  public Observable<Void> putActuatorState(ActuatorState actuatorState,String port, String action) {
     return retrofit.create(ActuatorAPI.class)
-        .putActuatorState(actuatorState);
+        .putActuatorState(actuatorState,port, action);
   }
 
   @Override

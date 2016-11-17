@@ -13,9 +13,10 @@ import android.view.InflateException;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.TranslateAnimation;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
@@ -97,8 +98,8 @@ public class RuleFragment extends Fragment implements RulePresenter.View{
 
   @BindView(R.id.rule_switch_activation)
   Switch switchActivation;
-  @BindView(R.id.rule_tv_actuator_serial)
-  TextView tvActuatorSerial;
+  @BindView(R.id.rule_et_actuator_serial)
+  TextView etActuatorSerial;
 
   @BindView(R.id.rule_recycler_rule_list)
   RecyclerView ruleList;
@@ -109,6 +110,20 @@ public class RuleFragment extends Fragment implements RulePresenter.View{
 
   @BindView(R.id.rule_add_rule_window)
   FrameLayout addRuleWindow;
+
+  @BindView(R.id.rule_btn_action_on)
+  FrameLayout btnActionOn;
+  @BindView(R.id.action_on_background)
+  FrameLayout actionOnBackground;
+  @BindView(R.id.action_on_text)
+  TextView actionOnText;
+
+  @BindView(R.id.rule_btn_action_off)
+  FrameLayout btnActionOff;
+  @BindView(R.id.action_off_background)
+  FrameLayout actionOffBackground;
+  @BindView(R.id.action_off_text)
+  TextView actionOffText;
 
   @Inject
   RuleListAdapterView mRuleListAdapterView;
@@ -156,6 +171,8 @@ public class RuleFragment extends Fragment implements RulePresenter.View{
                            Bundle savedInstanceState) {
     // Inflate the layout for this fragment
     mRuleListAdapter = new RuleListAdapter(getActivity());
+    mRuleListAdapter.setOnRecyclerSwitchChangeListener((buttonView, isChecked, id) -> presenter.onRecyclerSwitchChanged(isChecked, id));
+    mRuleListAdapter.setOnRecyclerDeleteClick(id -> presenter.onRecyclerDeleteClicked(id));
     DaggerRuleComponent.builder()
         .ruleModule(new RuleModule(this,mRuleListAdapter))
         .build()
@@ -174,6 +191,7 @@ public class RuleFragment extends Fragment implements RulePresenter.View{
     unbinder = ButterKnife.bind(this, root);
 
     ruleList.setAdapter(mRuleListAdapter);
+
     ruleList.setLayoutManager(new LinearLayoutManager(getActivity()));
     setFactor(inflater);
     setPort(inflater);
@@ -181,42 +199,51 @@ public class RuleFragment extends Fragment implements RulePresenter.View{
     setPortButtonListener();
     setUpAndLowButtonListener();
     etValue.addTextChangedListener(getValueTextWatcher());
+    etActuatorSerial.addTextChangedListener(getActuatorSerialTextWatcher());
     initActivationSwitch();
+    initActionButton();
     initOKCancelButton();
-    btnAddRule.setOnClickListener(new View.OnClickListener() {
-      @Override
-      public void onClick(View v) {
-        presenter.onAddRuleButtonClick();
-      }
-    });
+    btnAddRule.setOnClickListener(v -> presenter.onAddRuleButtonClick());
+
     presenter.onCreatedView();
-    presenter.actuatorSerialClick(tvActuatorSerial.getText().toString());
     return root;
   }
-  private void initOKCancelButton(){
-    btnOK.setOnClickListener(new View.OnClickListener() {
-      @Override
-      public void onClick(View v) {
-        presenter.onOKButtonClick();
-      }
+  private void initActionButton(){
+    btnActionOn.setOnClickListener(v -> {
+      actionOffBackground.setBackgroundResource(R.color.colorBase);
+      actionOffText.setTextColor(getResources().getColor(R.color.colorPrimary));
+      actionOnBackground.setBackgroundResource(R.color.colorBase);
+      actionOnText.setTextColor(getResources().getColor(R.color.colorPrimary));
+
+      actionOnBackground.setBackgroundResource(R.color.colorPrimary);
+      actionOnText.setTextColor(getResources().getColor(R.color.colorBase));
+      presenter.actionOnClick();
     });
-    btnCancel.setOnClickListener(new View.OnClickListener() {
-      @Override
-      public void onClick(View v) {
-        presenter.onCancelClick();
-      }
+    btnActionOff.setOnClickListener(v -> {
+      actionOffBackground.setBackgroundResource(R.color.colorBase);
+      actionOffText.setTextColor(getResources().getColor(R.color.colorPrimary));
+      actionOnBackground.setBackgroundResource(R.color.colorBase);
+      actionOnText.setTextColor(getResources().getColor(R.color.colorPrimary));
+
+      actionOffBackground.setBackgroundResource(R.color.colorPrimary);
+      actionOffText.setTextColor(getResources().getColor(R.color.colorBase));
+      presenter.actionOffClick();
+    });
+  }
+  private void initOKCancelButton(){
+    btnOK.setOnClickListener(v -> presenter.onOKButtonClick());
+    btnCancel.setOnClickListener(v -> {
+      clearAddRule();
+      presenter.onCancelClick();
     });
   }
   private void initActivationSwitch(){
     presenter.activationSwitch("false");
-    switchActivation.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-      @Override
-      public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-        if(isChecked)
-          presenter.activationSwitch("true");
-        else
-          presenter.activationSwitch("false");
-      }
+    switchActivation.setOnCheckedChangeListener((buttonView, isChecked) -> {
+      if(isChecked)
+        presenter.activationSwitch("true");
+      else
+        presenter.activationSwitch("false");
     });
   }
   private TextWatcher getValueTextWatcher(){
@@ -238,37 +265,51 @@ public class RuleFragment extends Fragment implements RulePresenter.View{
     };
     return textWatcher;
   }
+  private TextWatcher getActuatorSerialTextWatcher(){
+    TextWatcher textWatcher = new TextWatcher() {
+      @Override
+      public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+      }
+
+      @Override
+      public void onTextChanged(CharSequence s, int start, int before, int count) {
+        presenter.actuatorSerialInputted(s.toString());
+      }
+
+      @Override
+      public void afterTextChanged(Editable s) {
+
+      }
+    };
+    return textWatcher;
+  }
 
   private void setUpAndLowButtonListener(){
-    btnConditionUp.setOnClickListener(new View.OnClickListener() {
-      @Override
-      public void onClick(View v) {
-        conditionLowBackground.setBackgroundResource(R.color.colorBase);
-        conditionUpBackground.setBackgroundResource(R.color.colorBase);
-        conditionLowText.setTextColor(getResources().getColor(R.color.colorPrimary));
-        conditionUpText.setTextColor(getResources().getColor(R.color.colorPrimary));
+    btnConditionUp.setOnClickListener(v -> {
+      conditionLowBackground.setBackgroundResource(R.color.colorBase);
+      conditionUpBackground.setBackgroundResource(R.color.colorBase);
+      conditionLowText.setTextColor(getResources().getColor(R.color.colorPrimary));
+      conditionUpText.setTextColor(getResources().getColor(R.color.colorPrimary));
 
-        conditionUpBackground.setBackgroundResource(R.color.colorPrimary);
-        conditionUpText.setTextColor(getResources().getColor(R.color.colorBase));
-        presenter.conditionClick("up");
-      }
+      conditionUpBackground.setBackgroundResource(R.color.colorPrimary);
+      conditionUpText.setTextColor(getResources().getColor(R.color.colorBase));
+      presenter.conditionClick("up");
     });
-    btnConditionLow.setOnClickListener(new View.OnClickListener() {
-      @Override
-      public void onClick(View v) {
-        conditionLowBackground.setBackgroundResource(R.color.colorBase);
-        conditionUpBackground.setBackgroundResource(R.color.colorBase);
-        conditionLowText.setTextColor(getResources().getColor(R.color.colorPrimary));
-        conditionUpText.setTextColor(getResources().getColor(R.color.colorPrimary));
+    btnConditionLow.setOnClickListener(v -> {
+      conditionLowBackground.setBackgroundResource(R.color.colorBase);
+      conditionUpBackground.setBackgroundResource(R.color.colorBase);
+      conditionLowText.setTextColor(getResources().getColor(R.color.colorPrimary));
+      conditionUpText.setTextColor(getResources().getColor(R.color.colorPrimary));
 
-        conditionLowBackground.setBackgroundResource(R.color.colorPrimary);
-        conditionLowText.setTextColor(getResources().getColor(R.color.colorBase));
-        presenter.conditionClick("low");
-      }
+      conditionLowBackground.setBackgroundResource(R.color.colorPrimary);
+      conditionLowText.setTextColor(getResources().getColor(R.color.colorBase));
+      presenter.conditionClick("low");
     });
   }
   private void setPort(LayoutInflater inflater){
     List<String> portNums = new ArrayList<>();
+    portNums.add("0");
     portNums.add("1");
     portNums.add("2");
     portNums.add("3");
@@ -276,7 +317,7 @@ public class RuleFragment extends Fragment implements RulePresenter.View{
     portNums.add("5");
     portNums.add("6");
     portNums.add("7");
-    portNums.add("8");
+
 
     for(int i = 0;i<portNums.size();i++) {
       addPort(inflater, portNums.get(i));
@@ -362,7 +403,30 @@ public class RuleFragment extends Fragment implements RulePresenter.View{
       addFactor(inflater, factorNames.get(i));
     }
   }
+  private void clearAddRule(){
+    Iterator teratorFactor = hashMapBtnFactor.keySet().iterator();
+    while(teratorFactor.hasNext()){
+      RuleButton ruleButton = hashMapBtnFactor.get(teratorFactor.next());
+      ruleButton.getBackground().setBackgroundResource(R.color.colorBase);
+      ruleButton.getText().setTextColor(getResources().getColor(R.color.colorPrimary));
+    }
+    Iterator iteratorPort = hashMapBtnPort.keySet().iterator();
+    while(iteratorPort.hasNext()){
+      RuleButton ruleButton = hashMapBtnPort.get(iteratorPort.next());
+      ruleButton.getBackground().setBackgroundResource(R.color.colorBase);
+      ruleButton.getText().setTextColor(getResources().getColor(R.color.colorPrimary));
+    }
 
+    actionOffBackground.setBackgroundResource(R.color.colorBase);
+    actionOffText.setTextColor(getResources().getColor(R.color.colorPrimary));
+    actionOnBackground.setBackgroundResource(R.color.colorBase);
+    actionOnText.setTextColor(getResources().getColor(R.color.colorPrimary));
+
+    conditionLowBackground.setBackgroundResource(R.color.colorBase);
+    conditionUpBackground.setBackgroundResource(R.color.colorBase);
+    conditionLowText.setTextColor(getResources().getColor(R.color.colorPrimary));
+    conditionUpText.setTextColor(getResources().getColor(R.color.colorPrimary));
+  }
   private void addFactor(LayoutInflater inflater,String factorName){
     View btnType = inflater.inflate(R.layout.rule_button, null);
     FrameLayout background = (FrameLayout) btnType.findViewById(R.id.rule_factor_background);
@@ -451,14 +515,30 @@ public class RuleFragment extends Fragment implements RulePresenter.View{
 
   @Override
   public void showAddRule() {
-    if(addRuleWindow.getVisibility() == View.GONE)
+    if(addRuleWindow.getVisibility() == View.GONE) {
+      Animation animation = new TranslateAnimation(
+          Animation.RELATIVE_TO_SELF, 0f,
+          Animation.RELATIVE_TO_SELF, 0f,
+          Animation.RELATIVE_TO_SELF, -1.0f,
+          Animation.RELATIVE_TO_SELF, 0f);
+      animation.setDuration(300);
+      addRuleWindow.setAnimation(animation);
       addRuleWindow.setVisibility(View.VISIBLE);
+    }
   }
 
   @Override
   public void hideAddRule() {
-    if(addRuleWindow.getVisibility() == View.VISIBLE)
+    if(addRuleWindow.getVisibility() == View.VISIBLE) {
+      Animation animation = new TranslateAnimation(
+          Animation.RELATIVE_TO_SELF, 0f,
+          Animation.RELATIVE_TO_SELF, 0f,
+          Animation.RELATIVE_TO_SELF, 0f,
+          Animation.RELATIVE_TO_SELF, -1.0f);
+      animation.setDuration(300);
+      addRuleWindow.setAnimation(animation);
       addRuleWindow.setVisibility(View.GONE);
+    }
   }
 
   @Override

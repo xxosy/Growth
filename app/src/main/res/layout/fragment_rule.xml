@@ -7,28 +7,30 @@
 
     <!-- TODO: Update blank fragment layout -->
 
-    <android.support.design.widget.FloatingActionButton
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:clickable="true"
-        app:srcCompat="@drawable/ic_add"
-        android:id="@+id/rule_add_rule"
-        android:layout_gravity="bottom|right"
-        android:layout_marginRight="4dp"
-        android:layout_marginBottom="4dp"/>
-
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/colorPrimary">
 
+        <android.support.v7.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/rule_recycler_rule_list"/>
+    </LinearLayout>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorAccentSoft"
+        android:visibility="gone"
+        android:id="@+id/rule_add_rule_window"
+        android:padding="1dp">
+
         <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/colorBase"
-            android:visibility="gone"
-            android:id="@+id/rule_add_rule_window">
+            android:layout_height="match_parent"
+            android:background="@color/colorBase">
 
             <LinearLayout
                 android:orientation="vertical"
@@ -139,67 +141,76 @@
                             android:ems="10"
                             android:id="@+id/rule_et_value"
                             android:textSize="14sp"
-                            android:layout_width="60dp"/>
+                            android:layout_width="match_parent"
+                            android:layout_weight="1.2"/>
 
                         <FrameLayout
-                            android:layout_width="wrap_content"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_weight="1">
 
                         </FrameLayout>
 
-                        <FrameLayout
-                            android:layout_width="48dp"
-                            android:layout_height="24dp"
-                            android:background="@color/colorAccentSoft"
-                            android:padding="1dp"
-                            android:layout_marginRight="16dp"
-                            android:layout_marginLeft="16dp"
-                            android:id="@+id/rule_btn_condition_up"
-                            android:layout_gravity="center">
+                        <LinearLayout
+                            android:orientation="horizontal"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1">
 
                             <FrameLayout
                                 android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:background="@color/colorPrimary"
-                                android:id="@+id/condition_up_background">
+                                android:layout_height="24dp"
+                                android:background="@color/colorAccentSoft"
+                                android:padding="1dp"
+                                android:layout_marginRight="16dp"
+                                android:id="@+id/rule_btn_condition_up"
+                                android:layout_gravity="center"
+                                android:layout_weight="1">
 
-                                <TextView
-                                    android:text="upper"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:id="@+id/condition_up_text"
-                                    android:layout_gravity="center"
-                                    android:textColor="@color/colorBase"/>
+                                <FrameLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:background="@color/colorBase"
+                                    android:id="@+id/condition_up_background">
+
+                                    <TextView
+                                        android:text="upper"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:id="@+id/condition_up_text"
+                                        android:layout_gravity="center"
+                                        android:textColor="@color/colorPrimary"/>
+                                </FrameLayout>
+
                             </FrameLayout>
-
-                        </FrameLayout>
-
-                        <FrameLayout
-                            android:layout_width="48dp"
-                            android:layout_height="24dp"
-                            android:background="@color/colorAccentSoft"
-                            android:padding="1dp"
-                            android:layout_marginRight="16dp"
-                            android:id="@+id/rule_btn_condition_low"
-                            android:layout_gravity="center">
 
                             <FrameLayout
                                 android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:background="@color/colorBase"
-                                android:id="@+id/condition_low_background">
+                                android:layout_height="24dp"
+                                android:background="@color/colorAccentSoft"
+                                android:padding="1dp"
+                                android:layout_marginRight="16dp"
+                                android:id="@+id/rule_btn_condition_low"
+                                android:layout_gravity="center"
+                                android:layout_weight="1">
 
-                                <TextView
-                                    android:text="lower"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:id="@+id/condition_low_text"
-                                    android:layout_gravity="center"
-                                    android:textColor="@color/colorPrimary"/>
+                                <FrameLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:background="@color/colorBase"
+                                    android:id="@+id/condition_low_background">
+
+                                    <TextView
+                                        android:text="lower"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:id="@+id/condition_low_text"
+                                        android:layout_gravity="center"
+                                        android:textColor="@color/colorPrimary"/>
+                                </FrameLayout>
+
                             </FrameLayout>
-
-                        </FrameLayout>
+                        </LinearLayout>
 
                     </LinearLayout>
 
@@ -213,23 +224,86 @@
                     <LinearLayout
                         android:orientation="horizontal"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent">
+                        android:layout_height="wrap_content">
 
                         <TextView
                             android:text="Actuator : "
                             android:layout_width="match_parent"
-                            android:layout_height="match_parent"
+                            android:layout_height="wrap_content"
                             android:id="@+id/textView37"
-                            android:layout_weight="3"
+                            android:layout_weight="1.2"
                             android:textColor="@color/colorPrimary"/>
 
-                        <TextView
-                            android:text="PA5123"
+                        <EditText
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:id="@+id/rule_tv_actuator_serial"
-                            android:textColor="@color/colorPrimary"
-                            android:layout_weight="1"/>
+                            android:inputType="textPersonName"
+                            android:ems="10"
+                            android:id="@+id/rule_et_actuator_serial"
+                            android:layout_weight="1"
+                            android:textSize="14sp"/>
+
+                        <LinearLayout
+                            android:orientation="horizontal"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1">
+
+                            <FrameLayout
+                                android:layout_width="48dp"
+                                android:layout_height="24dp"
+                                android:layout_weight="1"
+                                android:id="@+id/rule_btn_action_on"
+                                android:background="@color/colorAccentSoft"
+                                android:padding="1dp"
+                                android:layout_marginRight="16dp"
+                                android:clickable="true"
+                                android:layout_gravity="center"
+                                >
+
+                                <FrameLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:padding="1dp"
+                                    android:id="@+id/action_on_background"
+                                    android:background="@color/colorBase">
+
+                                    <TextView
+                                        android:text="ON"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:id="@+id/action_on_text"
+                                        android:layout_gravity="center"/>
+                                </FrameLayout>
+                            </FrameLayout>
+
+                            <FrameLayout
+                                android:layout_width="48dp"
+                                android:layout_height="24dp"
+                                android:layout_weight="1"
+                                android:id="@+id/rule_btn_action_off"
+                                android:background="@color/colorAccentSoft"
+                                android:padding="1dp"
+                                android:layout_marginRight="16dp"
+                                android:clickable="true"
+                                android:layout_gravity="center">
+
+                                <FrameLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:padding="1dp"
+                                    android:id="@+id/action_off_background"
+                                    android:background="@color/colorBase">
+
+                                    <TextView
+                                        android:text="OFF"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:id="@+id/action_off_text"
+                                        android:layout_gravity="center"/>
+                                </FrameLayout>
+                            </FrameLayout>
+                        </LinearLayout>
 
                     </LinearLayout>
 
@@ -316,10 +390,16 @@
             </LinearLayout>
         </FrameLayout>
 
-        <android.support.v7.widget.RecyclerView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:id="@+id/rule_recycler_rule_list"/>
-    </LinearLayout>
+    </FrameLayout>
+
+    <android.support.design.widget.FloatingActionButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        app:srcCompat="@drawable/ic_add"
+        android:id="@+id/rule_add_rule"
+        android:layout_gravity="bottom|right"
+        android:layout_marginRight="4dp"
+        android:layout_marginBottom="4dp"/>
 
 </FrameLayout>

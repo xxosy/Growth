@@ -46,12 +46,13 @@ public class HomeActivity extends AppCompatActivity
     PlantsGrowthGalleryFragment.OnFragmentInteractionListener,
     RuleFragment.OnFragmentInteractionListener{
 
+  private final int container = R.id.container;
+
   @Inject
   HomePresenter homePresenter;
 
   private OnKeyBackPressedListener onKeyBackPressedListener;
 
-  private int container = R.id.container;
   private FragmentTransaction mFragmentTransaction;
 
   @Override
@@ -67,13 +68,12 @@ public class HomeActivity extends AppCompatActivity
     NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
     navigationView.setNavigationItemSelectedListener(this);
     PageChangeUtil.newInstance().setPageChange(this);
-    mFragmentTransaction = getSupportFragmentManager().beginTransaction();
-    mFragmentTransaction.replace(container, RuleFragment.newInstance("", ""));
-//    mFragmentTransaction.replace(container, SensorMapFragment.newInstance("", ""));
-    mFragmentTransaction.commit();
 
-//        pageChange(SensorDataDisplayFragment.newInstance("P5123", ""));
-    homePresenter.initHome();
+    mFragmentTransaction = getSupportFragmentManager().beginTransaction();
+    //TODO: Use this for Test
+    //mFragmentTransaction.replace(container, RuleFragment.newInstance("", ""));
+    mFragmentTransaction.replace(container, SensorMapFragment.newInstance("", ""));
+    mFragmentTransaction.commit();
   }
 
   private void setCustomActionbar() {
@@ -97,7 +97,7 @@ public class HomeActivity extends AppCompatActivity
     DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
     ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
         this, drawer, parent, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-    drawer.setDrawerListener(toggle);
+    drawer.addDrawerListener(toggle);
     toggle.syncState();
   }
 
@@ -111,19 +111,14 @@ public class HomeActivity extends AppCompatActivity
 
   @Override
   public boolean onCreateOptionsMenu(Menu menu) {
-    // Inflate the menu; this adds items to the action bar if it is present.
     getMenuInflater().inflate(R.menu.home, menu);
     return true;
   }
 
   @Override
   public boolean onOptionsItemSelected(MenuItem item) {
-    // Handle action bar item clicks here. The action bar will
-    // automatically handle clicks on the Home/Up button, so long
-    // as you specify a parent activity in AndroidManifest.xml.
     int id = item.getItemId();
 
-    //noinspection SimplifiableIfStatement
     if (id == R.id.action_settings) {
       return true;
     }
@@ -134,7 +129,6 @@ public class HomeActivity extends AppCompatActivity
   @SuppressWarnings("StatementWithEmptyBody")
   @Override
   public boolean onNavigationItemSelected(MenuItem item) {
-    // Handle navigation view item clicks here.
     int id = item.getItemId();
 
     if (id == R.id.nav_map) {
@@ -145,6 +139,8 @@ public class HomeActivity extends AppCompatActivity
       pageChange4NotStack(new ActuatorFragment().newInstance("", ""));
     } else if (id == R.id.nav_plants_gallery) {
       pageChange4NotStack(new PlantsGrowthGalleryFragment().newInstance("", ""));
+    } else if(id == R.id.nav_rule){
+      pageChange4NotStack(new RuleFragment().newInstance("",""));
     }
 
     DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -155,10 +151,6 @@ public class HomeActivity extends AppCompatActivity
   public void setOnKeyBackPressedListener(OnKeyBackPressedListener onKeyBackPressedListener) {
     this.onKeyBackPressedListener = onKeyBackPressedListener;
   }
-//    @Override
-//    public void onFragmentInteraction(Uri uri) {
-//
-//    }
 
   @Override
   public void pageChange(Fragment fragment) {

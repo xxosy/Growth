@@ -8,7 +8,7 @@ import com.growth.views.PageChange;
 
 public class PageChangeUtil {
   PageChange pageChange;
-  public static PageChangeUtil instance;
+  private static PageChangeUtil instance;
 
   public static PageChangeUtil newInstance() {
     if (instance == null)

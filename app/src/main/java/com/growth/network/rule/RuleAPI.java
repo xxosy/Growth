@@ -24,7 +24,10 @@ public interface RuleAPI {
   @PUT("/rule/{usercode}")
   Observable<Void> updateRule(@Body Rule rule, @Path("usercode") String usercode);
 
-  @DELETE("/rule/{usercode}/{id}")
+  @PUT("/rule/{id}/{activation}")
+  Observable<Void> updateRuleActivation(@Path("activation")String activation,@Path("id")int id);
+
+  @DELETE("/rule/{id}")
   Observable<Void> deleteRule(@Path("id")int id);
 
   interface Service{
@@ -32,6 +35,7 @@ public interface RuleAPI {
     Observable<Rule[]> getRuleList(String usercode);
     Observable<Void> updateRule(Rule rule, String usercode);
     Observable<Void> deleteRule(int id);
+    Observable<Void> updateRuleActivation(String activation, int id);
 
   }
 }

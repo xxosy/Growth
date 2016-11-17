@@ -42,4 +42,10 @@ public class RuleDataAPI implements RuleAPI.Service{
     return retrofit.create(RuleAPI.class)
         .deleteRule(id);
   }
+
+  @Override
+  public Observable<Void> updateRuleActivation(String activation, int id) {
+    return retrofit.create(RuleAPI.class)
+        .updateRuleActivation(activation, id);
+  }
 }

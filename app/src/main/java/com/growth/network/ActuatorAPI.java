@@ -5,6 +5,7 @@ import com.growth.domain.actuator.ActuatorState;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.PUT;
+import retrofit2.http.Path;
 import rx.Observable;
 
 /**
@@ -15,12 +16,12 @@ public interface ActuatorAPI {
   @GET("/actuator/states")
   Observable<ActuatorState> getActuatorState();
 
-  @PUT("/actuator/states")
-  Observable<Void> putActuatorState(@Body ActuatorState actuatorState);
+  @PUT("/actuator/states/{port}/{action}")
+  Observable<Void> putActuatorState(@Body ActuatorState actuatorState, @Path("port") String port, @Path("action")String action);
 
   interface Service {
     Observable<ActuatorState> getActuatorState();
 
-    Observable<Void> putActuatorState(ActuatorState actuatorState);
+    Observable<Void> putActuatorState(ActuatorState actuatorState,String port, String action);
   }
 }

@@ -33,6 +33,7 @@ public class SensorMapPresenterImpl implements SensorMapPresenter {
   private SensorItem[] sensorItems;
   private SensorItem currentSsensorItem;
   private boolean isUpdate = false;
+  private boolean serial_validate = false;
   private int zoomIndex = 11;
 
   @Inject
@@ -118,8 +119,11 @@ public class SensorMapPresenterImpl implements SensorMapPresenter {
         .subscribe(result -> {
           if (result.getName().equals("null")) {
             view.checkSerialFail();
-          } else
+            serial_validate = false;
+          } else {
             view.checkSerialSuccess();
+            serial_validate = true;
+          }
           view.stopProgress();
         }, error -> {
           MyNetworkExcetionHandling.excute(error, view, view);
@@ -134,11 +138,16 @@ public class SensorMapPresenterImpl implements SensorMapPresenter {
   @Override
   public void addWindowOkClick(String serial, String title, String lat, String lng) {
     UpdateSensorData data = new UpdateSensorData(lat, lng, title);
-    view.startProgress();
-    if (lat.equals("") || lng.equals("")) {
+
+    if(!serial_validate){
+      view.showToast("Please, Check your serial");
+    }else if(title.equals("")){
+      view.showToast("Please, Input title");
+    }else if (lat.equals("") || lng.equals("")) {
       String msgEmptyLocation = "Please, Touch 'Get Location'";
       view.showToast(msgEmptyLocation);
     } else {
+      view.startProgress();
       if (isUpdate) {
         sensorDataAPI.updateMapSensor(serial, User.getInstance().getUserCode(), data)
             .subscribeOn(Schedulers.io())

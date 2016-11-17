@@ -13,6 +13,7 @@ public class Rule {
   String condition;
   String actuator_serial;
   String port;
+  String action;
 
   public int getId() {
     return id;
@@ -46,6 +47,10 @@ public class Rule {
     return value;
   }
 
+  public String getAction() {
+    return action;
+  }
+
   public void setId(int id) {
     this.id = id;
   }
@@ -76,5 +81,9 @@ public class Rule {
 
   public void setValue(String value) {
     this.value = value;
+  }
+
+  public void setAction(String action) {
+    this.action = action;
   }
 }

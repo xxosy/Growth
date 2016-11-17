@@ -1,7 +1,5 @@
 package com.growth.domain.sensor;
 
-import dagger.Provides;
-
 /**
  * Created by SSL-D on 2016-07-21.
  */
@@ -16,6 +14,11 @@ public class SensorItem {
   private String usercode;
   private String url;
   private String mosquito_url;
+  private String actuator_serial;
+
+  public String getActuator_serial() {
+    return actuator_serial;
+  }
 
   public String getMosquito_url() {
     return mosquito_url;
@@ -51,6 +54,10 @@ public class SensorItem {
 
   public String getSerial() {
     return serial;
+  }
+
+  public void setActuator_serial(String actuator_serial) {
+    this.actuator_serial = actuator_serial;
   }
 
   public void setId(int id) {

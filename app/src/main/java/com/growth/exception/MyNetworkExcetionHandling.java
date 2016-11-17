@@ -21,7 +21,8 @@ public class MyNetworkExcetionHandling {
       toast.showToast("Timeout to connect, Please check your network");
       progress.stopProgress();
     } else {
-      Log.i("error", error.toString());
+      if(error!=null)
+        Log.i("error", error.toString());
     }
   }
 }

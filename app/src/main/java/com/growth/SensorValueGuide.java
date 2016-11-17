@@ -5,16 +5,16 @@ package com.growth;
  */
 
 public class SensorValueGuide {
-  public static float GUIDE_TEMP_MAX = 30;
-  public static float GUIDE_TEMP_MIN = 15;
-  public static float GUIDE_HUMIDITY_MAX = 50;
-  public static float GUIDE_HUMIDITY_MIN = 30;
-  public static float GUIDE_LIGHT_MAX = 700;
-  public static float GUIDE_LIGHT_MIN = 200;
-  public static float GUIDE_CO2_MAX = 600;
-  public static float GUIDE_CO2_MIN = 400;
-  public static float GUIDE_PH_MAX = 8;
-  public static float GUIDE_PH_MIN = 6;
-  public static float GUIDE_EC_MAX = 800;
-  public static float GUIDE_EC_MIN = 500;
+  public static final float GUIDE_TEMP_MAX = 30;
+  public static final float GUIDE_TEMP_MIN = 15;
+  public static final float GUIDE_HUMIDITY_MAX = 50;
+  public static final float GUIDE_HUMIDITY_MIN = 30;
+  public static final float GUIDE_LIGHT_MAX = 700;
+  public static final float GUIDE_LIGHT_MIN = 200;
+  public static final float GUIDE_CO2_MAX = 600;
+  public static final float GUIDE_CO2_MIN = 400;
+  public static final float GUIDE_PH_MAX = 8;
+  public static final float GUIDE_PH_MIN = 6;
+  public static final float GUIDE_EC_MAX = 800;
+  public static final float GUIDE_EC_MIN = 500;
 }

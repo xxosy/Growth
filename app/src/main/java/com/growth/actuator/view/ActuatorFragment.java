@@ -135,7 +135,7 @@ public class ActuatorFragment extends Fragment implements ActuatorPresenter.View
 
     }
     unbinder = ButterKnife.bind(this, root);
-    for (int i = 0; i < 10; i++) {
+    for (int i = 0; i < 8; i++) {
       addActuator(i);
     }
     mToastControl = new ToastControlImlp(getActivity());

@@ -4,7 +4,6 @@ import android.util.Log;
 
 import com.growth.domain.actuator.ActuatorState;
 import com.growth.exception.MyNetworkExcetionHandling;
-import com.growth.graph.presenter.GraphPresenter;
 import com.growth.network.SensorDataAPI;
 
 import javax.inject.Inject;
@@ -56,8 +55,11 @@ public class ActuatorPresenterImpl implements ActuatorPresenter {
     else if (iActuatorState[index] == 1)
       iActuatorState[index] = 0;
     mActuatorState.setState(parseStringState());
+    String action = "on";
+    if(iActuatorState[index] == 1) action = "on";
+    else action = "off";
     Log.i("parseStringState()", parseStringState());
-    sensorDataAPI.putActuatorState(mActuatorState)
+    sensorDataAPI.putActuatorState(mActuatorState,String.valueOf(index),action)
         .subscribeOn(Schedulers.io())
         .observeOn(AndroidSchedulers.mainThread())
         .subscribe(result -> {
@@ -83,7 +85,10 @@ public class ActuatorPresenterImpl implements ActuatorPresenter {
       iActuatorState[currentSwitch] = 0;
     mActuatorState.setState(parseStringState());
     Log.i("parseStringState()", parseStringState());
-    sensorDataAPI.putActuatorState(mActuatorState)
+    String action = "on";
+    if(iActuatorState[currentSwitch] == 1) action = "on";
+    else action = "off";
+    sensorDataAPI.putActuatorState(mActuatorState,String.valueOf(currentSwitch),action)
         .subscribeOn(Schedulers.io())
         .observeOn(AndroidSchedulers.mainThread())
         .subscribe(result -> {

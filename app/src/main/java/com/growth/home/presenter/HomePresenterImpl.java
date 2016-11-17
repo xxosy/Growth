@@ -1,7 +1,5 @@
 package com.growth.home.presenter;
 
-import com.growth.network.SensorDataAPI;
-
 import javax.inject.Inject;
 
 /**
@@ -10,17 +8,9 @@ import javax.inject.Inject;
 
 public class HomePresenterImpl implements HomePresenter {
   private View view;
-  private SensorDataAPI sensorDataAPI;
 
   @Inject
-  public HomePresenterImpl(View view, SensorDataAPI sensorDataAPI) {
+  public HomePresenterImpl(View view) {
     this.view = view;
-    this.sensorDataAPI = sensorDataAPI;
   }
-
-  @Override
-  public void initHome() {
-
-  }
-
 }
