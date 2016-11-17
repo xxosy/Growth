@@ -2,7 +2,7 @@ package com.growth.intro.presenter;
 
 import com.growth.domain.database.DBManager;
 import com.growth.domain.user.User;
-import com.growth.network.SensorDataAPI;
+import com.growth.network.user.UserDataAPI;
 
 import javax.inject.Inject;
 
@@ -14,17 +14,15 @@ import rx.schedulers.Schedulers;
  */
 
 public class IntroPresenterImpl implements IntroPresenter {
-  IntroPresenter.View view;
-  SensorDataAPI sensorDataAPI;
-  DBManager mDBManager;
-  String userCode;
-  boolean checkUserCode;
+  private final int USER_CODE_LENGTH = 8;
+  private IntroPresenter.View view;
+  private UserDataAPI userDataAPI;
+  private DBManager mDBManager;
 
   @Inject
-  public IntroPresenterImpl(IntroPresenter.View view, SensorDataAPI sensorDataAPI) {
+  public IntroPresenterImpl(IntroPresenter.View view, UserDataAPI userDataAPI) {
     this.view = view;
-    this.sensorDataAPI = sensorDataAPI;
-    checkUserCode = false;
+    this.userDataAPI = userDataAPI;
   }
 
   @Override
@@ -34,10 +32,9 @@ public class IntroPresenterImpl implements IntroPresenter {
 
   @Override
   public void setUserCode() {
-    if (mDBManager.getCount() > 0) {
-    } else {
-      checkUserCode();
-
+    if (mDBManager.getCount() == 0) {
+      String userCode = createUserCode();
+      insertUserCode(userCode);
       mDBManager.createUserCode(userCode);
     }
     User.getInstance().setUserCode(mDBManager.getUserCode());
@@ -45,25 +42,22 @@ public class IntroPresenterImpl implements IntroPresenter {
 
   private String createUserCode() {
     String tempUserCode = "";
-    for (int i = 0; i < 8; i++) {
+    for (int i = 0; i < USER_CODE_LENGTH; i++) {
       int rndVal = (int) (Math.random() * 62);
       if (rndVal < 10) {
-        tempUserCode += rndVal;
+        tempUserCode += rndVal; //ASCII NUMBER
       } else if (rndVal > 35) {
-        tempUserCode += (char) (rndVal + 61);
+        tempUserCode += (char) (rndVal + 61); //ASCII LOWER CASE
       } else {
-        tempUserCode += (char) (rndVal + 55);
+        tempUserCode += (char) (rndVal + 55); //ASCII UPPER CASE
       }
     }
-    userCode = tempUserCode;
     return tempUserCode;
   }
 
-  private void checkUserCode() {
-    sensorDataAPI.insertUserCode(createUserCode())
+  private void insertUserCode(String userCode) {
+    userDataAPI.insertUserCode(userCode)
         .subscribeOn(Schedulers.io())
-        .observeOn(AndroidSchedulers.mainThread())
-        .subscribe(result1 -> {
-        });
+        .observeOn(AndroidSchedulers.mainThread());
   }
 }

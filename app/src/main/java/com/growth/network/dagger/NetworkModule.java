@@ -3,6 +3,7 @@ package com.growth.network.dagger;
 import com.growth.network.SensorDataAPI;
 import com.growth.network.retrofit.RetrofitCreator;
 import com.growth.network.rule.RuleDataAPI;
+import com.growth.network.user.UserDataAPI;
 
 import dagger.Module;
 import dagger.Provides;
@@ -26,5 +27,10 @@ public class NetworkModule {
   @Provides
   public RuleDataAPI provideRuleDataAPI(Retrofit retrofit){
     return new RuleDataAPI(retrofit);
+  }
+
+  @Provides
+  public UserDataAPI provideUserDataAPI(Retrofit retrofit){
+    return new UserDataAPI(retrofit);
   }
 }

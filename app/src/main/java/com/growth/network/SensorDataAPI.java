@@ -11,7 +11,6 @@ import com.growth.domain.humidity.HumidityList;
 import com.growth.domain.sensor.SensorItem;
 import com.growth.domain.sensor.SensorList;
 import com.growth.domain.temperature.TemperatureList;
-import com.growth.domain.user.User;
 import com.growth.domain.weather.WeatherItem;
 
 import javax.inject.Inject;
@@ -27,7 +26,6 @@ public class SensorDataAPI implements SensorAPI.Service
     , HumidityAPI.Service
     , ValueAPI.Service
     , GraphDataAPI.Service
-    , UserAPI.Service
     , ActuatorAPI.Service
     , HarmfulAPI.Service,
     PlantsGalleryAPI.Service,
@@ -175,18 +173,6 @@ public class SensorDataAPI implements SensorAPI.Service
   public Observable<TemperatureList> getValueList() {
     return retrofit.create(ValueAPI.class)
         .getValueList();
-  }
-
-  @Override
-  public Observable<User> getUserCode(String usercode) {
-    return retrofit.create(UserAPI.class)
-        .getUserCode(usercode);
-  }
-
-  @Override
-  public Observable<Void> insertUserCode(String usercode) {
-    return retrofit.create(UserAPI.class)
-        .insertUserCode(usercode);
   }
 
   @Override

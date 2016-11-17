@@ -1,7 +1,5 @@
-package com.growth.network;
+package com.growth.network.user;
 
-import com.growth.domain.temperature.TemperatureItem;
-import com.growth.domain.temperature.TemperatureList;
 import com.growth.domain.user.User;
 
 import retrofit2.http.GET;
