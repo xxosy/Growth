@@ -27,21 +27,16 @@ import butterknife.ButterKnife;
 public class HarmfulListAdapter extends RecyclerView.Adapter<HarmfulListAdapter.ViewHolder>
     implements HarmfulListAdapterDataModel,
     HarmfulListAdapterDataView {
-  Context context;
-  List<HarmfulData> items;
-  OnRecyclerItemClickListener mOnRecyclerItemClickListener;
+
+  private final int DESCRIPTION_SIMPLE_LENGTH = 60;
+  private final String DESCRIPTION_ELLIPSE = new StringBuilder("...").toString();
+  private Context context;
+  private List<HarmfulData> items;
+  private OnRecyclerItemClickListener mOnRecyclerItemClickListener;
 
   public HarmfulListAdapter(Context context) {
     this.context = context;
     items = new ArrayList<>();
-    HarmfulData h = new HarmfulData();
-    h.setDescription("Cercospora fragariae is a fungal plant pathogen.");
-    h.setTitle("Cercospora leaf spot");
-    items.add(h);
-    h = new HarmfulData();
-    h.setDescription("Anthrax is an infection caused by the bacterium Bacillus anthracis.");
-    h.setTitle("Anthrax");
-    items.add(h);
   }
 
   @Override
@@ -55,8 +50,8 @@ public class HarmfulListAdapter extends RecyclerView.Adapter<HarmfulListAdapter.
     HarmfulData item = getItem(position);
     holder.tvHarmfulTitle.setText(item.getTitle());
     String description = item.getDescription();
-    if (description.length() > 60)
-      description = description.substring(0, 60) + " ···";
+    if (description.length() > DESCRIPTION_SIMPLE_LENGTH)
+      description = String.format("%s %s",description.substring(0, DESCRIPTION_SIMPLE_LENGTH),DESCRIPTION_ELLIPSE);
     holder.tvHarmfulDescription.setText(description);
     holder.btnHarmfulItem.setOnClickListener(v -> mOnRecyclerItemClickListener.onItemClick(this, position));
     Glide.with(context).load(item.getImgurl()).into(holder.imgHarmfulSmall);

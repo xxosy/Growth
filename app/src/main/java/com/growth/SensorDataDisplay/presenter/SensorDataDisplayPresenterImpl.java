@@ -6,6 +6,7 @@ import android.os.AsyncTask;
 import android.util.Base64;
 import android.util.Log;
 
+import com.growth.SensorDataDisplay.StateTag;
 import com.growth.SensorDataDisplay.adapter.HarmfulListAdapterDataModel;
 import com.growth.SensorValueGuide;
 import com.growth.domain.Value;
@@ -26,22 +27,25 @@ import java.util.HashMap;
 
 import javax.inject.Inject;
 
+import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
+import rx.subscriptions.CompositeSubscription;
 
 /**
  * Created by SSL-D on 2016-08-25.
  */
 
 public class SensorDataDisplayPresenterImpl implements SensorDataDisplayPresenter {
-  SensorDataDisplayPresenter.View view;
-  SensorDataAPI sensorDataAPI;
-  HarmfulListAdapterDataModel mHarmfulListAdapterDataModel;
-  HashMap<String, Boolean> states;
-  String serial;
-  int stateBtn = 0;
-  boolean isBtnsShow = false;
-  WeatherItem weather;
+  private SensorDataDisplayPresenter.View view;
+  private SensorDataAPI sensorDataAPI;
+  private HarmfulListAdapterDataModel mHarmfulListAdapterDataModel;
+  private HashMap<String, Boolean> states;
+  private String serial;
+  private int stateBtn = 0;
+  private boolean isBtnsShow = false;
+  private WeatherItem weather;
+  private CompositeSubscription subscriptions = new CompositeSubscription();
   @Inject
   SensorDataDisplayPresenterImpl(SensorDataDisplayPresenter.View view, SensorDataAPI sensorDataAPI, HarmfulListAdapterDataModel harmfulListAdapterDataModel) {
     this.view = view;
@@ -51,32 +55,18 @@ public class SensorDataDisplayPresenterImpl implements SensorDataDisplayPresente
   }
 
   @Override
-  public void enterFragment(String serial) {
+  public void onCreatedView(String serial) {
     view.startProgress();
-    this.serial = serial;
-    sensorDataAPI.getValue(serial)
-        .subscribeOn(Schedulers.io())
-        .observeOn(AndroidSchedulers.mainThread())
-        .subscribe(result -> {
-          result.decrypt();
-          states = getStates(result);
-          view.refreshState(states);
-          view.refreshStateView(result);
-          view.refreshData(result);
-
-        }, error -> {
-          MyNetworkExcetionHandling.excute(error, view, view);
-        });
-    getWeatherItem();
+    swipePage(serial);
   }
   private void getWeatherItem(){
-    sensorDataAPI.getWeather()
+    Subscription subscription = sensorDataAPI.getWeather()
         .subscribeOn(Schedulers.io())
         .observeOn(AndroidSchedulers.mainThread())
         .subscribe(result ->{
           weather = result;
           String strWeather = weather.getWeather()[0].getMain();
-          double temp = Double.valueOf(weather.getMain().getTemp()) - 272.15;
+          double temp = (double) weather.getMain().getTemp() - 272.15;
           temp = Double.parseDouble(String.format("%.1f", temp));
           String humid = String.valueOf(weather.getMain().getHumidity());
           String icon = weather.getWeather()[0].getIcon();
@@ -85,12 +75,13 @@ public class SensorDataDisplayPresenterImpl implements SensorDataDisplayPresente
           view.refreshSwipe();
           view.stopProgress();
         });
+    subscriptions.add(subscription);
   }
 
   @Override
   public void swipePage(String serial) {
     this.serial = serial;
-    sensorDataAPI.getValue(serial)
+    Subscription subscription = sensorDataAPI.getValue(serial)
         .subscribeOn(Schedulers.io())
         .observeOn(AndroidSchedulers.mainThread())
         .subscribe(result -> {
@@ -103,6 +94,7 @@ public class SensorDataDisplayPresenterImpl implements SensorDataDisplayPresente
           MyNetworkExcetionHandling.excute(error, view, view);
         });
     getWeatherItem();
+    subscriptions.add(subscription);
   }
 
   @Override
@@ -124,26 +116,17 @@ public class SensorDataDisplayPresenterImpl implements SensorDataDisplayPresente
 
   @Override
   public void btnMosquitoClick() {
-    sensorDataAPI.getHarmfulData("insect")
+    Subscription subscription = sensorDataAPI.getHarmfulData("insect")
         .subscribeOn(Schedulers.io())
         .observeOn(AndroidSchedulers.mainThread())
         .subscribe(result -> {
-          mHarmfulListAdapterDataModel.clear();
-          for (HarmfulData item : result) {
-            mHarmfulListAdapterDataModel.add(item);
-          }
-          view.refreshHarmfulList();
+          stateBtn = 2;
+          clearAndAddHarmfulList(result);
+          getMosquitoImage(serial);
         }, error -> {
           MyNetworkExcetionHandling.excute(error, view, view);
         });
-    getMosquitoImage(serial);
-    stateBtn = 2;
-    view.showCameraFrame();
-    view.changeBtn(stateBtn);
-    isBtnsShow = false;
-    view.hideButton();
-    view.hideHarmfulDetail();
-    view.showHarmfulList();
+    subscriptions.add(subscription);
   }
 
   @Override
@@ -159,20 +142,24 @@ public class SensorDataDisplayPresenterImpl implements SensorDataDisplayPresente
 
   @Override
   public void btnCameraClick() {
-    sensorDataAPI.getHarmfulData("none")
+    Subscription subscription = sensorDataAPI.getHarmfulData("none")
         .subscribeOn(Schedulers.io())
         .observeOn(AndroidSchedulers.mainThread())
         .subscribe(result -> {
-          mHarmfulListAdapterDataModel.clear();
-          for (HarmfulData item : result) {
-            mHarmfulListAdapterDataModel.add(item);
-          }
-          view.refreshHarmfulList();
+          stateBtn = 1;
+          clearAndAddHarmfulList(result);
+          view.refreshCameraImage(serial);
         }, error -> {
           MyNetworkExcetionHandling.excute(error, view, view);
         });
-    stateBtn = 1;
-    getCameraImage(serial);
+    subscriptions.add(subscription);
+  }
+  private void clearAndAddHarmfulList(HarmfulData[] data){
+    mHarmfulListAdapterDataModel.clear();
+    for (HarmfulData item : data) {
+      mHarmfulListAdapterDataModel.add(item);
+    }
+    view.refreshHarmfulList();
     view.showCameraFrame();
     view.changeBtn(stateBtn);
     isBtnsShow = false;
@@ -180,9 +167,8 @@ public class SensorDataDisplayPresenterImpl implements SensorDataDisplayPresente
     view.hideButton();
     view.showHarmfulList();
   }
-
   private void getMosquitoImage(String serial) {
-    sensorDataAPI.getSensor(serial)
+    Subscription subscription = sensorDataAPI.getSensor(serial)
         .subscribeOn(Schedulers.io())
         .observeOn(AndroidSchedulers.mainThread())
         .subscribe(result -> {
@@ -214,53 +200,13 @@ public class SensorDataDisplayPresenterImpl implements SensorDataDisplayPresente
             @Override
             protected void onPostExecute(Void aVoid) {
               super.onPostExecute(aVoid);
-              view.refreshCameraImage(bmp);
+              view.refreshMosquitoImage(bmp);
             }
           }.execute();
         }, error -> {
           MyNetworkExcetionHandling.excute(error, view, view);
         });
-  }
-
-  private void getCameraImage(String serial) {
-    sensorDataAPI.getSensor(serial)
-        .subscribeOn(Schedulers.io())
-        .observeOn(AndroidSchedulers.mainThread())
-        .subscribe(result -> {
-          new AsyncTask<Void, Void, Void>() {
-            Bitmap bmp = null;
-
-            @Override
-            protected Void doInBackground(Void... params) {
-              try {
-                Log.i("url", result.getUrl());
-                URL url = new URL(result.getUrl() + "/tmpfs/auto.jpg");
-                URLConnection uc = url.openConnection();
-                String userpass = "admin" + ":" + "admin";
-                String basicAuth = "Basic " + new String(Base64.encode(userpass.getBytes(), Base64.DEFAULT));
-                uc.setRequestProperty("Authorization", basicAuth);
-                InputStream in = uc.getInputStream();
-                bmp = BitmapFactory.decodeStream(in);
-
-              } catch (MalformedURLException e) {
-                e.printStackTrace();
-              } catch (IOException e) {
-                e.printStackTrace();
-              } catch (Exception e) {
-                Log.i("error", e.toString());
-              }
-              return null;
-            }
-
-            @Override
-            protected void onPostExecute(Void aVoid) {
-              super.onPostExecute(aVoid);
-              view.refreshCameraImage(bmp);
-            }
-          }.execute();
-        }, error -> {
-          MyNetworkExcetionHandling.excute(error, view, view);
-        });
+    subscriptions.add(subscription);
   }
 
   @Override
@@ -306,37 +252,40 @@ public class SensorDataDisplayPresenterImpl implements SensorDataDisplayPresente
     float ec = Float.parseFloat(result.getEc());
     float co2 = Float.parseFloat(result.getCo2());
     if (temp > SensorValueGuide.GUIDE_TEMP_MAX || temp < SensorValueGuide.GUIDE_TEMP_MIN) {
-      states.put("temp", false);
+      states.put(StateTag.TEMPERATURE, false);
     } else {
-      states.put("temp", true);
+      states.put(StateTag.TEMPERATURE, true);
     }
     if (humidity > SensorValueGuide.GUIDE_HUMIDITY_MAX || humidity < SensorValueGuide.GUIDE_HUMIDITY_MIN) {
-      states.put("humidity", false);
+      states.put(StateTag.HUMIDITY, false);
     } else {
-      states.put("humidity", true);
+      states.put(StateTag.HUMIDITY, true);
     }
     if (light > SensorValueGuide.GUIDE_LIGHT_MAX || light < SensorValueGuide.GUIDE_LIGHT_MIN) {
-      states.put("light", false);
+      states.put(StateTag.LIGHT, false);
     } else {
-      states.put("light", true);
+      states.put(StateTag.LIGHT, true);
     }
     if (co2 > SensorValueGuide.GUIDE_CO2_MAX || co2 < SensorValueGuide.GUIDE_CO2_MIN) {
-      states.put("co2", false);
+      states.put(StateTag.CO2, false);
     } else {
-      states.put("co2", true);
+      states.put(StateTag.CO2, true);
     }
     if (ph > SensorValueGuide.GUIDE_PH_MAX || ph < SensorValueGuide.GUIDE_PH_MIN) {
-      states.put("ph", false);
+      states.put(StateTag.PH, false);
     } else {
-      states.put("ph", true);
+      states.put(StateTag.PH, true);
     }
     if (ec > SensorValueGuide.GUIDE_EC_MAX || ec < SensorValueGuide.GUIDE_EC_MIN) {
-      states.put("ec", false);
+      states.put(StateTag.EC, false);
     } else {
-      states.put("ec", true);
+      states.put(StateTag.EC, true);
     }
     return states;
   }
 
-
+  @Override
+  public void unSubscribe() {
+    subscriptions.unsubscribe();
+  }
 }

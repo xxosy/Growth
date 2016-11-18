@@ -201,7 +201,8 @@
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             app:srcCompat="@drawable/ic_drawable_menu"
-                            android:id="@+id/img_camera" />
+                            android:id="@+id/img_camera"
+                            android:scaleType="fitXY"/>
                     </FrameLayout>
 
                 </FrameLayout>

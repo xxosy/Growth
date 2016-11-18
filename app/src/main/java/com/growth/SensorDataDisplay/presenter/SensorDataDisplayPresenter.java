@@ -13,7 +13,7 @@ import java.util.HashMap;
  */
 
 public interface SensorDataDisplayPresenter {
-  void enterFragment(String serial);
+  void onCreatedView(String serial);
 
   void btnChangeClick();
 
@@ -39,13 +39,14 @@ public interface SensorDataDisplayPresenter {
 
   void OnRecyclerItemClick(int position);
 
+  void unSubscribe();
   interface View extends ProgressControl, ToastControl {
     void refreshData(Value value);
 
     void refreshState(HashMap<String, Boolean> states);
 
-    void refreshCameraImage(Bitmap image);
-
+    void refreshCameraImage(String serial);
+    void refreshMosquitoImage(Bitmap image);
     void refreshStateView(Value value);
 
     void showCameraFrame();

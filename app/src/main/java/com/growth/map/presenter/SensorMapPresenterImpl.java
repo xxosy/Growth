@@ -64,7 +64,7 @@ public class SensorMapPresenterImpl implements SensorMapPresenter {
   @Override
   public void infoWindowDetailClick() {
     view.hideInfoWindow();
-    SensorDataDisplayFragment fragment = SensorDataDisplayFragment.newInstance(currentSensorItem.getSerial(), "");
+    SensorDataDisplayFragment fragment = SensorDataDisplayFragment.newInstance(currentSensorItem.getSerial());
     PageChangeUtil.newInstance()
         .getPageChange()
         .pageChange(fragment);

@@ -26,6 +26,7 @@ import com.akexorcist.roundcornerprogressbar.RoundCornerProgressBar;
 import com.bumptech.glide.Glide;
 import com.github.rahatarmanahmed.cpv.CircularProgressView;
 import com.growth.R;
+import com.growth.SensorDataDisplay.StateTag;
 import com.growth.SensorDataDisplay.adapter.HarmfulListAdapter;
 import com.growth.SensorDataDisplay.adapter.HarmfulListAdapterDataView;
 import com.growth.SensorDataDisplay.dagger.DaggerSensorDataDisplayComponent;
@@ -35,6 +36,7 @@ import com.growth.SensorValueGuide;
 import com.growth.domain.Value;
 import com.growth.home.OnKeyBackPressedListener;
 import com.growth.home.view.HomeActivity;
+import com.growth.network.retrofit.RetrofitCreator;
 import com.growth.utils.ProgressControl;
 import com.growth.utils.ProgressControlImlp;
 import com.growth.utils.ToastControl;
@@ -59,15 +61,13 @@ import butterknife.Unbinder;
  */
 public class SensorDataDisplayFragment extends Fragment implements SensorDataDisplayPresenter.View,
     OnKeyBackPressedListener {
-  // TODO: Rename parameter arguments, choose names that match
-  // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-  private static final String ARG_PARAM1 = "param1";
-  private static final String ARG_PARAM2 = "param2";
+  private static final String ARG_SERIAL = "serial";
+  private String serial;
+
   @Inject
   SensorDataDisplayPresenter presenter;
-  // TODO: Rename and change types of parameters
-  private String serial;
-  private String mParam2;
+
+
 
   int harmfulImageSize;
   //Bind
@@ -185,20 +185,10 @@ public class SensorDataDisplayFragment extends Fragment implements SensorDataDis
     // Required empty public constructor
   }
 
-  /**
-   * Use this factory method to create a new instance of
-   * this fragment using the provided parameters.
-   *
-   * @param param1 Parameter 1.
-   * @param param2 Parameter 2.
-   * @return A new instance of fragment SensorDataDisplayFragment.
-   */
-  // TODO: Rename and change types and number of parameters
-  public static SensorDataDisplayFragment newInstance(String param1, String param2) {
+  public static SensorDataDisplayFragment newInstance(String serial) {
     SensorDataDisplayFragment fragment = new SensorDataDisplayFragment();
     Bundle args = new Bundle();
-    args.putString(ARG_PARAM1, param1);
-    args.putString(ARG_PARAM2, param2);
+    args.putString(ARG_SERIAL, serial);
     fragment.setArguments(args);
     return fragment;
   }
@@ -207,8 +197,7 @@ public class SensorDataDisplayFragment extends Fragment implements SensorDataDis
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     if (getArguments() != null) {
-      serial = getArguments().getString(ARG_PARAM1);
-      mParam2 = getArguments().getString(ARG_PARAM2);
+      serial = getArguments().getString(ARG_SERIAL);
     }
     ((HomeActivity) getActivity()).setOnKeyBackPressedListener(this);
   }
@@ -246,7 +235,7 @@ public class SensorDataDisplayFragment extends Fragment implements SensorDataDis
     });
     mProgressControl = new ProgressControlImlp(progressLayout, progressView);
     mToastControl = new ToastControlImlp(getActivity());
-    presenter.enterFragment(serial);
+    presenter.onCreatedView(serial);
     btnChange.setOnClickListener(v -> presenter.btnChangeClick());
     btnMosquito.setOnClickListener(v -> presenter.btnMosquitoClick());
     btnView.setOnClickListener(v -> presenter.btnViewClick());
@@ -297,6 +286,7 @@ public class SensorDataDisplayFragment extends Fragment implements SensorDataDis
   public void onDestroyView() {
     super.onDestroyView();
     unbinder.unbind();
+    presenter.unSubscribe();
   }
 
   @Override
@@ -339,31 +329,34 @@ public class SensorDataDisplayFragment extends Fragment implements SensorDataDis
     Set<String> tags = states.keySet();
     for (String tag : tags) {
       if (states.get(tag)) {
-        if (tag.equals("temp")) stateTemp.setImageResource(R.drawable.ic_smile);
-        if (tag.equals("humidity")) stateHumidity.setImageResource(R.drawable.ic_smile);
-        if (tag.equals("light")) stateLight.setImageResource(R.drawable.ic_smile);
-        if (tag.equals("co2")) stateCo2.setImageResource(R.drawable.ic_smile);
-        if (tag.equals("ec")) stateEc.setImageResource(R.drawable.ic_smile);
-        if (tag.equals("ph")) statePh.setImageResource(R.drawable.ic_smile);
+        if (tag.equals(StateTag.TEMPERATURE)) stateTemp.setImageResource(R.drawable.ic_smile);
+        if (tag.equals(StateTag.HUMIDITY)) stateHumidity.setImageResource(R.drawable.ic_smile);
+        if (tag.equals(StateTag.LIGHT)) stateLight.setImageResource(R.drawable.ic_smile);
+        if (tag.equals(StateTag.CO2)) stateCo2.setImageResource(R.drawable.ic_smile);
+        if (tag.equals(StateTag.EC)) stateEc.setImageResource(R.drawable.ic_smile);
+        if (tag.equals(StateTag.PH)) statePh.setImageResource(R.drawable.ic_smile);
       } else {
-        if (tag.equals("temp")) stateTemp.setImageResource(R.drawable.ic_cry);
-        if (tag.equals("humidity")) stateHumidity.setImageResource(R.drawable.ic_cry);
-        if (tag.equals("light")) stateLight.setImageResource(R.drawable.ic_cry);
-        if (tag.equals("co2")) stateCo2.setImageResource(R.drawable.ic_cry);
-        if (tag.equals("ec")) stateEc.setImageResource(R.drawable.ic_cry);
-        if (tag.equals("ph")) statePh.setImageResource(R.drawable.ic_cry);
+        if (tag.equals(StateTag.TEMPERATURE)) stateTemp.setImageResource(R.drawable.ic_cry);
+        if (tag.equals(StateTag.HUMIDITY)) stateHumidity.setImageResource(R.drawable.ic_cry);
+        if (tag.equals(StateTag.LIGHT)) stateLight.setImageResource(R.drawable.ic_cry);
+        if (tag.equals(StateTag.CO2)) stateCo2.setImageResource(R.drawable.ic_cry);
+        if (tag.equals(StateTag.EC)) stateEc.setImageResource(R.drawable.ic_cry);
+        if (tag.equals(StateTag.PH)) statePh.setImageResource(R.drawable.ic_cry);
       }
     }
   }
 
   @Override
-  public void refreshCameraImage(Bitmap image) {
-    if(image == null){
+  public void refreshCameraImage(String serial) {
+    Glide.with(getActivity()).load(RetrofitCreator.getBaseUrl() + "/gallery/recent/" + serial).into(imgCamera);
+  }
 
-    }else{
+  @Override
+  public void refreshMosquitoImage(Bitmap image) {
+    if(image != null){
       image = Bitmap.createScaledBitmap(image, frameCamera.getWidth(), frameCamera.getHeight(), true);
+      imgCamera.setImageBitmap(image);
     }
-    imgCamera.setImageBitmap(image);
   }
 
   @Override
@@ -399,77 +392,49 @@ public class SensorDataDisplayFragment extends Fragment implements SensorDataDis
 
   @Override
   public void showButton() {
-    ViewGroup.MarginLayoutParams lp = (ViewGroup.MarginLayoutParams) btnCamera.getLayoutParams();
-    ViewGroup.MarginLayoutParams btnChangeLp = (ViewGroup.MarginLayoutParams) btnChange.getLayoutParams();
-    Animation cameraAnimation = new TranslateAnimation(
-        Animation.RELATIVE_TO_SELF, 0f,
-        Animation.RELATIVE_TO_SELF, 0f,
-        Animation.ABSOLUTE, lp.bottomMargin - btnChangeLp.bottomMargin,
-        Animation.RELATIVE_TO_SELF, 0f);
-    lp = (ViewGroup.MarginLayoutParams) btnView.getLayoutParams();
-    Animation viewAnimation = new TranslateAnimation(
-        Animation.RELATIVE_TO_SELF, 0f,
-        Animation.RELATIVE_TO_SELF, 0f,
-        Animation.ABSOLUTE, lp.bottomMargin - btnChangeLp.bottomMargin,
-        Animation.RELATIVE_TO_SELF, 0f);
-    lp = (ViewGroup.MarginLayoutParams) btnMosquito.getLayoutParams();
-    Animation mosquitoAnimation = new TranslateAnimation(
-        Animation.RELATIVE_TO_SELF, 0f,
-        Animation.RELATIVE_TO_SELF, 0f,
-        Animation.ABSOLUTE, lp.bottomMargin - btnChangeLp.bottomMargin,
-        Animation.RELATIVE_TO_SELF, 0f);
-    cameraAnimation.setDuration(300);
-    viewAnimation.setDuration(300);
-    mosquitoAnimation.setDuration(300);
+    setFoldingButtonShowAnimation(btnCamera);
+    setFoldingButtonShowAnimation(btnView);
+    setFoldingButtonShowAnimation(btnMosquito);
 
-    btnCamera.setAnimation(cameraAnimation);
     btnCamera.setVisibility(View.VISIBLE);
-    btnView.setAnimation(viewAnimation);
     btnView.setVisibility(View.VISIBLE);
-    btnMosquito.setAnimation(mosquitoAnimation);
     btnMosquito.setVisibility(View.VISIBLE);
   }
-
-  @Override
-  public void hideButton() {
-    ViewGroup.MarginLayoutParams lp = (ViewGroup.MarginLayoutParams) btnCamera.getLayoutParams();
+  private void setFoldingButtonShowAnimation(View view){
     ViewGroup.MarginLayoutParams btnChangeLp = (ViewGroup.MarginLayoutParams) btnChange.getLayoutParams();
-    Animation cameraAnimation = new TranslateAnimation(
-        Animation.RELATIVE_TO_SELF, 0f,
-        Animation.RELATIVE_TO_SELF, 0f,
-        Animation.RELATIVE_TO_SELF, 0f,
-        Animation.ABSOLUTE, lp.bottomMargin - btnChangeLp.bottomMargin);
-    lp = (ViewGroup.MarginLayoutParams) btnView.getLayoutParams();
-    Animation viewAnimation = new TranslateAnimation(
-        Animation.RELATIVE_TO_SELF, 0f,
-        Animation.RELATIVE_TO_SELF, 0f,
-        Animation.RELATIVE_TO_SELF, 0f,
-        Animation.ABSOLUTE, lp.bottomMargin - btnChangeLp.bottomMargin);
-    lp = (ViewGroup.MarginLayoutParams) btnMosquito.getLayoutParams();
-    Animation mosquitoAnimation = new TranslateAnimation(
-        Animation.RELATIVE_TO_SELF, 0f,
-        Animation.RELATIVE_TO_SELF, 0f,
-        Animation.RELATIVE_TO_SELF, 0f,
-        Animation.ABSOLUTE, lp.bottomMargin - btnChangeLp.bottomMargin);
-    cameraAnimation.setDuration(300);
-    viewAnimation.setDuration(300);
-    mosquitoAnimation.setDuration(300);
-    btnCamera.setAnimation(cameraAnimation);
-    btnCamera.setVisibility(View.GONE);
-    btnView.setAnimation(viewAnimation);
-    btnView.setVisibility(View.GONE);
-    btnMosquito.setAnimation(mosquitoAnimation);
-    btnMosquito.setVisibility(View.GONE);
-  }
-
-  @Override
-  public void showHarmfulList() {
+    ViewGroup.MarginLayoutParams lp = (ViewGroup.MarginLayoutParams) view.getLayoutParams();
     Animation animation = new TranslateAnimation(
         Animation.RELATIVE_TO_SELF, 0f,
         Animation.RELATIVE_TO_SELF, 0f,
-        Animation.RELATIVE_TO_SELF, 1f,
+        Animation.ABSOLUTE, lp.bottomMargin - btnChangeLp.bottomMargin,
         Animation.RELATIVE_TO_SELF, 0f);
     animation.setDuration(300);
+    view.setAnimation(animation);
+  }
+  @Override
+  public void hideButton() {
+    setFoldingButtonHideAnimation(btnCamera);
+    setFoldingButtonHideAnimation(btnView);
+    setFoldingButtonHideAnimation(btnMosquito);
+
+    btnCamera.setVisibility(View.GONE);
+    btnView.setVisibility(View.GONE);
+    btnMosquito.setVisibility(View.GONE);
+  }
+  private void setFoldingButtonHideAnimation(View view){
+    ViewGroup.MarginLayoutParams lp = (ViewGroup.MarginLayoutParams) view.getLayoutParams();
+    ViewGroup.MarginLayoutParams btnChangeLp = (ViewGroup.MarginLayoutParams) btnChange.getLayoutParams();
+    Animation animation = new TranslateAnimation(
+        Animation.RELATIVE_TO_SELF, 0f,
+        Animation.RELATIVE_TO_SELF, 0f,
+        Animation.RELATIVE_TO_SELF, 0f,
+        Animation.ABSOLUTE, lp.bottomMargin - btnChangeLp.bottomMargin);
+    animation.setDuration(300);
+    view.setAnimation(animation);
+  }
+  @Override
+  public void showHarmfulList() {
+    Animation animation = getShowAnimation(300);
     if (harmfulList.getVisibility() == View.GONE) {
       harmfulList.setAnimation(animation);
       harmfulList.setVisibility(View.VISIBLE);
@@ -478,12 +443,7 @@ public class SensorDataDisplayFragment extends Fragment implements SensorDataDis
 
   @Override
   public void hideHarmfulList() {
-    Animation animation = new TranslateAnimation(
-        Animation.RELATIVE_TO_SELF, 0f,
-        Animation.RELATIVE_TO_SELF, 0f,
-        Animation.RELATIVE_TO_SELF, 0f,
-        Animation.RELATIVE_TO_SELF, 1f);
-    animation.setDuration(300);
+    Animation animation = getHideAnimation(300);
     if (harmfulList.getVisibility() == View.VISIBLE) {
       harmfulList.setAnimation(animation);
       harmfulList.setVisibility(View.GONE);
@@ -519,16 +479,6 @@ public class SensorDataDisplayFragment extends Fragment implements SensorDataDis
     recyclerHarmfulList.scrollToPosition(0);
   }
 
-  /**
-   * This interface must be implemented by activities that contain this
-   * fragment to allow an interaction in this fragment to be communicated
-   * to the activity and potentially other fragments contained in that
-   * activity.
-   * <p>
-   * See the Android Training lesson <a href=
-   * "http://developer.android.com/training/basics/fragments/communicating.html"
-   * >Communicating with Other Fragments</a> for more information.
-   */
   public void startProgress() {
     mProgressControl.startProgress();
   }
@@ -540,8 +490,8 @@ public class SensorDataDisplayFragment extends Fragment implements SensorDataDis
   @Override
   public void refreshWhether(String whether, String externTemp, String externHumidity, String iconUrl) {
     tvWhether.setText(whether);
-    tvExternalTemp.setText(externTemp + "°C");
-    tvExternalHumidity.setText(externHumidity + "%");
+    tvExternalTemp.setText(String.format("%s°C", externTemp));
+    tvExternalHumidity.setText(String.format("%s%%", externHumidity));
     Glide.with(getActivity()).load(iconUrl).into(ivWhether);
   }
 
@@ -566,5 +516,26 @@ public class SensorDataDisplayFragment extends Fragment implements SensorDataDis
   public interface OnFragmentInteractionListener {
     // TODO: Update argument type and name
     void onFragmentInteraction(Uri uri);
+  }
+  private Animation getShowAnimation(int duration){
+    Animation animation = new TranslateAnimation(
+        Animation.RELATIVE_TO_SELF, 0f,
+        Animation.RELATIVE_TO_SELF, 0f,
+        Animation.RELATIVE_TO_SELF, 1.0f,
+        Animation.RELATIVE_TO_SELF, 0f);
+    animation.setDuration(duration);
+
+    return animation;
+  }
+
+  private Animation getHideAnimation(int duration){
+    Animation animation = new TranslateAnimation(
+        Animation.RELATIVE_TO_SELF, 0f,
+        Animation.RELATIVE_TO_SELF, 0f,
+        Animation.RELATIVE_TO_SELF, 0f,
+        Animation.RELATIVE_TO_SELF, 1.0f);
+    animation.setDuration(duration);
+
+    return animation;
   }
 }
