@@ -26,6 +26,14 @@
             android:layout_gravity="center"
             android:layout_marginBottom="48dp" />
 
+        <ImageView
+            app:srcCompat="@drawable/ic_company_logo"
+            android:id="@+id/imageView31"
+            android:layout_gravity="bottom|center_horizontal"
+            android:layout_marginBottom="16dp"
+            android:layout_width="24dp"
+            android:layout_height="24dp"/>
+
         <TextView
             android:text="ⓒ SSL inc."
             android:layout_width="wrap_content"

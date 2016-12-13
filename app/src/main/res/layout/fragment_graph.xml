@@ -34,7 +34,7 @@
                     android:layout_marginRight="9dp">
 
                     <TextView
-                        android:text="Temperature"
+                        android:text="@string/temperature"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:id="@+id/textView15"
@@ -71,7 +71,7 @@
                         android:id="@+id/tab_marker_humidity" />
 
                     <TextView
-                        android:text="Humidity"
+                        android:text="@string/humidity"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:id="@+id/textView17"
@@ -103,7 +103,7 @@
                         android:id="@+id/tab_marker_light" />
 
                     <TextView
-                        android:text="Light"
+                        android:text="@string/light"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:id="@+id/textView18"
@@ -135,7 +135,7 @@
                         android:id="@+id/tab_marker_co2" />
 
                     <TextView
-                        android:text="Co2"
+                        android:text="@string/co2"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:id="@+id/textView19"
@@ -167,7 +167,7 @@
                         android:id="@+id/tab_marker_ec" />
 
                     <TextView
-                        android:text="EC"
+                        android:text="@string/ec"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:id="@+id/textView22"
@@ -199,7 +199,7 @@
                         android:id="@+id/tab_marker_ph" />
 
                     <TextView
-                        android:text="PH"
+                        android:text="@string/ph"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:id="@+id/textView23"
@@ -289,13 +289,13 @@
                             android:layout_height="wrap_content">
 
                             <TextView
-                                android:text="Today"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:id="@+id/textView13"
                                 android:layout_gravity="right"
                                 android:layout_marginRight="8dp"
-                                android:textColor="@color/colorPrimary" />
+                                android:textColor="@color/colorPrimary"
+                                android:text="@string/today"/>
 
                         </FrameLayout>
 
@@ -334,7 +334,7 @@
                             android:layout_marginRight="8dp">
 
                             <TextView
-                                android:text="update time"
+                                android:text="@string/update_time"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:id="@+id/textView16"
@@ -348,7 +348,6 @@
                             android:layout_height="wrap_content">
 
                             <TextView
-                                android:text="00:00"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:id="@+id/tv_update_time"
@@ -407,7 +406,7 @@
                             android:layout_weight="1.5">
 
                             <TextView
-                                android:text="MAX"
+                                android:text="@string/max"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:id="@+id/textView20"
@@ -442,7 +441,7 @@
                             android:layout_weight="1.5">
 
                             <TextView
-                                android:text="MIN"
+                                android:text="@string/min"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:id="@+id/textView21"
@@ -502,7 +501,6 @@
                     android:layout_weight="1">
 
                     <TextView
-                        android:text="0000-00-00"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:id="@+id/tv_graph_date"

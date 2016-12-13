@@ -17,6 +17,7 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import com.growth.R;
 import com.growth.SensorDataDisplay.view.SensorDataDisplayFragment;
@@ -29,7 +30,9 @@ import com.growth.home.dagger.DaggerHomeComponent;
 import com.growth.home.dagger.HomeModule;
 import com.growth.home.presenter.HomePresenter;
 import com.growth.map.view.SensorMapFragment;
+import com.growth.monitor.view.MonitorFragment;
 import com.growth.rule.view.RuleFragment;
+import com.growth.standard.view.StandardInformationFragment;
 import com.growth.views.PageChange;
 
 import javax.inject.Inject;
@@ -44,16 +47,21 @@ public class HomeActivity extends AppCompatActivity
     SensorDataDisplayFragment.OnFragmentInteractionListener,
     ActuatorFragment.OnFragmentInteractionListener,
     PlantsGrowthGalleryFragment.OnFragmentInteractionListener,
-    RuleFragment.OnFragmentInteractionListener{
+    RuleFragment.OnFragmentInteractionListener,
+    StandardInformationFragment.OnFragmentInteractionListener,
+    MonitorFragment.OnFragmentInteractionListener{
 
   private final int container = R.id.container;
-
+  private long backKeyPressedTime = 0;
+  private Toast toast;
   @Inject
   HomePresenter homePresenter;
 
   private OnKeyBackPressedListener onKeyBackPressedListener;
 
   private FragmentTransaction mFragmentTransaction;
+
+  private boolean backState = false;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -68,12 +76,16 @@ public class HomeActivity extends AppCompatActivity
     NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
     navigationView.setNavigationItemSelectedListener(this);
     PageChangeUtil.newInstance().setPageChange(this);
-
     mFragmentTransaction = getSupportFragmentManager().beginTransaction();
     //TODO: Use this for Test
-    //mFragmentTransaction.replace(container, RuleFragment.newInstance("", ""));
+//    mFragmentTransaction.replace(container, StandardInformationFragment.newInstance("", ""));
     mFragmentTransaction.replace(container, SensorMapFragment.newInstance());
     mFragmentTransaction.commit();
+  }
+
+  @Override
+  protected void onPostResume() {
+    super.onPostResume();
   }
 
   private void setCustomActionbar() {
@@ -106,9 +118,25 @@ public class HomeActivity extends AppCompatActivity
     DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
     if (onKeyBackPressedListener != null) onKeyBackPressedListener.onBack();
     else if (drawer.isDrawerOpen(GravityCompat.START)) drawer.closeDrawer(GravityCompat.START);
-    else super.onBackPressed();
+    else if (backState) super.onBackPressed();
+    else {
+      if (System.currentTimeMillis() > backKeyPressedTime + 2000) {
+        backKeyPressedTime = System.currentTimeMillis();
+        showGuide();
+        return;
+      }
+      if (System.currentTimeMillis() <= backKeyPressedTime + 2000) {
+        this.finish();
+        toast.cancel();
+      }
+      super.onBackPressed();
+    }
   }
-
+  public void showGuide() {
+    toast = Toast.makeText(this,
+        R.string.toast_message_back_press, Toast.LENGTH_SHORT);
+    toast.show();
+  }
   @Override
   public boolean onCreateOptionsMenu(Menu menu) {
     getMenuInflater().inflate(R.menu.home, menu);
@@ -141,6 +169,10 @@ public class HomeActivity extends AppCompatActivity
       pageChange4NotStack(new PlantsGrowthGalleryFragment().newInstance("", ""));
     } else if(id == R.id.nav_rule){
       pageChange4NotStack(new RuleFragment().newInstance("",""));
+    }else if(id == R.id.nav_standard){
+      pageChange4NotStack(new StandardInformationFragment().newInstance("",""));
+    }else if(id == R.id.nav_monitor){
+      pageChange4NotStack(new MonitorFragment().newInstance("",""));
     }
 
     DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -150,6 +182,10 @@ public class HomeActivity extends AppCompatActivity
 
   public void setOnKeyBackPressedListener(OnKeyBackPressedListener onKeyBackPressedListener) {
     this.onKeyBackPressedListener = onKeyBackPressedListener;
+  }
+
+  public void setBackState(boolean state){
+    backState = state;
   }
 
   @Override

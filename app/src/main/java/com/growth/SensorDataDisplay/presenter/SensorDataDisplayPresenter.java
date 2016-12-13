@@ -1,11 +1,9 @@
 package com.growth.SensorDataDisplay.presenter;
 
 import android.graphics.Bitmap;
-
 import com.growth.domain.Value;
 import com.growth.utils.ProgressControl;
 import com.growth.utils.ToastControl;
-
 import java.util.HashMap;
 
 /**
@@ -45,7 +43,7 @@ public interface SensorDataDisplayPresenter {
 
     void refreshState(HashMap<String, Boolean> states);
 
-    void refreshCameraImage(String serial);
+    void refreshCameraImage(Bitmap image);
     void refreshMosquitoImage(Bitmap image);
     void refreshStateView(Value value);
 

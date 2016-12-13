@@ -203,10 +203,12 @@ public class SensorMapFragment extends Fragment implements OnMapReadyCallback,
     mapFragment.getMapAsync(this);
     btnInfoWindowDetail.setOnClickListener(v -> {
       ((HomeActivity) getActivity()).setOnKeyBackPressedListener(null);
+      ((HomeActivity) getActivity()).setBackState(true);
       presenter.infoWindowDetailClick();
     });
     btnInfoWindowGraph.setOnClickListener(v -> {
       ((HomeActivity) getActivity()).setOnKeyBackPressedListener(null);
+      ((HomeActivity) getActivity()).setBackState(true);
       presenter.infoWindowGraphClick();
     });
 
@@ -221,6 +223,12 @@ public class SensorMapFragment extends Fragment implements OnMapReadyCallback,
     presenter.onCreatedView();
 
     return root;
+  }
+
+  @Override
+  public void onResume() {
+    super.onResume();
+    ((HomeActivity) getActivity()).setBackState(false);
   }
 
   // TODO: Rename method, update argument and hook method into UI event
@@ -355,8 +363,15 @@ public class SensorMapFragment extends Fragment implements OnMapReadyCallback,
     LatLng center = mMap.getCameraPosition().target;
     double lat = center.latitude;
     double lng = center.longitude;
-    String strLat = String.valueOf(lat).substring(0, 7);
-    String strLng = String.valueOf(lng).substring(0, 7);
+
+    String strLat = String.valueOf(lat);
+    if(strLat.length()>7)
+      strLat = strLat.substring(0, 7);
+
+    String strLng = String.valueOf(lng);
+    if(strLng.length()>7)
+      strLng = strLng.substring(0, 7);
+
     etAddWindowLat.setText(strLat);
     etAddWindowLng.setText(strLng);
   }
@@ -373,7 +388,7 @@ public class SensorMapFragment extends Fragment implements OnMapReadyCallback,
 
   @Override
   public void onBack() {
-    if (addSensorWindow.getVisibility() == View.VISIBLE || infoWindow.getVisibility() == View.VISIBLE) {
+    if ((addSensorWindow.getVisibility() == View.VISIBLE || infoWindow.getVisibility() == View.VISIBLE)&&(addSensorWindow != null && infoWindow!=null)) {
       if (addSensorWindow.getVisibility() == View.VISIBLE) hideAddSensorWindow();
       if (infoWindow.getVisibility() == View.VISIBLE) hideInfoWindow();
     } else {
@@ -416,7 +431,7 @@ public class SensorMapFragment extends Fragment implements OnMapReadyCallback,
         Animation.RELATIVE_TO_SELF, 0f,
         Animation.RELATIVE_TO_SELF, 0f,
         Animation.RELATIVE_TO_SELF, 0f,
-        Animation.RELATIVE_TO_SELF, 1.0f);
+        Animation.RELATIVE_TO_SELF, -1.0f);
     animation.setDuration(duration);
 
     return animation;

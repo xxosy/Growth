@@ -6,7 +6,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -36,7 +35,6 @@ import com.growth.SensorValueGuide;
 import com.growth.domain.Value;
 import com.growth.home.OnKeyBackPressedListener;
 import com.growth.home.view.HomeActivity;
-import com.growth.network.retrofit.RetrofitCreator;
 import com.growth.utils.ProgressControl;
 import com.growth.utils.ProgressControlImlp;
 import com.growth.utils.ToastControl;
@@ -50,6 +48,7 @@ import javax.inject.Inject;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
+import uk.co.senab.photoview.PhotoViewAttacher;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -156,8 +155,6 @@ public class SensorDataDisplayFragment extends Fragment implements SensorDataDis
   TextView tvExternalHumidity;
   @BindView(R.id.iv_whether)
   ImageView ivWhether;
-  @BindView(R.id.swiperefresh)
-  SwipeRefreshLayout mSwipeRefresh;
   @BindView(R.id.recycler_harmful_list)
   RecyclerView recyclerHarmfulList;
   private OnFragmentInteractionListener mListener;
@@ -180,6 +177,8 @@ public class SensorDataDisplayFragment extends Fragment implements SensorDataDis
 
   ProgressControl mProgressControl;
   ToastControl mToastControl;
+
+  PhotoViewAttacher mAttacher;
 
   public SensorDataDisplayFragment() {
     // Required empty public constructor
@@ -240,16 +239,33 @@ public class SensorDataDisplayFragment extends Fragment implements SensorDataDis
     btnMosquito.setOnClickListener(v -> presenter.btnMosquitoClick());
     btnView.setOnClickListener(v -> presenter.btnViewClick());
     btnCamera.setOnClickListener(v -> presenter.btnCameraClick());
-    btnGraphTemp.setOnClickListener(v -> presenter.btnGraphTempClick());
-    btnGraphHumiditty.setOnClickListener(v -> presenter.btnGraphHumidityClick());
-    btnGraphCo2.setOnClickListener(v -> presenter.btnGraphCo2Click());
-    btnGraphLight.setOnClickListener(v -> presenter.btnGraphLightClick());
-    btnGraphEc.setOnClickListener(v -> presenter.btnGraphEcClick());
-    btnGraphPh.setOnClickListener(v -> presenter.btnGraphPhClick());
+    btnGraphTemp.setOnClickListener(v -> {
+      ((HomeActivity) getActivity()).setBackState(true);
+      presenter.btnGraphTempClick();
+    });
+    btnGraphHumiditty.setOnClickListener(v -> {
+      ((HomeActivity) getActivity()).setBackState(true);
+      presenter.btnGraphHumidityClick();
+    });
+    btnGraphCo2.setOnClickListener(v ->{
+      ((HomeActivity) getActivity()).setBackState(true);
+      presenter.btnGraphCo2Click();
+    });
+    btnGraphLight.setOnClickListener(v -> {
+      ((HomeActivity) getActivity()).setBackState(true);
+      presenter.btnGraphLightClick();
+    });
+    btnGraphEc.setOnClickListener(v -> {
+      ((HomeActivity) getActivity()).setBackState(true);
+      presenter.btnGraphEcClick();
+    });
+    btnGraphPh.setOnClickListener(v -> {
+      ((HomeActivity) getActivity()).setBackState(true);
+      presenter.btnGraphPhClick();
+    });
 
-    mSwipeRefresh.setColorSchemeResources(R.color.colorPrimary, R.color.colorAccent);
 
-    mSwipeRefresh.setOnRefreshListener(() -> presenter.swipePage(serial));
+    mAttacher = new PhotoViewAttacher(imgCamera);
     return root;
   }
 
@@ -262,7 +278,7 @@ public class SensorDataDisplayFragment extends Fragment implements SensorDataDis
 
   @Override
   public void refreshSwipe() {
-    mSwipeRefresh.setRefreshing(false);
+
   }
 
   @Override
@@ -347,8 +363,12 @@ public class SensorDataDisplayFragment extends Fragment implements SensorDataDis
   }
 
   @Override
-  public void refreshCameraImage(String serial) {
-    Glide.with(getActivity()).load(RetrofitCreator.getBaseUrl() + "/gallery/recent/" + serial).into(imgCamera);
+  public void refreshCameraImage(Bitmap image) {
+    if(image != null){
+      image = Bitmap.createScaledBitmap(image, frameCamera.getWidth(), frameCamera.getHeight(), true);
+      imgCamera.setImageBitmap(image);
+      mAttacher.update();
+    }
   }
 
   @Override
@@ -356,6 +376,7 @@ public class SensorDataDisplayFragment extends Fragment implements SensorDataDis
     if(image != null){
       image = Bitmap.createScaledBitmap(image, frameCamera.getWidth(), frameCamera.getHeight(), true);
       imgCamera.setImageBitmap(image);
+      mAttacher.update();
     }
   }
 

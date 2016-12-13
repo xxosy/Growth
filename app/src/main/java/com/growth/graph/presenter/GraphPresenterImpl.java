@@ -2,6 +2,7 @@ package com.growth.graph.presenter;
 
 import android.util.Log;
 
+import com.growth.domain.graph.GraphList;
 import com.growth.exception.MyNetworkExcetionHandling;
 import com.growth.graph.view.ValueTpye;
 import com.growth.network.SensorDataAPI;
@@ -11,8 +12,11 @@ import java.util.Date;
 
 import javax.inject.Inject;
 
+import rx.Observable;
+import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
+import rx.subscriptions.CompositeSubscription;
 
 /**
  * Created by SSL-D on 2016-08-29.
@@ -24,13 +28,12 @@ public class GraphPresenterImpl implements GraphPresenter {
   private String serial;
   private String sDate;
   private long lDate;
-  SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-
+  private SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+  private CompositeSubscription subscriptions = new CompositeSubscription();
   @Inject
-  public GraphPresenterImpl(GraphPresenter.View view, SensorDataAPI sensorDataAPI) {
+  GraphPresenterImpl(GraphPresenter.View view, SensorDataAPI sensorDataAPI) {
     this.view = view;
     this.sensorDataAPI = sensorDataAPI;
-
   }
 
   @Override
@@ -57,7 +60,7 @@ public class GraphPresenterImpl implements GraphPresenter {
     Date d = new Date();
     Log.i(sdf.format(lDate), sdf.format(d.getTime()));
     if (sdf.format(lDate).equals(sdf.format(d.getTime()))) {
-      view.displayToast("Today is " + sdf.format(lDate));
+      view.displayToast("오늘의 날짜는 " + sdf.format(lDate)+" 입니다.");
     } else {
       lDate = lDate + (24 * 60 * 60 * 1000);
       sDate = sdf.format(lDate);
@@ -78,82 +81,32 @@ public class GraphPresenterImpl implements GraphPresenter {
 
   private void requestGraphData(int index) {
     view.startProgress();
+    Observable<GraphList> observable = sensorDataAPI.getTemperatureList(serial, sDate);
     if (index == ValueTpye.TEMPERATURE) {
-      sensorDataAPI.getTemperatureList(serial, sDate)
-          .subscribeOn(Schedulers.io())
-          .observeOn(AndroidSchedulers.mainThread())
-          .subscribe(list -> {
-            list.decrypt();
-            view.refreshChart(list);
-            view.stopProgress();
-          });
+      observable = sensorDataAPI.getTemperatureList(serial, sDate);
     } else if (index == ValueTpye.HUMIDITY) {
-      sensorDataAPI.getHumidityList(serial, sDate)
-          .subscribeOn(Schedulers.io())
-          .observeOn(AndroidSchedulers.mainThread())
-          .subscribe(list -> {
-            list.decrypt();
-            view.refreshChart(list);
-            view.stopProgress();
-          }, error -> {
-            MyNetworkExcetionHandling.excute(error, view, view);
-          });
+      observable = sensorDataAPI.getHumidityList(serial, sDate);
     } else if (index == ValueTpye.CO2) {
-      sensorDataAPI.getCo2List(serial, sDate)
-          .subscribeOn(Schedulers.io())
-          .observeOn(AndroidSchedulers.mainThread())
-          .subscribe(list -> {
-            list.decrypt();
-            view.refreshChart(list);
-            view.stopProgress();
-          }, error -> {
-            MyNetworkExcetionHandling.excute(error, view, view);
-          });
+      observable = sensorDataAPI.getCo2List(serial, sDate);
     } else if (index == ValueTpye.EC) {
-      sensorDataAPI.getEcList(serial, sDate)
-          .subscribeOn(Schedulers.io())
-          .observeOn(AndroidSchedulers.mainThread())
-          .subscribe(list -> {
-            list.decrypt();
-            view.refreshChart(list);
-            view.stopProgress();
-          }, error -> {
-            MyNetworkExcetionHandling.excute(error, view, view);
-          });
+      observable = sensorDataAPI.getEcList(serial, sDate);
     } else if (index == ValueTpye.PH) {
-      sensorDataAPI.getPhList(serial, sDate)
-          .subscribeOn(Schedulers.io())
-          .observeOn(AndroidSchedulers.mainThread())
-          .subscribe(list -> {
-            list.decrypt();
-            view.refreshChart(list);
-            view.stopProgress();
-          }, error -> {
-            MyNetworkExcetionHandling.excute(error, view, view);
-          });
+      observable = sensorDataAPI.getPhList(serial, sDate);
     } else if (index == ValueTpye.LIGHT) {
-      sensorDataAPI.getLightList(serial, sDate)
-          .subscribeOn(Schedulers.io())
-          .observeOn(AndroidSchedulers.mainThread())
-          .subscribe(list -> {
-            list.decrypt();
-            view.refreshChart(list);
-            view.stopProgress();
-          }, error -> {
-            MyNetworkExcetionHandling.excute(error, view, view);
-          });
+      observable = sensorDataAPI.getLightList(serial, sDate);
     } else if (index == ValueTpye.SOIL_MOISTURE) {
-      sensorDataAPI.getSoilMoistureList(serial, sDate)
-          .subscribeOn(Schedulers.io())
-          .observeOn(AndroidSchedulers.mainThread())
-          .subscribe(list -> {
-            list.decrypt();
-            view.refreshChart(list);
-            view.stopProgress();
-          }, error -> {
-            MyNetworkExcetionHandling.excute(error, view, view);
-          });
+      observable = sensorDataAPI.getSoilMoistureList(serial, sDate);
     }
+    Subscription subscription = observable.subscribeOn(Schedulers.io())
+        .observeOn(AndroidSchedulers.mainThread())
+        .subscribe(list -> {
+          list.decrypt();
+          view.refreshChart(list);
+          view.stopProgress();
+        }, error -> {
+          MyNetworkExcetionHandling.excute(error, view, view);
+        });
+    subscriptions.add(subscription);
   }
 
   private void requestPageData4Serial() {
@@ -170,11 +123,8 @@ public class GraphPresenterImpl implements GraphPresenter {
         });
   }
 
-  public void setDate(String date) {
-    this.sDate = date;
-  }
-
-  public String getDate() {
-    return sDate;
+  @Override
+  public void unSubscribe(){
+    subscriptions.unsubscribe();
   }
 }

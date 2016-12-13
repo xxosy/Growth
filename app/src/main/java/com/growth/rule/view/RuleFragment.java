@@ -231,7 +231,11 @@ public class RuleFragment extends Fragment implements RulePresenter.View{
     });
   }
   private void initOKCancelButton(){
-    btnOK.setOnClickListener(v -> presenter.onOKButtonClick());
+    btnOK.setOnClickListener(v ->{
+          presenter.onOKButtonClick();
+          clearAddRule();
+        }
+    );
     btnCancel.setOnClickListener(v -> {
       clearAddRule();
       presenter.onCancelClick();
@@ -309,7 +313,6 @@ public class RuleFragment extends Fragment implements RulePresenter.View{
   }
   private void setPort(LayoutInflater inflater){
     List<String> portNums = new ArrayList<>();
-    portNums.add("0");
     portNums.add("1");
     portNums.add("2");
     portNums.add("3");
@@ -317,6 +320,7 @@ public class RuleFragment extends Fragment implements RulePresenter.View{
     portNums.add("5");
     portNums.add("6");
     portNums.add("7");
+    portNums.add("8");
 
 
     for(int i = 0;i<portNums.size();i++) {
@@ -426,6 +430,11 @@ public class RuleFragment extends Fragment implements RulePresenter.View{
     conditionUpBackground.setBackgroundResource(R.color.colorBase);
     conditionLowText.setTextColor(getResources().getColor(R.color.colorPrimary));
     conditionUpText.setTextColor(getResources().getColor(R.color.colorPrimary));
+
+    etActuatorSerial.setText("");
+    etValue.setText("");
+    presenter.activationSwitch("false");
+    switchActivation.setChecked(false);
   }
   private void addFactor(LayoutInflater inflater,String factorName){
     View btnType = inflater.inflate(R.layout.rule_button, null);

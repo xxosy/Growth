@@ -16,7 +16,7 @@
         android:layout_marginBottom="8dp">
 
         <TextView
-            android:text="Serial"
+            android:text="@string/serial"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/textView35"
@@ -24,7 +24,6 @@
             android:textColor="@color/colorBase" />
 
         <TextView
-            android:text="serial"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/tv_plants_gallery_serial"
@@ -33,7 +32,7 @@
             android:textColor="@color/colorBase" />
 
         <TextView
-            android:text="Title"
+            android:text="@string/name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/textView33"
@@ -41,7 +40,6 @@
             android:textColor="@color/colorBase" />
 
         <TextView
-            android:text="title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/tv_plants_gallery_title"

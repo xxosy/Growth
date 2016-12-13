@@ -5,23 +5,30 @@
         <item
             android:id="@+id/nav_map"
             android:icon="@drawable/ic_map"
-            android:title="Map" />
+            android:title="@string/drawer_menu_map" />
         <item
             android:id="@+id/nav_actuator"
             android:icon="@drawable/ic_setting"
-            android:title="Actuator" />
+            android:title="@string/drawer_menu_actuator" />
+        <item android:title="@string/drawer_menu_sensor_monitor"
+              android:id="@+id/nav_monitor"
+              android:icon="@drawable/ic_eye"/>
         <item
             android:icon="@drawable/ic_setting"
-            android:title="Setting"
+            android:title="@string/drawer_menu_setting"
             android:id="@+id/nav_setting" />
         <item
-            android:title="Plants Gallery"
+            android:title="@string/drawer_menu_plants_gallery"
 
             android:id="@+id/nav_plants_gallery"
             android:icon="@drawable/ic_gallery"/>
-        <item android:title="Control Rule"
+        <item android:title="@string/drawer_menu_control_rule"
               android:id="@+id/nav_rule"
               android:icon="@drawable/ic_control_rule"/>
+        <item
+            android:title="@string/drawer_menu_standard_information"
+            android:id="@+id/nav_standard"
+            android:icon="@drawable/ic_information"/>
     </group>
 
 </menu>

@@ -43,26 +43,23 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link GraphFragment.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link GraphFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class GraphFragment extends Fragment implements GraphPresenter.View,
     View.OnClickListener {
-  // TODO: Rename parameter arguments, choose names that match
-  // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-  private static final String ARG_PARAM1 = "param1";
-  private static final String ARG_PARAM2 = "param2";
+  //TODO: Find correct lux value
+  private static final String ARG_SERIAL = "serial";
+  private static final String ARG_VALUE_TYPE = "value_type";
+  private static final String TEMPERATURE_UNIT = "°C";
+  private static final String HUMIDITY_UNIT = "%";
+  private static final String LIGHT_UNIT = "lux";
+  private static final String CO2_UNIT = "ppm";
+  private static final String EC_UNIT = "us/cm";
+  private static final String SOIL_MOISTURE = "mm";
   private int mainValueType = ValueTpye.TEMPERATURE;
-  // TODO: Rename and change types of parameters
+
   private String serial;
   private int initValueType;
   //Bind
-  View root;
+  private View root;
   private Unbinder unbinder;
   ////change date
   @BindView(R.id.btn_date_pre)
@@ -134,20 +131,11 @@ public class GraphFragment extends Fragment implements GraphPresenter.View,
     // Required empty public constructor
   }
 
-  /**
-   * Use this factory method to create a new instance of
-   * this fragment using the provided parameters.
-   *
-   * @param param1 Parameter 1.
-   * @param param2 Parameter 2.
-   * @return A new instance of fragment GraphFragment.
-   */
-  // TODO: Rename and change types and number of parameters
   public static GraphFragment newInstance(String param1, int param2) {
     GraphFragment fragment = new GraphFragment();
     Bundle args = new Bundle();
-    args.putString(ARG_PARAM1, param1);
-    args.putInt(ARG_PARAM2, param2);
+    args.putString(ARG_SERIAL, param1);
+    args.putInt(ARG_VALUE_TYPE, param2);
     fragment.setArguments(args);
     return fragment;
   }
@@ -156,8 +144,8 @@ public class GraphFragment extends Fragment implements GraphPresenter.View,
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     if (getArguments() != null) {
-      serial = getArguments().getString(ARG_PARAM1);
-      initValueType = getArguments().getInt(ARG_PARAM2);
+      serial = getArguments().getString(ARG_SERIAL);
+      initValueType = getArguments().getInt(ARG_VALUE_TYPE);
     }
   }
 
@@ -225,6 +213,7 @@ public class GraphFragment extends Fragment implements GraphPresenter.View,
   public void onDestroyView() {
     super.onDestroyView();
     unbinder.unbind();
+    presenter.unSubscribe();
   }
 
   @Override
@@ -254,32 +243,34 @@ public class GraphFragment extends Fragment implements GraphPresenter.View,
       main = value.getTemperature();
       if (main.length() > 4)
         main = main.substring(0, 4);
-      main = main.concat("°C");
+      main = main.concat(TEMPERATURE_UNIT);
     } else if (mainValueType == ValueTpye.CO2) {
       main = value.getCo2();
-      main = main.concat("ppm");
+      main = main.concat(CO2_UNIT);
     } else if (mainValueType == ValueTpye.HUMIDITY) {
       main = value.getHumidity();
       if (main.length() > 4) {
         main = main.substring(0, 4);
       }
-      main = String.valueOf(Float.valueOf(main) + 30);
-      main = main.concat("%");
+      main = String.valueOf(Float.valueOf(main));
+      main = main.concat(HUMIDITY_UNIT);
     } else if (mainValueType == ValueTpye.LIGHT) {
       main = value.getLight();
-      main = main.concat("lux");
+      main = main.concat(LIGHT_UNIT);
     } else if (mainValueType == ValueTpye.PH) {
       main = value.getPh();
       if (main.length() > 4)
         main = main.substring(0, 4);
     } else if (mainValueType == ValueTpye.EC) {
       main = String.valueOf(Float.parseFloat(value.getEc()) / 15);
-      main = main.substring(0, 4);
-      main = main.concat("us/cm");
+      if (main.length() > 4)
+        main = main.substring(0, 4);
+      main = main.concat(EC_UNIT);
     } else if (mainValueType == ValueTpye.SOIL_MOISTURE) {
       main = value.getSoil_moisture();
-      main = main.substring(0, 4);
-      main = main.concat("mm");
+      if (main.length() > 4)
+        main = main.substring(0, 4);
+      main = main.concat(SOIL_MOISTURE);
     }
     tvSensorData.setText(main);
   }
@@ -384,7 +375,7 @@ public class GraphFragment extends Fragment implements GraphPresenter.View,
       if (i - k >= 0) {
         legend[i - k] = item.getUpdate_time().substring(0, 2);
         if (item.getTemperature() != null) {
-          standard[i - k] = StandardGrowthData.temperature[i];
+          standard[i - k] = StandardGrowthData.arrTemperature.get(i);
           if(item.getTemperature().equals("")){
             Log.i("update time",item.getUpdate_time());
             data[i - k] = 0;
@@ -395,27 +386,27 @@ public class GraphFragment extends Fragment implements GraphPresenter.View,
           tag = "Temperature";
           color = new Color().rgb(0, 153, 255);
         } else if (item.getHumidity() != null) {
-          standard[i - k] = StandardGrowthData.humidity[i];
-          data[i - k] = Float.parseFloat(item.getHumidity()) + 30;
+          standard[i - k] = StandardGrowthData.arrHumidity.get(i);
+          data[i - k] = Float.parseFloat(item.getHumidity());
           tag = "Humidity";
           color = new Color().rgb(0, 204, 255);
         } else if (item.getCo2() != null) {
-          standard[i - k] = StandardGrowthData.co2[i];
+          standard[i - k] = StandardGrowthData.arrCo2.get(i);
           data[i - k] = Float.parseFloat(item.getCo2());
           tag = "CO2";
           color = new Color().rgb(0, 128, 128);
         } else if (item.getLight() != null) {
-          standard[i - k] = StandardGrowthData.light[i];
+          standard[i - k] = StandardGrowthData.arrLight.get(i);
           data[i - k] = Float.parseFloat(item.getLight());
           tag = "Light";
           color = new Color().rgb(255, 204, 0);
         } else if (item.getPh() != null) {
-          standard[i - k] = StandardGrowthData.ph[i];
+          standard[i - k] = StandardGrowthData.arrPh.get(i);
           data[i - k] = Float.parseFloat(item.getPh());
           tag = "PH";
           color = new Color().rgb(0, 255, 0);
         } else if (item.getEc() != null) {
-          standard[i - k] = StandardGrowthData.ec[i];
+          standard[i - k] = StandardGrowthData.arrEc.get(i);
           data[i - k] = Float.parseFloat(item.getEc()) / 15;
           tag = "EC";
           color = new Color().rgb(255, 140, 20);
@@ -439,7 +430,7 @@ public class GraphFragment extends Fragment implements GraphPresenter.View,
     if (length > 2)
       setCurveGraph(mChart, legend, data, tag, color, max, term, standardGraph);
     else
-      displayToast("Data is not enough (The number MIN:2)");
+      displayToast("데이터가 충분하지 않습니다.(최소 2개의 데이터를 필요로합니다.)");
   }
 
   @Override

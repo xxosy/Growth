@@ -58,6 +58,7 @@ public class IntroPresenterImpl implements IntroPresenter {
   private void insertUserCode(String userCode) {
     userDataAPI.insertUserCode(userCode)
         .subscribeOn(Schedulers.io())
-        .observeOn(AndroidSchedulers.mainThread());
+        .observeOn(AndroidSchedulers.mainThread())
+        .subscribe();
   }
 }

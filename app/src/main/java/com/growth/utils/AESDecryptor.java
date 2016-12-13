@@ -1,8 +1,14 @@
 package com.growth.utils;
 
+import java.io.UnsupportedEncodingException;
+import java.security.InvalidKeyException;
 import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 
+import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
 import javax.crypto.spec.SecretKeySpec;
 
 /**
@@ -10,7 +16,12 @@ import javax.crypto.spec.SecretKeySpec;
  */
 
 public class AESDecryptor {
-  public static String decrypt(String seed, String encrypted) throws Exception {
+  public static String decrypt(String seed, String encrypted) throws UnsupportedEncodingException,
+      NoSuchAlgorithmException,
+      NoSuchPaddingException,
+      InvalidKeyException,
+      BadPaddingException,
+      IllegalBlockSizeException {
     byte[] keyb = seed.getBytes("UTF-8");
     MessageDigest md = MessageDigest.getInstance("MD5");
     byte[] thedigest = md.digest(keyb);

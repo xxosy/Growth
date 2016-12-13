@@ -2,7 +2,6 @@ package com.growth.network;
 
 import com.growth.domain.UpdateSensorData;
 import com.growth.domain.sensor.SensorItem;
-import com.growth.domain.sensor.SensorList;
 
 import retrofit2.http.Body;
 import retrofit2.http.DELETE;
@@ -23,15 +22,6 @@ public interface SensorAPI {
   @GET("/sensor/list")
   Observable<SensorItem[]> getSensorList();
 
-  @PUT("/sensor/{serial}/{name}")
-  Observable<SensorList> updateSensorName(@Path("serial") String serial, @Path("name") String name);
-
-  @PUT("/sensor/{serial}")
-  Observable<SensorItem[]> updateSensorData(@Path("serial") String serial, @Body UpdateSensorData data);
-
-  @DELETE("/sensor/{serial}")
-  Observable<SensorList> deleteSensor(@Path("serial") String serial);
-
   @POST("/map/sensor/{serial}/{usercode}")
   Observable<Void> insertMapSensor(@Path("serial") String serial, @Path("usercode") String usercode, @Body UpdateSensorData data);
 
@@ -45,15 +35,9 @@ public interface SensorAPI {
   Observable<Void> updateMapSensor(@Path("serial") String serial, @Path("usercode") String usercode, @Body UpdateSensorData data);
 
   interface Service {
-    Observable<SensorItem[]> getSensorList();
 
     Observable<SensorItem> getSensor(String serial);
 
-    Observable<SensorList> updateSensorName(String serial, String name);
-
-    Observable<SensorItem[]> updateSensorData(String serial, UpdateSensorData data);
-
-    Observable<SensorList> deleteSensor(String serial);
 
     Observable<Void> insertMapSensor(String serial, String usercode, UpdateSensorData data);
 

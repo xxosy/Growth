@@ -9,7 +9,6 @@ import com.growth.domain.harmful.HarmfulData;
 import com.growth.domain.humidity.HumidityItem;
 import com.growth.domain.humidity.HumidityList;
 import com.growth.domain.sensor.SensorItem;
-import com.growth.domain.sensor.SensorList;
 import com.growth.domain.temperature.TemperatureList;
 import com.growth.domain.weather.WeatherItem;
 
@@ -62,24 +61,6 @@ public class SensorDataAPI implements SensorAPI.Service
   }
 
   @Override
-  public Observable<SensorList> updateSensorName(String serial, String name) {
-    return retrofit.create(SensorAPI.class)
-        .updateSensorName(serial, name);
-  }
-
-  @Override
-  public Observable<SensorItem[]> updateSensorData(String serial, UpdateSensorData data) {
-    return retrofit.create(SensorAPI.class)
-        .updateSensorData(serial, data);
-  }
-
-  @Override
-  public Observable<SensorList> deleteSensor(String serial) {
-    return retrofit.create(SensorAPI.class)
-        .deleteSensor(serial);
-  }
-
-  @Override
   public Observable<Void> insertMapSensor(String serial, String usercode, UpdateSensorData data) {
     return retrofit.create(SensorAPI.class)
         .insertMapSensor(serial, usercode, data);
@@ -101,12 +82,6 @@ public class SensorDataAPI implements SensorAPI.Service
   public Observable<Void> updateMapSensor(String serial, String usercode, UpdateSensorData data) {
     return retrofit.create(SensorAPI.class)
         .updateMapSensor(serial, usercode, data);
-  }
-
-  @Override
-  public Observable<SensorItem[]> getSensorList() {
-    return retrofit.create(SensorAPI.class)
-        .getSensorList();
   }
 
   @Override

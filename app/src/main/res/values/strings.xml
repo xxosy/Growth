@@ -9,7 +9,36 @@
     <string name="action_settings">Settings</string>
 
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string><string name="toast_message_empty_serial">Input your product serial.</string>
-    <string name="toast_message_available_serial">This serial is available</string>
-    <string name="toast_message_disavailable_serial">This serial is NOT available</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="toast_message_empty_serial">당신의 제품 시리얼을 입력하세요</string>
+    <string name="toast_message_available_serial">이 시리얼은 사용 가능합니다.</string>
+    <string name="toast_message_disavailable_serial">이 시리얼은 존재하지 않거나 사용할 수 없습니다.</string>
+    <string name="toast_message_back_press">"\'뒤로\'버튼을 한번 더 누르시면 종료됩니다."</string>
+    <string name="drawer_menu_map">지도 보기</string>
+    <string name="drawer_menu_actuator">액츄에이터 제어</string>
+    <string name="drawer_menu_sensor_monitor">센서 모니터링</string>
+    <string name="drawer_menu_setting">설정</string>
+    <string name="drawer_menu_plants_gallery">작물 이미지</string>
+    <string name="drawer_menu_control_rule">제어 규칙</string>
+    <string name="drawer_menu_standard_information">표준 재배 정보</string>
+    <string name="temperature">온도</string>
+    <string name="humidity">습도</string>
+    <string name="light">광량</string>
+    <string name="co2">CO2</string>
+    <string name="ec">EC</string>
+    <string name="ph">PH</string>
+
+    <string name="whether">날씨</string>
+    <string name="today">오늘</string>
+    <string name="update_time">업데이트 시간</string>
+    <string name="max">최대</string>
+    <string name="min">최소</string>
+    <string name="description">설 명</string>
+    <string name="name">이 름</string>
+    <string name="serial">시리얼</string>
+    <string name="product_serial">제품 시리얼</string>
+    <string name="check">확 인</string>
+    <string name="get_location">위치 가져오기</string>
+    <string name="location">위 치</string>
+
 </resources>

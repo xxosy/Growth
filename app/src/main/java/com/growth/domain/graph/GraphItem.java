@@ -4,6 +4,14 @@ import android.util.Log;
 
 import com.growth.utils.AESDecryptor;
 
+import java.io.UnsupportedEncodingException;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
+
+import javax.crypto.BadPaddingException;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
+
 /**
  * Created by SSL-D on 2016-08-02.
  */
@@ -36,7 +44,17 @@ public class GraphItem {
         co2 = AESDecryptor.decrypt("pais",co2);
       if(light!=null)
         light = AESDecryptor.decrypt("pais",light);
-    } catch (Exception e) {
+    } catch (UnsupportedEncodingException e) {
+      e.printStackTrace();
+    } catch (NoSuchAlgorithmException e) {
+      e.printStackTrace();
+    } catch (NoSuchPaddingException e) {
+      e.printStackTrace();
+    } catch (InvalidKeyException e) {
+      e.printStackTrace();
+    } catch (BadPaddingException e) {
+      e.printStackTrace();
+    } catch (IllegalBlockSizeException e) {
       e.printStackTrace();
     }
   }

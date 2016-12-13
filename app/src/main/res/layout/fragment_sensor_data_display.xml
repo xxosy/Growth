@@ -1,213 +1,171 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="com.growth.SensorDataDisplay.view.SensorDataDisplayFragment">
+             xmlns:app="http://schemas.android.com/apk/res-auto"
+             xmlns:tools="http://schemas.android.com/tools"
+             android:layout_width="match_parent"
+             android:layout_height="match_parent"
+             tools:context="com.growth.SensorDataDisplay.view.SensorDataDisplayFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <android.support.v4.widget.SwipeRefreshLayout
-        android:id="@+id/swiperefresh"
+
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
         <LinearLayout
-            android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical">
 
-            <LinearLayout
-                android:orientation="vertical"
+            <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="1">
+                android:layout_weight="4"
+                android:background="@drawable/colorPrimary">
 
-                <FrameLayout
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_weight="4"
-                    android:background="@drawable/colorPrimary">
+                    android:layout_marginTop="8dp"
+                    android:orientation="vertical">
 
                     <LinearLayout
-                        android:orientation="vertical"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_marginTop="8dp">
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
 
-                        <LinearLayout
-                            android:orientation="horizontal"
+                        <FrameLayout
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content">
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="24dp"
+                            android:layout_weight="1">
 
-                            <FrameLayout
-                                android:layout_width="match_parent"
+                            <TextView
+                                android:id="@+id/textView24"
+                                android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_marginLeft="24dp"
-                                android:layout_weight="1">
+                                android:text="@string/whether"
+                                android:textColor="@color/colorBase"
+                                android:textSize="12sp"/>
+                        </FrameLayout>
 
-                                <TextView
-                                    android:text="Whether"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:id="@+id/textView24"
-                                    android:textColor="@color/colorBase"
-                                    android:textSize="12sp" />
-                            </FrameLayout>
-
-                            <FrameLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:layout_weight="1"
-                                android:layout_marginLeft="24dp">
-
-                                <TextView
-                                    android:text="Temperature"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:id="@+id/textView28"
-                                    android:textColor="@color/colorBase"
-                                    android:textSize="12sp" />
-                            </FrameLayout>
-
-                            <FrameLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:layout_weight="1"
-                                android:layout_marginLeft="24dp">
-
-                                <TextView
-                                    android:text="Humidity"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:id="@+id/textView29"
-                                    android:textColor="@color/colorBase"
-                                    android:textSize="12sp" />
-                            </FrameLayout>
-
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:orientation="horizontal"
+                        <FrameLayout
                             android:layout_width="match_parent"
-                            android:layout_height="match_parent">
+                            android:layout_height="match_parent"
+                            android:layout_marginLeft="24dp"
+                            android:layout_weight="1">
 
-                            <FrameLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:layout_weight="1">
+                            <TextView
+                                android:id="@+id/textView28"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/temperature"
+                                android:textColor="@color/colorBase"
+                                android:textSize="12sp"/>
+                        </FrameLayout>
 
-                                <LinearLayout
-                                    android:orientation="horizontal"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="match_parent">
+                        <FrameLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginLeft="24dp"
+                            android:layout_weight="1">
 
-                                    <FrameLayout
-                                        android:layout_width="match_parent"
-                                        android:layout_height="match_parent"
-                                        android:layout_weight="2">
-
-                                        <ImageView
-                                            android:layout_width="wrap_content"
-                                            android:layout_height="wrap_content"
-                                            app:srcCompat="@drawable/common_ic_googleplayservices"
-                                            android:id="@+id/iv_whether"
-                                            android:layout_weight="1"
-                                            android:layout_gravity="center" />
-                                    </FrameLayout>
-
-                                    <FrameLayout
-                                        android:layout_width="match_parent"
-                                        android:layout_height="match_parent"
-                                        android:layout_weight="1">
-
-                                        <TextView
-                                            android:text="whether"
-                                            android:layout_width="wrap_content"
-                                            android:layout_height="wrap_content"
-                                            android:id="@+id/tv_whether"
-                                            android:layout_gravity="center_vertical"
-                                            android:textColor="@color/colorBase"
-                                            android:textSize="16sp"
-                                            android:layout_weight="1" />
-                                    </FrameLayout>
-
-                                </LinearLayout>
-
-                            </FrameLayout>
-
-                            <FrameLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:layout_weight="1">
-
-                                <TextView
-                                    android:text="00"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:id="@+id/tv_external_temp"
-                                    android:textColor="@color/colorBase"
-                                    android:layout_gravity="center_vertical"
-                                    android:layout_marginLeft="36dp"
-                                    android:textSize="16sp" />
-                            </FrameLayout>
-
-                            <FrameLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:layout_weight="1">
-
-                                <TextView
-                                    android:text="00"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:id="@+id/tv_external_humidity"
-                                    android:textColor="@color/colorBase"
-                                    android:layout_gravity="center_vertical"
-                                    android:layout_marginLeft="36dp"
-                                    android:textSize="16sp" />
-                            </FrameLayout>
-                        </LinearLayout>
+                            <TextView
+                                android:id="@+id/textView29"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/humidity"
+                                android:textColor="@color/colorBase"
+                                android:textSize="12sp"/>
+                        </FrameLayout>
 
                     </LinearLayout>
 
-                </FrameLayout>
-
-                <FrameLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:background="@color/colorPrimary">
-
-                    <FrameLayout
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:id="@+id/frame_state_view">
+                        android:orientation="horizontal">
 
-                        <ImageView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            app:srcCompat="@drawable/illust_day"
-                            android:id="@+id/img_state_view" />
-                    </FrameLayout>
-
-                    <FrameLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:visibility="gone"
-                        android:id="@+id/frame_camera">
-
-                        <ImageView
+                        <FrameLayout
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            app:srcCompat="@drawable/ic_drawable_menu"
-                            android:id="@+id/img_camera"
-                            android:scaleType="fitXY"/>
-                    </FrameLayout>
+                            android:layout_weight="1">
 
-                </FrameLayout>
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:orientation="horizontal">
 
-            </LinearLayout>
+                                <FrameLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:layout_weight="2">
+
+                                    <ImageView
+                                        android:id="@+id/iv_whether"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_gravity="center"
+                                        android:layout_weight="1"
+                                        app:srcCompat="@drawable/common_ic_googleplayservices"/>
+                                </FrameLayout>
+
+                                <FrameLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:layout_weight="1">
+
+                                    <TextView
+                                        android:id="@+id/tv_whether"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_gravity="center_vertical"
+                                        android:layout_weight="1"
+                                        android:text="@string/whether"
+                                        android:textColor="@color/colorBase"
+                                        android:textSize="16sp"/>
+                                </FrameLayout>
+
+                            </LinearLayout>
+
+                        </FrameLayout>
+
+                        <FrameLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1">
+
+                            <TextView
+                                android:id="@+id/tv_external_temp"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
+                                android:layout_marginLeft="36dp"
+                                android:text="00"
+                                android:textColor="@color/colorBase"
+                                android:textSize="16sp"/>
+                        </FrameLayout>
+
+                        <FrameLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1">
+
+                            <TextView
+                                android:id="@+id/tv_external_humidity"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
+                                android:layout_marginLeft="36dp"
+                                android:text="00"
+                                android:textColor="@color/colorBase"
+                                android:textSize="16sp"/>
+                        </FrameLayout>
+                    </LinearLayout>
+
+                </LinearLayout>
+
+            </FrameLayout>
 
             <FrameLayout
                 android:layout_width="match_parent"
@@ -216,670 +174,705 @@
                 android:background="@color/colorPrimary">
 
                 <FrameLayout
+                    android:id="@+id/frame_state_view"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
 
-                    <LinearLayout
-                        android:orientation="horizontal"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1">
-
-                        <LinearLayout
-                            android:orientation="vertical"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_weight="1">
-
-                            <LinearLayout
-                                android:orientation="horizontal"
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:layout_weight="1"
-                                android:id="@+id/btn_graph_temp">
-
-                                <FrameLayout
-                                    android:layout_width="match_parent"
-                                    android:layout_height="32dp"
-                                    android:layout_weight="1.75"
-                                    android:layout_gravity="center_vertical"
-                                    android:layout_marginLeft="12dp">
-
-                                    <ImageView
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        app:srcCompat="@drawable/ic_temp"
-                                        android:id="@+id/imageView16" />
-                                </FrameLayout>
-
-                                <FrameLayout
-                                    android:layout_width="match_parent"
-                                    android:layout_height="match_parent"
-                                    android:layout_weight="1.2">
-
-                                    <TextView
-                                        android:text="Temp"
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:id="@+id/textView8"
-                                        android:layout_gravity="left|right|center_vertical"
-                                        android:layout_marginLeft="12dp"
-                                        android:textColor="@color/colorBase" />
-                                </FrameLayout>
-
-                                <FrameLayout
-                                    android:layout_width="match_parent"
-                                    android:layout_height="match_parent"
-                                    android:layout_weight="1.2">
-
-                                    <TextView
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:id="@+id/txt_sensor_data_display_temp"
-                                        android:layout_gravity="center_vertical"
-                                        android:layout_marginLeft="16dp"
-                                        android:textColor="@color/colorBase" />
-                                </FrameLayout>
-
-                            </LinearLayout>
-
-                            <LinearLayout
-                                android:orientation="horizontal"
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:layout_weight="1"
-                                android:id="@+id/btn_graph_humidity">
-
-                                <FrameLayout
-                                    android:layout_width="match_parent"
-                                    android:layout_height="24dp"
-                                    android:layout_weight="1.75"
-                                    android:layout_gravity="center_vertical"
-                                    android:layout_marginLeft="12dp">
-
-                                    <ImageView
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        app:srcCompat="@drawable/ic_waterdrop"
-                                        android:id="@+id/imageView17"
-                                        android:layout_gravity="center_horizontal" />
-                                </FrameLayout>
-
-                                <FrameLayout
-                                    android:layout_width="match_parent"
-                                    android:layout_height="match_parent"
-                                    android:layout_weight="1.2">
-
-                                    <TextView
-                                        android:text="Humidity"
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:id="@+id/textView9"
-                                        android:layout_gravity="left|right|center_vertical"
-                                        android:layout_marginLeft="12dp"
-                                        android:textColor="@color/colorBase" />
-                                </FrameLayout>
-
-                                <FrameLayout
-                                    android:layout_width="match_parent"
-                                    android:layout_height="match_parent"
-                                    android:layout_weight="1.2">
-
-                                    <TextView
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:id="@+id/txt_sensor_data_display_humidity"
-                                        android:layout_gravity="center_vertical"
-                                        android:layout_marginLeft="16dp"
-                                        android:textColor="@color/colorBase" />
-                                </FrameLayout>
-
-                            </LinearLayout>
-
-                            <LinearLayout
-                                android:orientation="horizontal"
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:layout_weight="1"
-                                android:id="@+id/btn_graph_light">
-
-                                <FrameLayout
-                                    android:layout_width="match_parent"
-                                    android:layout_height="32dp"
-                                    android:layout_weight="1.75"
-                                    android:layout_gravity="center_vertical"
-                                    android:layout_marginLeft="12dp">
-
-                                    <ImageView
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        app:srcCompat="@drawable/ic_light"
-                                        android:id="@+id/imageView18" />
-                                </FrameLayout>
-
-                                <FrameLayout
-                                    android:layout_width="match_parent"
-                                    android:layout_height="match_parent"
-                                    android:layout_weight="1.2">
-
-                                    <TextView
-                                        android:text="Light"
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:id="@+id/textView10"
-                                        android:layout_gravity="left|right|center_vertical"
-                                        android:layout_marginLeft="12dp"
-                                        android:textColor="@color/colorBase" />
-                                </FrameLayout>
-
-                                <FrameLayout
-                                    android:layout_width="match_parent"
-                                    android:layout_height="match_parent"
-                                    android:layout_weight="1.2">
-
-                                    <TextView
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:id="@+id/txt_sensor_data_display_light"
-                                        android:layout_gravity="center_vertical"
-                                        android:layout_marginLeft="16dp"
-                                        android:textColor="@color/colorBase" />
-                                </FrameLayout>
-
-                            </LinearLayout>
-
-                            <LinearLayout
-                                android:orientation="horizontal"
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:layout_weight="1"
-                                android:id="@+id/btn_graph_co2">
-
-                                <FrameLayout
-                                    android:layout_width="match_parent"
-                                    android:layout_height="32dp"
-                                    android:layout_weight="1.75"
-                                    android:layout_gravity="center_vertical"
-                                    android:layout_marginLeft="12dp">
-
-                                    <ImageView
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        app:srcCompat="@drawable/ic_co2"
-                                        android:id="@+id/imageView19" />
-                                </FrameLayout>
-
-                                <FrameLayout
-                                    android:layout_width="match_parent"
-                                    android:layout_height="match_parent"
-                                    android:layout_weight="1.2">
-
-                                    <TextView
-                                        android:text="CO2"
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:id="@+id/textView11"
-                                        android:layout_gravity="left|right|center_vertical"
-                                        android:layout_marginLeft="12dp"
-                                        android:textColor="@color/colorBase" />
-                                </FrameLayout>
-
-                                <FrameLayout
-                                    android:layout_width="match_parent"
-                                    android:layout_height="match_parent"
-                                    android:layout_weight="1.2">
-
-                                    <TextView
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:id="@+id/txt_sensor_data_display_co2"
-                                        android:layout_gravity="center_vertical"
-                                        android:layout_marginLeft="16dp"
-                                        android:textColor="@color/colorBase" />
-                                </FrameLayout>
-
-                            </LinearLayout>
-
-                            <LinearLayout
-                                android:orientation="horizontal"
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:layout_weight="1"
-                                android:id="@+id/btn_graph_ec">
-
-                                <FrameLayout
-                                    android:layout_width="match_parent"
-                                    android:layout_height="32dp"
-                                    android:layout_weight="1.75"
-                                    android:layout_gravity="center_vertical"
-                                    android:layout_marginLeft="12dp">
-
-                                    <ImageView
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        app:srcCompat="@drawable/ic_ec"
-                                        android:id="@+id/imageView20"
-                                        android:layout_gravity="center_vertical" />
-                                </FrameLayout>
-
-                                <FrameLayout
-                                    android:layout_width="match_parent"
-                                    android:layout_height="match_parent"
-                                    android:layout_weight="1.2">
-
-                                    <TextView
-                                        android:text="EC"
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:id="@+id/textView12"
-                                        android:layout_weight="1"
-                                        android:layout_gravity="left|right|center_vertical"
-                                        android:layout_marginLeft="12dp"
-                                        android:textColor="@color/colorBase" />
-                                </FrameLayout>
-
-                                <FrameLayout
-                                    android:layout_width="match_parent"
-                                    android:layout_height="match_parent"
-                                    android:layout_weight="1.2">
-
-                                    <TextView
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:id="@+id/txt_sensor_data_display_ec"
-                                        android:layout_gravity="center_vertical"
-                                        android:layout_marginLeft="16dp"
-                                        android:textColor="@color/colorBase" />
-                                </FrameLayout>
-
-                            </LinearLayout>
-
-                            <LinearLayout
-                                android:orientation="horizontal"
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:layout_weight="1"
-                                android:id="@+id/btn_graph_ph">
-
-                                <FrameLayout
-                                    android:layout_width="match_parent"
-                                    android:layout_height="32dp"
-                                    android:layout_weight="1.75"
-                                    android:layout_gravity="center_vertical"
-                                    android:layout_marginLeft="12dp">
-
-                                    <ImageView
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        app:srcCompat="@drawable/ic_ph"
-                                        android:id="@+id/imageView21" />
-                                </FrameLayout>
-
-                                <FrameLayout
-                                    android:layout_width="match_parent"
-                                    android:layout_height="match_parent"
-                                    android:layout_weight="1.2">
-
-                                    <TextView
-                                        android:text="PH"
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:id="@+id/textView4"
-                                        android:layout_weight="1"
-                                        android:layout_gravity="left|right|center_vertical"
-                                        android:layout_marginLeft="12dp"
-                                        android:textColor="@color/colorBase" />
-                                </FrameLayout>
-
-                                <FrameLayout
-                                    android:layout_width="match_parent"
-                                    android:layout_height="match_parent"
-                                    android:layout_weight="1.2">
-
-                                    <TextView
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:id="@+id/txt_sensor_data_display_ph"
-                                        android:layout_gravity="center_vertical"
-                                        android:layout_marginLeft="16dp"
-                                        android:textColor="@color/colorBase" />
-                                </FrameLayout>
-
-                            </LinearLayout>
-
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:orientation="vertical"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_weight="1"
-                            android:layout_marginLeft="16dp">
-
-                            <LinearLayout
-                                android:orientation="horizontal"
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:layout_weight="1">
-
-                                <ImageView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="24dp"
-                                    app:srcCompat="@drawable/ic_smile"
-                                    android:id="@+id/state_temp"
-                                    android:layout_weight="1"
-                                    android:layout_gravity="center_vertical" />
-
-                                <com.akexorcist.roundcornerprogressbar.RoundCornerProgressBar
-                                    android:layout_width="match_parent"
-                                    android:layout_height="match_parent"
-                                    app:rcProgress="20"
-                                    app:rcSecondaryProgress="50"
-                                    app:rcMax="50"
-                                    app:rcRadius="10dp"
-                                    app:rcBackgroundPadding="12dp"
-                                    app:rcReverse="false"
-                                    app:rcProgressColor="#1ab9b0"
-                                    app:rcSecondaryProgressColor="#5E5C5D"
-                                    app:rcBackgroundColor="@color/colorPrimary"
-                                    android:layout_weight="1"
-                                    android:id="@+id/pb_temp" />
-                            </LinearLayout>
-
-                            <LinearLayout
-                                android:orientation="horizontal"
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:layout_weight="1">
-
-                                <ImageView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="24dp"
-                                    app:srcCompat="@drawable/ic_smile"
-                                    android:id="@+id/state_humidity"
-                                    android:layout_weight="1"
-                                    android:layout_gravity="center_vertical" />
-
-                                <com.akexorcist.roundcornerprogressbar.RoundCornerProgressBar
-                                    android:layout_width="match_parent"
-                                    android:layout_height="match_parent"
-                                    app:rcProgress="20"
-                                    app:rcSecondaryProgress="100"
-                                    app:rcMax="100"
-                                    app:rcRadius="10dp"
-                                    app:rcBackgroundPadding="12dp"
-                                    app:rcReverse="false"
-                                    app:rcProgressColor="#a4e9fa"
-                                    app:rcSecondaryProgressColor="#3C3A3B"
-                                    app:rcBackgroundColor="@color/colorPrimary"
-                                    android:layout_weight="1"
-                                    android:id="@+id/pb_humidity" />
-                            </LinearLayout>
-
-                            <LinearLayout
-                                android:orientation="horizontal"
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:layout_weight="1">
-
-                                <ImageView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="24dp"
-                                    app:srcCompat="@drawable/ic_smile"
-                                    android:id="@+id/state_light"
-                                    android:layout_weight="1"
-                                    android:layout_gravity="center_vertical" />
-
-                                <com.akexorcist.roundcornerprogressbar.RoundCornerProgressBar
-                                    android:layout_width="match_parent"
-                                    android:layout_height="match_parent"
-                                    app:rcProgress="20"
-                                    app:rcSecondaryProgress="1000"
-                                    app:rcMax="1000"
-                                    app:rcRadius="10dp"
-                                    app:rcBackgroundPadding="12dp"
-                                    app:rcReverse="false"
-                                    app:rcProgressColor="#ffd47f"
-                                    app:rcSecondaryProgressColor="#3C3A3B"
-                                    app:rcBackgroundColor="@color/colorPrimary"
-                                    android:layout_weight="1"
-                                    android:id="@+id/pb_light" />
-                            </LinearLayout>
-
-                            <LinearLayout
-                                android:orientation="horizontal"
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:layout_weight="1">
-
-                                <ImageView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="24dp"
-                                    app:srcCompat="@drawable/ic_smile"
-                                    android:id="@+id/state_co2"
-                                    android:layout_weight="1"
-                                    android:layout_gravity="center_vertical" />
-
-                                <com.akexorcist.roundcornerprogressbar.RoundCornerProgressBar
-                                    android:layout_width="match_parent"
-                                    android:layout_height="match_parent"
-                                    app:rcProgress="20"
-                                    app:rcSecondaryProgress="1000"
-                                    app:rcMax="1000"
-                                    app:rcRadius="10dp"
-                                    app:rcBackgroundPadding="12dp"
-                                    app:rcReverse="false"
-                                    app:rcProgressColor="#ffa59b"
-                                    app:rcSecondaryProgressColor="#3C3A3B"
-                                    app:rcBackgroundColor="@color/colorPrimary"
-                                    android:layout_weight="1"
-                                    android:id="@+id/pb_co2" />
-                            </LinearLayout>
-
-                            <LinearLayout
-                                android:orientation="horizontal"
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:layout_weight="1">
-
-                                <ImageView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="24dp"
-                                    app:srcCompat="@drawable/ic_smile"
-                                    android:id="@+id/state_ec"
-                                    android:layout_weight="1"
-                                    android:layout_gravity="center_vertical" />
-
-                                <com.akexorcist.roundcornerprogressbar.RoundCornerProgressBar
-                                    android:layout_width="match_parent"
-                                    android:layout_height="match_parent"
-                                    app:rcProgress="20"
-                                    app:rcSecondaryProgress="50"
-                                    app:rcMax="50"
-                                    app:rcRadius="10dp"
-                                    app:rcBackgroundPadding="12dp"
-                                    app:rcReverse="false"
-                                    app:rcProgressColor="#efd9f9"
-                                    app:rcSecondaryProgressColor="#3C3A3B"
-                                    app:rcBackgroundColor="@color/colorPrimary"
-                                    android:layout_weight="1"
-                                    android:id="@+id/pb_ec" />
-                            </LinearLayout>
-
-                            <LinearLayout
-                                android:orientation="horizontal"
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:layout_weight="1">
-
-                                <ImageView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="24dp"
-                                    app:srcCompat="@drawable/ic_smile"
-                                    android:id="@+id/state_ph"
-                                    android:layout_weight="1"
-                                    android:layout_gravity="center_vertical" />
-
-                                <com.akexorcist.roundcornerprogressbar.RoundCornerProgressBar
-                                    android:layout_width="match_parent"
-                                    android:layout_height="match_parent"
-                                    app:rcProgress="10"
-                                    app:rcSecondaryProgress="15"
-                                    app:rcMax="15"
-                                    app:rcRadius="10dp"
-                                    app:rcBackgroundPadding="12dp"
-                                    app:rcReverse="false"
-                                    app:rcProgressColor="#cef261"
-                                    app:rcSecondaryProgressColor="#3C3A3B"
-                                    app:rcBackgroundColor="@color/colorPrimary"
-                                    android:layout_weight="1"
-                                    android:id="@+id/pb_ph" />
-                            </LinearLayout>
-
-
-                        </LinearLayout>
-
-                    </LinearLayout>
+                    <ImageView
+                        android:id="@+id/img_state_view"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:srcCompat="@drawable/illust_day"/>
                 </FrameLayout>
 
                 <FrameLayout
+                    android:id="@+id/frame_camera"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:background="@color/colorPrimary"
-                    android:id="@+id/harmful_list"
-                    android:visibility="gone"
-                    android:layout_marginTop="8dp">
-
-                    <android.support.v7.widget.RecyclerView
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:id="@+id/recycler_harmful_list" />
-                </FrameLayout>
-
-                <FrameLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="@color/colorPrimary"
-                    android:id="@+id/harmful_detail"
                     android:visibility="gone">
 
-                    <LinearLayout
-                        android:orientation="vertical"
+                    <ImageView
+                        android:id="@+id/img_camera"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="16dp"
-                        android:layout_marginRight="16dp"
-                        android:layout_marginTop="4dp"
-                        android:layout_marginBottom="8dp">
-
-                        <FrameLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="120dp"
-                            android:id="@+id/frame_img_harmful_detail">
-
-                            <ImageView
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                app:srcCompat="@drawable/colorPrimary"
-                                android:id="@+id/img_harmful_detail" />
-                        </FrameLayout>
-
-                        <FrameLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_marginTop="8dp">
-
-                            <TextView
-                                android:text="Title"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:id="@+id/tv_harmful_title_detail"
-                                android:textColor="@color/colorBase"
-                                android:textSize="16sp" />
-                        </FrameLayout>
-
-                        <FrameLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_marginTop="8dp"
-                            android:layout_marginLeft="8dp">
-
-                            <TextView
-                                android:text="Description"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:id="@+id/tv_harmful_description_detail"
-                                android:textColor="@color/colorBase" />
-                        </FrameLayout>
-                    </LinearLayout>
+                        android:layout_height="match_parent"
+                        android:scaleType="fitXY"
+                        app:srcCompat="@drawable/ic_drawable_menu"/>
                 </FrameLayout>
 
             </FrameLayout>
 
         </LinearLayout>
 
-    </android.support.v4.widget.SwipeRefreshLayout>
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@color/colorPrimary">
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <LinearLayout
+                            android:id="@+id/btn_graph_temp"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:orientation="horizontal">
+
+                            <FrameLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="32dp"
+                                android:layout_gravity="center_vertical"
+                                android:layout_marginLeft="12dp"
+                                android:layout_weight="1.75">
+
+                                <ImageView
+                                    android:id="@+id/imageView16"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    app:srcCompat="@drawable/ic_temp"/>
+                            </FrameLayout>
+
+                            <FrameLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1.2">
+
+                                <TextView
+                                    android:id="@+id/textView8"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="left|right|center_vertical"
+                                    android:layout_marginLeft="12dp"
+                                    android:text="@string/temperature"
+                                    android:textColor="@color/colorBase"/>
+                            </FrameLayout>
+
+                            <FrameLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1.2">
+
+                                <TextView
+                                    android:id="@+id/txt_sensor_data_display_temp"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center_vertical"
+                                    android:layout_marginLeft="16dp"
+                                    android:textColor="@color/colorBase"/>
+                            </FrameLayout>
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/btn_graph_humidity"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:orientation="horizontal">
+
+                            <FrameLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="24dp"
+                                android:layout_gravity="center_vertical"
+                                android:layout_marginLeft="12dp"
+                                android:layout_weight="1.75">
+
+                                <ImageView
+                                    android:id="@+id/imageView17"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center_horizontal"
+                                    app:srcCompat="@drawable/ic_waterdrop"/>
+                            </FrameLayout>
+
+                            <FrameLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1.2">
+
+                                <TextView
+                                    android:id="@+id/textView9"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="left|right|center_vertical"
+                                    android:layout_marginLeft="12dp"
+                                    android:text="@string/humidity"
+                                    android:textColor="@color/colorBase"/>
+                            </FrameLayout>
+
+                            <FrameLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1.2">
+
+                                <TextView
+                                    android:id="@+id/txt_sensor_data_display_humidity"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center_vertical"
+                                    android:layout_marginLeft="16dp"
+                                    android:textColor="@color/colorBase"/>
+                            </FrameLayout>
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/btn_graph_light"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:orientation="horizontal">
+
+                            <FrameLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="32dp"
+                                android:layout_gravity="center_vertical"
+                                android:layout_marginLeft="12dp"
+                                android:layout_weight="1.75">
+
+                                <ImageView
+                                    android:id="@+id/imageView18"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    app:srcCompat="@drawable/ic_light"/>
+                            </FrameLayout>
+
+                            <FrameLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1.2">
+
+                                <TextView
+                                    android:id="@+id/textView10"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="left|right|center_vertical"
+                                    android:layout_marginLeft="12dp"
+                                    android:text="@string/light"
+                                    android:textColor="@color/colorBase"/>
+                            </FrameLayout>
+
+                            <FrameLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1.2">
+
+                                <TextView
+                                    android:id="@+id/txt_sensor_data_display_light"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center_vertical"
+                                    android:layout_marginLeft="16dp"
+                                    android:textColor="@color/colorBase"/>
+                            </FrameLayout>
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/btn_graph_co2"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:orientation="horizontal">
+
+                            <FrameLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="32dp"
+                                android:layout_gravity="center_vertical"
+                                android:layout_marginLeft="12dp"
+                                android:layout_weight="1.75">
+
+                                <ImageView
+                                    android:id="@+id/imageView19"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    app:srcCompat="@drawable/ic_co2"/>
+                            </FrameLayout>
+
+                            <FrameLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1.2">
+
+                                <TextView
+                                    android:id="@+id/textView11"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="left|right|center_vertical"
+                                    android:layout_marginLeft="12dp"
+                                    android:text="@string/co2"
+                                    android:textColor="@color/colorBase"/>
+                            </FrameLayout>
+
+                            <FrameLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1.2">
+
+                                <TextView
+                                    android:id="@+id/txt_sensor_data_display_co2"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center_vertical"
+                                    android:layout_marginLeft="16dp"
+                                    android:textColor="@color/colorBase"/>
+                            </FrameLayout>
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/btn_graph_ec"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:orientation="horizontal">
+
+                            <FrameLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="32dp"
+                                android:layout_gravity="center_vertical"
+                                android:layout_marginLeft="12dp"
+                                android:layout_weight="1.75">
+
+                                <ImageView
+                                    android:id="@+id/imageView20"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center_vertical"
+                                    app:srcCompat="@drawable/ic_ec"/>
+                            </FrameLayout>
+
+                            <FrameLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1.2">
+
+                                <TextView
+                                    android:id="@+id/textView12"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="left|right|center_vertical"
+                                    android:layout_marginLeft="12dp"
+                                    android:layout_weight="1"
+                                    android:text="@string/ec"
+                                    android:textColor="@color/colorBase"/>
+                            </FrameLayout>
+
+                            <FrameLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1.2">
+
+                                <TextView
+                                    android:id="@+id/txt_sensor_data_display_ec"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center_vertical"
+                                    android:layout_marginLeft="16dp"
+                                    android:textColor="@color/colorBase"/>
+                            </FrameLayout>
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/btn_graph_ph"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:orientation="horizontal">
+
+                            <FrameLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="32dp"
+                                android:layout_gravity="center_vertical"
+                                android:layout_marginLeft="12dp"
+                                android:layout_weight="1.75">
+
+                                <ImageView
+                                    android:id="@+id/imageView21"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    app:srcCompat="@drawable/ic_ph"/>
+                            </FrameLayout>
+
+                            <FrameLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1.2">
+
+                                <TextView
+                                    android:id="@+id/textView4"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="left|right|center_vertical"
+                                    android:layout_marginLeft="12dp"
+                                    android:layout_weight="1"
+                                    android:text="@string/ph"
+                                    android:textColor="@color/colorBase"/>
+                            </FrameLayout>
+
+                            <FrameLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1.2">
+
+                                <TextView
+                                    android:id="@+id/txt_sensor_data_display_ph"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center_vertical"
+                                    android:layout_marginLeft="16dp"
+                                    android:textColor="@color/colorBase"/>
+                            </FrameLayout>
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="16dp"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:orientation="horizontal">
+
+                            <ImageView
+                                android:id="@+id/state_temp"
+                                android:layout_width="wrap_content"
+                                android:layout_height="24dp"
+                                android:layout_gravity="center_vertical"
+                                android:layout_weight="1"
+                                app:srcCompat="@drawable/ic_smile"/>
+
+                            <com.akexorcist.roundcornerprogressbar.RoundCornerProgressBar
+                                android:id="@+id/pb_temp"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1"
+                                app:rcBackgroundColor="@color/colorPrimary"
+                                app:rcBackgroundPadding="12dp"
+                                app:rcMax="50"
+                                app:rcProgress="20"
+                                app:rcProgressColor="#1ab9b0"
+                                app:rcRadius="10dp"
+                                app:rcReverse="false"
+                                app:rcSecondaryProgress="50"
+                                app:rcSecondaryProgressColor="#5E5C5D"/>
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:orientation="horizontal">
+
+                            <ImageView
+                                android:id="@+id/state_humidity"
+                                android:layout_width="wrap_content"
+                                android:layout_height="24dp"
+                                android:layout_gravity="center_vertical"
+                                android:layout_weight="1"
+                                app:srcCompat="@drawable/ic_smile"/>
+
+                            <com.akexorcist.roundcornerprogressbar.RoundCornerProgressBar
+                                android:id="@+id/pb_humidity"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1"
+                                app:rcBackgroundColor="@color/colorPrimary"
+                                app:rcBackgroundPadding="12dp"
+                                app:rcMax="100"
+                                app:rcProgress="20"
+                                app:rcProgressColor="#a4e9fa"
+                                app:rcRadius="10dp"
+                                app:rcReverse="false"
+                                app:rcSecondaryProgress="100"
+                                app:rcSecondaryProgressColor="#3C3A3B"/>
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:orientation="horizontal">
+
+                            <ImageView
+                                android:id="@+id/state_light"
+                                android:layout_width="wrap_content"
+                                android:layout_height="24dp"
+                                android:layout_gravity="center_vertical"
+                                android:layout_weight="1"
+                                app:srcCompat="@drawable/ic_smile"/>
+
+                            <com.akexorcist.roundcornerprogressbar.RoundCornerProgressBar
+                                android:id="@+id/pb_light"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1"
+                                app:rcBackgroundColor="@color/colorPrimary"
+                                app:rcBackgroundPadding="12dp"
+                                app:rcMax="200"
+                                app:rcProgress="20"
+                                app:rcProgressColor="#ffd47f"
+                                app:rcRadius="10dp"
+                                app:rcReverse="false"
+                                app:rcSecondaryProgress="200"
+                                app:rcSecondaryProgressColor="#3C3A3B"/>
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:orientation="horizontal">
+
+                            <ImageView
+                                android:id="@+id/state_co2"
+                                android:layout_width="wrap_content"
+                                android:layout_height="24dp"
+                                android:layout_gravity="center_vertical"
+                                android:layout_weight="1"
+                                app:srcCompat="@drawable/ic_smile"/>
+
+                            <com.akexorcist.roundcornerprogressbar.RoundCornerProgressBar
+                                android:id="@+id/pb_co2"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1"
+                                app:rcBackgroundColor="@color/colorPrimary"
+                                app:rcBackgroundPadding="12dp"
+                                app:rcMax="1000"
+                                app:rcProgress="20"
+                                app:rcProgressColor="#ffa59b"
+                                app:rcRadius="10dp"
+                                app:rcReverse="false"
+                                app:rcSecondaryProgress="1000"
+                                app:rcSecondaryProgressColor="#3C3A3B"/>
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:orientation="horizontal">
+
+                            <ImageView
+                                android:id="@+id/state_ec"
+                                android:layout_width="wrap_content"
+                                android:layout_height="24dp"
+                                android:layout_gravity="center_vertical"
+                                android:layout_weight="1"
+                                app:srcCompat="@drawable/ic_smile"/>
+
+                            <com.akexorcist.roundcornerprogressbar.RoundCornerProgressBar
+                                android:id="@+id/pb_ec"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1"
+                                app:rcBackgroundColor="@color/colorPrimary"
+                                app:rcBackgroundPadding="12dp"
+                                app:rcMax="50"
+                                app:rcProgress="20"
+                                app:rcProgressColor="#efd9f9"
+                                app:rcRadius="10dp"
+                                app:rcReverse="false"
+                                app:rcSecondaryProgress="50"
+                                app:rcSecondaryProgressColor="#3C3A3B"/>
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:orientation="horizontal">
+
+                            <ImageView
+                                android:id="@+id/state_ph"
+                                android:layout_width="wrap_content"
+                                android:layout_height="24dp"
+                                android:layout_gravity="center_vertical"
+                                android:layout_weight="1"
+                                app:srcCompat="@drawable/ic_smile"/>
+
+                            <com.akexorcist.roundcornerprogressbar.RoundCornerProgressBar
+                                android:id="@+id/pb_ph"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1"
+                                app:rcBackgroundColor="@color/colorPrimary"
+                                app:rcBackgroundPadding="12dp"
+                                app:rcMax="15"
+                                app:rcProgress="10"
+                                app:rcProgressColor="#cef261"
+                                app:rcRadius="10dp"
+                                app:rcReverse="false"
+                                app:rcSecondaryProgress="15"
+                                app:rcSecondaryProgressColor="#3C3A3B"/>
+                        </LinearLayout>
+
+
+                    </LinearLayout>
+
+                </LinearLayout>
+            </FrameLayout>
+
+            <FrameLayout
+                android:id="@+id/harmful_list"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="8dp"
+                android:background="@color/colorPrimary"
+                android:visibility="gone">
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/recycler_harmful_list"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"/>
+            </FrameLayout>
+
+            <FrameLayout
+                android:id="@+id/harmful_detail"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/colorPrimary"
+                android:visibility="gone">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginRight="16dp"
+                    android:layout_marginTop="4dp"
+                    android:orientation="vertical">
+
+                    <FrameLayout
+                        android:id="@+id/frame_img_harmful_detail"
+                        android:layout_width="match_parent"
+                        android:layout_height="120dp">
+
+                        <ImageView
+                            android:id="@+id/img_harmful_detail"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            app:srcCompat="@drawable/colorPrimary"/>
+                    </FrameLayout>
+
+                    <FrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginTop="8dp">
+
+                        <TextView
+                            android:id="@+id/tv_harmful_title_detail"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Title"
+                            android:textColor="@color/colorBase"
+                            android:textSize="16sp"/>
+                    </FrameLayout>
+
+                    <FrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="8dp"
+                        android:layout_marginTop="8dp">
+
+                        <TextView
+                            android:id="@+id/tv_harmful_description_detail"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Description"
+                            android:textColor="@color/colorBase"/>
+                    </FrameLayout>
+                </LinearLayout>
+            </FrameLayout>
+
+        </FrameLayout>
+
+    </LinearLayout>
+
 
     <android.support.design.widget.FloatingActionButton
+        android:id="@+id/btn_mosquito"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:clickable="true"
-        app:fabSize="mini"
-        app:srcCompat="@drawable/ic_mosquito"
-        android:id="@+id/btn_mosquito"
+        android:layout_gravity="right|center_vertical"
         android:layout_marginBottom="166dp"
         android:layout_marginRight="8dp"
-        android:layout_gravity="right|center_vertical"
-        android:visibility="gone" />
+        android:clickable="true"
+        android:visibility="gone"
+        app:fabSize="mini"
+        app:srcCompat="@drawable/ic_mosquito"/>
 
     <android.support.design.widget.FloatingActionButton
+        android:id="@+id/btn_change"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:clickable="true"
-        app:fabSize="mini"
-        app:srcCompat="@drawable/ic_view"
-        android:id="@+id/btn_change"
         android:layout_gravity="right|center_vertical"
         android:layout_marginBottom="24dp"
-        android:layout_marginRight="8dp" />
-
-    <android.support.design.widget.FloatingActionButton
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_marginRight="8dp"
         android:clickable="true"
         app:fabSize="mini"
-        app:srcCompat="@drawable/ic_view"
+        app:srcCompat="@drawable/ic_view"/>
+
+    <android.support.design.widget.FloatingActionButton
         android:id="@+id/btn_state_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right|center_vertical"
         android:layout_marginBottom="118dp"
         android:layout_marginRight="8dp"
-        android:layout_gravity="right|center_vertical"
-        android:visibility="gone" />
+        android:clickable="true"
+        android:visibility="gone"
+        app:fabSize="mini"
+        app:srcCompat="@drawable/ic_view"/>
 
     <android.support.design.widget.FloatingActionButton
+        android:id="@+id/btn_camera"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:clickable="true"
-        app:fabSize="mini"
-        app:srcCompat="@drawable/ic_camera"
-        android:id="@+id/btn_camera"
         android:layout_gravity="right|center_vertical"
-        android:layout_marginRight="8dp"
         android:layout_marginBottom="70dp"
-        android:visibility="gone" />
+        android:layout_marginRight="8dp"
+        android:clickable="true"
+        android:visibility="gone"
+        app:fabSize="mini"
+        app:srcCompat="@drawable/ic_camera"/>
 
     <FrameLayout
+        android:id="@+id/progress_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/progress_layout"
         android:visibility="gone">
 
         <com.github.rahatarmanahmed.cpv.CircularProgressView
             android:id="@+id/progress_view"
             android:layout_width="40dp"
             android:layout_height="40dp"
+            android:layout_gravity="center_vertical|center_horizontal"
             app:cpv_animAutostart="true"
-            app:cpv_indeterminate="true"
-            android:layout_gravity="center_vertical|center_horizontal" />
+            app:cpv_indeterminate="true"/>
     </FrameLayout>
 
 </FrameLayout>

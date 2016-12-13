@@ -99,13 +99,13 @@ public class ActuatorFragment extends Fragment implements ActuatorPresenter.View
     View view = LayoutInflater.from(getActivity()).inflate(R.layout.item_actuator, containerActuator, false);
     TextView tvActuatorName = (TextView) view.findViewById(R.id.tv_actuator_name);
     String name;
-    if (i == 0) name = "Side Window1";
-    else if (i == 1) name = "Side Window2";
-    else if (i == 2) name = "Top Window1";
-    else if (i == 3) name = "Top Window2";
-    else if (i == 4) name = "Sprinkler";
-    else if (i == 5) name = "heater1";
-    else if (i == 6) name = "heater2";
+    if (i == 0) name = "Motor";
+    else if (i == 1) name = "Sprinkler";
+    else if (i == 2) name = "Light";
+    else if (i == 3) name = "Actuator" + i;
+    else if (i == 4) name = "Actuator" + i;
+    else if (i == 5) name = "Actuator" + i;
+    else if (i == 6) name = "Actuator" + i;
     else name = "Actuator" + i;
     tvActuatorName.setText(name);
     FrameLayout btnActuator = (FrameLayout) view.findViewById(R.id.btn_actuator);
@@ -140,22 +140,7 @@ public class ActuatorFragment extends Fragment implements ActuatorPresenter.View
     }
     mToastControl = new ToastControlImlp(getActivity());
     presenter.enter();
-    String[] legend = new String[24];
-    float[] data = new float[24];
-    for (int i = 0; i < 24; i++) {
-      legend[i] = String.valueOf(i);
-      if (i < 10) {
-        data[i] = 0;
-      } else if (i > 10 && i < 20)
-        data[i] = 1;
-      else
-        data[i] = 0;
-    }
-    String tag = "Power";
-    int color = new Color().rgb(241, 169, 78);
-    int max = 2;
-    int term = 1;
-    setCurveGraph(actuatorGraph, legend, data, tag, color, max, term);
+
     btnActuatorDetailSwitch.setOnClickListener(v -> presenter.btnActuatorDetailSwitchClick());
     return root;
   }
@@ -224,6 +209,23 @@ public class ActuatorFragment extends Fragment implements ActuatorPresenter.View
         imgActuatorDetailOnOff.setImageResource(R.drawable.ic_on);
       tvActuatorDetailPort.setText("Port : " + index);
     }
+
+    String[] legend = new String[24];
+    float[] data = new float[24];
+    for (int i = 0; i < 24; i++) {
+      legend[i] = String.valueOf(i);
+      if (i < 10) {
+        data[i] = 0;
+      } else if (i > 10 && i < 20)
+        data[i] = 1;
+      else
+        data[i] = 0;
+    }
+    String tag = "Power";
+    int color = new Color().rgb(241, 169, 78);
+    int max = 2;
+    int term = 1;
+    setCurveGraph(actuatorGraph, legend, data, tag, color, max, term);
   }
 
   @Override
@@ -243,8 +245,9 @@ public class ActuatorFragment extends Fragment implements ActuatorPresenter.View
   private void setCurveGraph(ViewGroup viewGroup, String[] legendArr, float[] graph, String Name, int Color, int maxValue, int increment) {
     CurveGraphVO vo = makeCurveGraphAllSetting(legendArr, graph, Name, Color, maxValue, increment);
     cgv = new CurveGraphView(getActivity(), vo);
-    int height = viewGroup.getHeight() - 2;
-    ViewGroup.LayoutParams prams = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, height);
+    int height = 745;
+    int width = viewGroup.getWidth() - 2;
+    ViewGroup.LayoutParams prams = new ViewGroup.LayoutParams(width, height);
     viewGroup.addView(cgv, prams);
     viewGroup.removeView(preCgv);
     preCgv = cgv;
@@ -270,7 +273,7 @@ public class ActuatorFragment extends Fragment implements ActuatorPresenter.View
     CurveGraphVO vo = new CurveGraphVO(
         paddingBottom, paddingTop, paddingLeft, paddingRight,
         marginTop, marginRight, maxValue, increment, legendArr, arrGraph);
-    vo.setAnimation(new GraphAnimation(GraphAnimation.LINEAR_ANIMATION, 1000));
+    vo.setAnimation(new GraphAnimation(GraphAnimation.LINEAR_ANIMATION, 500));
     vo.setGraphBG(R.drawable.graph_background);
     vo.setGraphNameBox(new GraphNameBox());
     return vo;

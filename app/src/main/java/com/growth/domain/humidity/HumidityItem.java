@@ -2,6 +2,14 @@ package com.growth.domain.humidity;
 
 import com.growth.utils.AESDecryptor;
 
+import java.io.UnsupportedEncodingException;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
+
+import javax.crypto.BadPaddingException;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
+
 /**
  * Created by SSL-D on 2016-07-21.
  */
@@ -14,7 +22,17 @@ public class HumidityItem {
   public void decrypt(){
     try {
       humidity = AESDecryptor.decrypt("pais",humidity);
-    } catch (Exception e) {
+    } catch (UnsupportedEncodingException e) {
+      e.printStackTrace();
+    } catch (NoSuchAlgorithmException e) {
+      e.printStackTrace();
+    } catch (NoSuchPaddingException e) {
+      e.printStackTrace();
+    } catch (InvalidKeyException e) {
+      e.printStackTrace();
+    } catch (BadPaddingException e) {
+      e.printStackTrace();
+    } catch (IllegalBlockSizeException e) {
       e.printStackTrace();
     }
   }

@@ -18,6 +18,7 @@ public interface GraphPresenter {
 
   void tabClick(int index);
 
+  void unSubscribe();
   interface View extends ProgressControl, ToastControl {
     void refreshPage(Value value);
 

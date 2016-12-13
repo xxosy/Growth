@@ -17,6 +17,7 @@ import com.growth.graph.view.GraphFragment;
 import com.growth.graph.view.ValueTpye;
 import com.growth.home.PageChangeUtil;
 import com.growth.network.SensorDataAPI;
+import com.growth.network.retrofit.RetrofitCreator;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -148,7 +149,7 @@ public class SensorDataDisplayPresenterImpl implements SensorDataDisplayPresente
         .subscribe(result -> {
           stateBtn = 1;
           clearAndAddHarmfulList(result);
-          view.refreshCameraImage(serial);
+          getCameraImage(serial);
         }, error -> {
           MyNetworkExcetionHandling.excute(error, view, view);
         });
@@ -167,6 +168,37 @@ public class SensorDataDisplayPresenterImpl implements SensorDataDisplayPresente
     view.hideButton();
     view.showHarmfulList();
   }
+
+  private void getCameraImage(String serial) {
+
+          new AsyncTask<Void, Void, Void>() {
+            Bitmap bmp = null;
+
+            @Override
+            protected Void doInBackground(Void... params) {
+              try {
+                URL url = new URL(RetrofitCreator.getBaseUrl() + "/gallery/recent/" + serial);
+                URLConnection uc = url.openConnection();
+                InputStream in = uc.getInputStream();
+                bmp = BitmapFactory.decodeStream(in);
+              } catch (MalformedURLException e) {
+                e.printStackTrace();
+              } catch (IOException e) {
+                e.printStackTrace();
+              } catch (Exception e) {
+                Log.i("error", e.toString());
+              }
+              return null;
+            }
+
+            @Override
+            protected void onPostExecute(Void aVoid) {
+              super.onPostExecute(aVoid);
+              view.refreshCameraImage(bmp);
+            }
+          }.execute();
+  }
+
   private void getMosquitoImage(String serial) {
     Subscription subscription = sensorDataAPI.getSensor(serial)
         .subscribeOn(Schedulers.io())
